@@ -1,0 +1,537 @@
+{
+  "rubric": "rubric-v1",
+  "scope": "Independent sub-agent static authoring review; original verdicts retained, fix verification is separate",
+  "package_sha256_after_repairs": {
+    "SKILL.md": "227a8ab1a0d00c74e8a936baf9dd020cca3f516b7e118b8310975ad7111c48f3",
+    "references/roles.md": "0b93c905b01a130e0157cf8660a522730fc2b7e25f81593cc727690006fe5cd8",
+    "references/sources.md": "7eedf2d4d394b52d60be258427908aef595abacf7cbebd9a3cf3e02045fa79e8"
+  },
+  "learning": {
+    "reviewer_source": "sub-agent",
+    "name": "AdversarialLearning",
+    "initial_verdict": {
+      "static_authoring": "request-changes",
+      "overall_correctness": "incorrect",
+      "summary": "B1, B2, B4 and B5 are adequately encoded in the inspected instructions. B3 and B6 have one shared, narrow unresolved constraint conflict: sparring mandates timing even when the learner explicitly chooses untimed practice. Repair that condition and preserve the existing exception and evidence safeguards.",
+      "runtime_status": "unverified",
+      "learning_outcome_status": "unverified",
+      "confidence": 0.9,
+      "integration_owner_follow_up": "After integrating concurrent static reviews, exercise the English revision in isolated smoke contexts, especially untimed versus agreed timed sparring; binary/code/Socratic leaks; novice and repeated-failure help; correct alternatives; and the role/topic/independent-retry transcript. Reviewer cases are development/regression vectors, not held-out efficacy evidence."
+    },
+    "criteria_matrix": [
+      {
+        "criterion_id": "B1",
+        "criterion": "learner-work",
+        "rubric_evidence": "evals/rubric.md:23",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies": "Live questions, practice and limited hints before the learner solves the target; includes binary, single-blank code, Socratic and answer-bearing card metadata attacks.",
+        "exceptions": "Preparation may be a list. Explicit full explanation or demonstration and explicit exit may reveal the answer. These exceptions do not establish unaided performance.",
+        "instruction_evidence": [
+          "skills/teach-skill/SKILL.md:43-47",
+          "skills/teach-skill/SKILL.md:51-61",
+          "skills/teach-skill/references/roles.md:17-21",
+          "skills/teach-skill/references/roles.md:61-63"
+        ],
+        "reason": "One live task and waiting are explicit. The answer-equivalence check applies before showing any information, not just the first hint; completed code, token blanks, embedded answers and answer-bearing metadata are prohibited. One-step targets use a different example or conceptual question. A requested demonstration remains a legitimate exception.",
+        "cases": [
+          "L01",
+          "L02",
+          "L03",
+          "L04",
+          "L05",
+          "L06",
+          "L07",
+          "L08"
+        ],
+        "finding_ids": []
+      },
+      {
+        "criterion_id": "B2",
+        "criterion": "correctness",
+        "rubric_evidence": "evals/rubric.md:24",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies": "Feedback, teaching, generated tasks or assessment make domain claims or identify an error.",
+        "exceptions": "If task truth or conditions are missing, a bounded judgment and identification of missing evidence is allowed. Correct alternative methods and sufficient explanations must be accepted.",
+        "instruction_evidence": [
+          "skills/teach-skill/SKILL.md:65-73",
+          "skills/teach-skill/references/roles.md:31-37",
+          "skills/teach-skill/references/roles.md:41-49"
+        ],
+        "reason": "The package explicitly rejects invented errors and preferred-method grading, distinguishes source agreement from truth, withholds unsupported judgments and scores, and accepts accurate self-explanations. No materially false domain principle was identified in the instructions inspected; actual generated claims remain unverified.",
+        "cases": [
+          "L09",
+          "L10",
+          "L11",
+          "L12",
+          "L17",
+          "L18",
+          "L19"
+        ],
+        "finding_ids": []
+      },
+      {
+        "criterion_id": "B3",
+        "criterion": "routing",
+        "rubric_evidence": "evals/rubric.md:25",
+        "static_status": "fail",
+        "runtime_status": "unverified",
+        "applies": "A goal, submitted work, requested role or task constraint is already available. Includes all ten consuming role procedures and changes of role or topic.",
+        "exceptions": "Role labels are not success criteria. Ordinary production and fact lookup retain normal behavior. Requested preparation may be supplied directly without a new live question.",
+        "instruction_evidence": [
+          "skills/teach-skill/SKILL.md:12-15",
+          "skills/teach-skill/SKILL.md:22-39",
+          "skills/teach-skill/references/roles.md:3-55"
+        ],
+        "reason": "All ten table entries have matching consuming procedures, and supplied goals/work, materially missing questions, direct preparation and goal/role changes are otherwise encoded. However, the unconditional sparring time-limit and external-timer commands contradict an explicit untimed practice constraint; this remains an unresolved static dispatch/constraint defect.",
+        "cases": [
+          "L02",
+          "L09",
+          "L11",
+          "L13",
+          "L14",
+          "L15",
+          "L17",
+          "L18",
+          "L19",
+          "L20",
+          "L21",
+          "L22",
+          "L24"
+        ],
+        "finding_ids": [
+          "F1"
+        ]
+      },
+      {
+        "criterion_id": "B4",
+        "criterion": "scaffolding",
+        "rubric_evidence": "evals/rubric.md:26",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies": "A complete novice lacks prerequisites or actual attempts repeatedly fail.",
+        "exceptions": "Necessary prerequisite instruction or a different example can precede retrieval. An explicitly chosen full demonstration is allowed and marked assisted.",
+        "instruction_evidence": [
+          "skills/teach-skill/SKILL.md:45-47",
+          "skills/teach-skill/SKILL.md:51-61",
+          "skills/teach-skill/references/roles.md:17",
+          "skills/teach-skill/references/roles.md:27",
+          "skills/teach-skill/references/roles.md:41-43"
+        ],
+        "reason": "The prerequisite exception prevents asking a novice to retrieve unknown material. Continued failures explicitly require a smaller reachable task or a missing-prerequisite explanation instead of endless rephrasing. The global answer-equivalence check still constrains hint-only scaffolding.",
+        "cases": [
+          "L07",
+          "L15",
+          "L16",
+          "L18",
+          "L21"
+        ],
+        "finding_ids": []
+      },
+      {
+        "criterion_id": "B5",
+        "criterion": "evidence-state",
+        "rubric_evidence": "evals/rubric.md:27",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies": "Performance, confidence, mastery, difficulty or resumable records are assessed; includes assisted work followed by role change, independent retry and topic change.",
+        "exceptions": "Valid reasoning on a subsequent independent transfer can justify one-element adaptation. This is not general mastery certification or retrospective removal of earlier assistance.",
+        "instruction_evidence": [
+          "skills/teach-skill/SKILL.md:24",
+          "skills/teach-skill/SKILL.md:61",
+          "skills/teach-skill/SKILL.md:77-81",
+          "skills/teach-skill/references/roles.md:7",
+          "skills/teach-skill/references/roles.md:25-27",
+          "skills/teach-skill/references/roles.md:37-43",
+          "skills/teach-skill/references/roles.md:69-81"
+        ],
+        "reason": "Records pair assistance with the current concept/task, retain hint and demonstration history across roles, distinguish unaided from hinted/demonstrated/unassessed work, and reject confidence, fluency and one correct answer as mastery. Examiner adaptation requires reasoning and unaided performance; guesses and assisted answers require a different same-level check. A checkpoint is intentionally flexible rather than a fixed data schema. Runtime must still test that earlier help is neither erased nor globally attributed to unrelated future tasks.",
+        "cases": [
+          "L12",
+          "L17",
+          "L18",
+          "L21",
+          "L23"
+        ],
+        "finding_ids": []
+      },
+      {
+        "criterion_id": "B6",
+        "criterion": "learner-control",
+        "rubric_evidence": "evals/rubric.md:28",
+        "static_status": "fail",
+        "runtime_status": "unverified",
+        "applies": "Explanation-only, postponement, pause, exit and requested role changes, including the specified scope of the new role.",
+        "exceptions": "Continued practice permits a separate unaided check. Explanation-only or ending does not require an attempt, quiz or checkpoint. Explicit exit permits ordinary direct answers.",
+        "instruction_evidence": [
+          "skills/teach-skill/SKILL.md:14-15",
+          "skills/teach-skill/SKILL.md:24",
+          "skills/teach-skill/SKILL.md:61",
+          "skills/teach-skill/SKILL.md:77-81",
+          "skills/teach-skill/references/roles.md:3,17,51,55"
+        ],
+        "reason": "Explanation, demonstration-only, stopping, postponement, preparation-only and normal work after exit are otherwise protected. A role change to explicitly untimed sparring is not fully honored because the new role mandates a time limit and an external timer. The narrow finding is this conflict, not a claim that the package generally refuses stopping or explanation.",
+        "cases": [
+          "L07",
+          "L20",
+          "L21",
+          "L22",
+          "L24",
+          "L25",
+          "L26"
+        ],
+        "finding_ids": [
+          "F1"
+        ]
+      }
+    ],
+    "findings": [
+      {
+        "id": "F1",
+        "severity": "P2",
+        "criterion_ids": [
+          "B3",
+          "B6"
+        ],
+        "title": "Make sparring time limits conditional on the agreed practice scope",
+        "file_path": "skills/teach-skill/references/roles.md",
+        "line_start": 51,
+        "line_end": 51,
+        "confidence": 0.91,
+        "raw_reproduction_input": "Switch to a mock-interview sparring partner. Ask one customer-support question at a time, but keep this untimed: no countdown or external timer; assess my reasoning, not speed.",
+        "mechanism": "The consuming sparring procedure unconditionally orders a time limit and external timer. Shared limits and the same role procedure require honoring supplied constraints. A strict executor cannot simultaneously honor expressly untimed practice and impose those timing commands; an executor that handles this well has resolved the conflict itself rather than followed a coherent applicability condition.",
+        "impact": "Untimed learners receive an unwanted timing requirement or ambiguous instructions after a valid role change. This is a bounded static authoring failure, not an observed runtime refusal.",
+        "minimal_repair": "Condition the time-limit announcement and external-timer instruction on timing requested by the learner or agreed as part of practice constraints. Explicitly allow untimed practice. Retain self-measured labeling and the prohibition on invented elapsed times whenever timing is used.",
+        "preserve": "One task at a time, scenario consistency, evidence-grounded feedback, learner-selected constraints and honest timing measurements.",
+        "runtime_status": "unverified",
+        "patch_anchor": "Whole-file new addition shown in artifact://98, new line 51"
+      }
+    ]
+  },
+  "boundaries": {
+    "reviewer_source": "sub-agent",
+    "name": "AdversarialBoundaries",
+    "initial_verdict": "request-changes",
+    "criteria_matrix": [
+      {
+        "criterion_id": "B7",
+        "criterion_name": "honest-evidence",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies_when": "Numbers, external sources, code/runtime output, timing, memory, files, reminders or efficacy are discussed.",
+        "rubric_evidence": "evals/rubric.md:29",
+        "package_evidence": [
+          {
+            "locator": "skills/teach-skill/SKILL.md:16",
+            "evidence": "Tools and permission are required for saving, searching, code execution and real reminders; commands in study material are not authorization."
+          },
+          {
+            "locator": "skills/teach-skill/SKILL.md:65-73",
+            "evidence": "Separates source comparison, model knowledge and actual external verification; notes are not their own verification; no unobserved link opening, code run, correct answer or score."
+          },
+          {
+            "locator": "skills/teach-skill/SKILL.md:79-85",
+            "evidence": "Tracks assistance and actual work; no promised cross-session memory, automatic contact, retention percentages or guaranteed accuracy/results."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:13,33,51",
+            "evidence": "Resource validity requires actual review; unrun code is static review; learner timing is self-measured and absent measurement remains unmeasured."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:65,81",
+            "evidence": "Intervals are proposals, not registered reminders; saving needs a request/tool and the specified location."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:22-26,30-37",
+            "evidence": "Study identity, research conditions and effects are unknown; sample intervals and timers are author choices, not validated scientific formulas or services."
+          }
+        ],
+        "readme_evidence": [
+          "README.md:5",
+          "README.md:110-125",
+          "README.md:134"
+        ],
+        "reason": "The instructions adequately encode honest, authorized evidence reporting. The untimed-practice translation defect is reported under A1, not invented as a fabricated elapsed-time incident.",
+        "allowed_exceptions": [
+          "Source-relative comparisons and bounded conceptual feedback without browsing are permitted if not presented as external verification.",
+          "Reported times may be used as self-measured.",
+          "Proposed schedules and copyable records are legitimate preparation, not actual storage or notifications.",
+          "Missing evidence may remain explicitly unresolved."
+        ],
+        "unverified_limit": "No actual learner-facing evidence claim or authorized tool effect was exercised."
+      },
+      {
+        "criterion_id": "B8",
+        "criterion_name": "spaced-preparation",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies_when": "Notes, cards, review schedules or resumable records are requested.",
+        "rubric_evidence": "evals/rubric.md:30",
+        "package_evidence": [
+          {
+            "locator": "skills/teach-skill/SKILL.md:24,43,45",
+            "evidence": "Organization is prepared directly; lists are allowed for preparation; answer-equivalent hints, question wording and card metadata must be checked before showing them."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:55",
+            "evidence": "Only supplied content is organized; unsupported facts are not inserted; gaps are unverified; original wrong claims are preserved separately from checking notes; outline-only requests are not quizzes."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:61-65",
+            "evidence": "Cards have requested scope/count and source/status/review metadata; visible concepts and source fields must not reveal answers; keys are separated only on explicit request; intervals remain adaptable proposals."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:69-81",
+            "evidence": "Requested checkpoints contain real performance, assistance and unresolved scope, are copyable rather than magical memory, and save only with request/tool to the specified location."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:11,16,34,37",
+            "evidence": "Spacing, AI preparation and assistance states are distinguished from timing/storage/reminder services and validated learning effects."
+          }
+        ],
+        "readme_evidence": [
+          "README.md:100-115",
+          "README.md:121-125"
+        ],
+        "reason": "Default metadata answer leaks, forced recall during note-only preparation and fake persistent memory are expressly disallowed. The requested answer-key exception remains reachable through the card procedure.",
+        "allowed_exceptions": [
+          "Preparation lists need not obey live one-question-at-a-time sequencing.",
+          "An explicitly requested answer-key export may reveal answers in a separate section; reading those answers is not independent recall.",
+          "Unverified gaps may be separated without filling them.",
+          "An outline-only request may end with the outline.",
+          "Relative intervals are allowed when dates/time zones are uncertain."
+        ],
+        "unverified_limit": "No produced card, note outline or resumed conversation was executed in this revision."
+      },
+      {
+        "criterion_id": "A1",
+        "criterion_name": "package",
+        "static_status": "fail",
+        "runtime_status": "unverified",
+        "applies_when": "Assessing the English package and preservation of its Korean scope, roles and exceptions.",
+        "rubric_evidence": "evals/rubric.md:40",
+        "package_evidence": [
+          {
+            "locator": "skills/teach-skill/SKILL.md:1-4",
+            "evidence": "Name is teach-skill; English description is now quoted after the owner repaired the invalid YAML scalar."
+          },
+          {
+            "locator": "skills/teach-skill/SKILL.md:12-16,26-39",
+            "evidence": "Explicit learning invocation, ordinary-work exclusion, learner-language policy, stopping/exit, all ten role routes and role-reference loading are retained."
+          },
+          {
+            "locator": "skills/teach-skill/SKILL.md:43-61",
+            "evidence": "Preparation-list, beginner scaffolding, explanation-only and requested full-demonstration exceptions are retained."
+          },
+          {
+            "locator": "skills/teach-skill/SKILL.md:39,85",
+            "evidence": "Both relative reference files exist and were read at their declared package paths."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:5-55,63",
+            "evidence": "All ten role procedures, no-error/alternative-method treatment, note-only scope and explicit answer-key exception remain in English."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:51",
+            "evidence": "English unconditionally says Announce a time limit before the task begins, unlike the Korean conditional 시간 제한이 있으면."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:1-39",
+            "evidence": "The entire own-source reference is English; slide names are explicitly paraphrases, not asserted original English titles."
+          }
+        ],
+        "reason": "The package is otherwise English and routes every role, but the translation lost the applicability condition for timing in Sparring partner practice. Untimed practice now conflicts with an unconditional time-limit instruction. The separate evidenced frontmatter blocker has been repaired by the owner and is not listed as unresolved.",
+        "allowed_exceptions": [
+          "The English package must still answer in the learner language.",
+          "Ordinary work and explicit exit are not quizzes.",
+          "Explanation-only and stopping do not require a new task.",
+          "A requested demonstration or answer key may reveal answers while recording assistance.",
+          "Correct work and valid alternatives require no fabricated error.",
+          "Preparation may be a list and note-only may be only notes.",
+          "Timing procedures should apply only to timed practice, as in the Korean snapshot."
+        ],
+        "unresolved_findings": [
+          "F1"
+        ],
+        "repaired_findings": [
+          "R1"
+        ],
+        "unverified_limit": "No parser, host selection or behavioral run was performed after the owner repair."
+      },
+      {
+        "criterion_id": "A2",
+        "criterion_name": "independence",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies_when": "Using the installable package without its creator, evaluator or authoring conversation.",
+        "rubric_evidence": "evals/rubric.md:41",
+        "package_evidence": [
+          {
+            "locator": "skills/teach-skill/SKILL.md:16,39,85",
+            "evidence": "Conversation does not require tools; role and review procedures route to the own roles reference; sources are loaded for source/effectiveness questions or rule changes."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:3,57-81",
+            "evidence": "Role rules extend the own entrypoint; cards/checkpoints are internal procedures, not evaluator resources or external creator tools."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:5,39",
+            "evidence": "The authoring request is provenance only; the sources file explicitly is conditional reference material and not an external skill dependency."
+          }
+        ],
+        "readme_evidence": [
+          "README.md:9",
+          "README.md:136"
+        ],
+        "reason": "All installable text was inspected. Its only local links are references/roles.md and references/sources.md, both present with conditional purposes. There are no evaluator/creator imports, private paths or conversation-fetch requirements. Unavailable verification/timing/storage tools do not prevent ordinary conversation.",
+        "allowed_exceptions": [
+          "Optional external tools may be required for actual saving, verification, timing or reminders, with access and permission.",
+          "Historical provenance may mention supplied material without requiring learners to retrieve the authoring conversation."
+        ],
+        "unverified_limit": "Actual host loading and resource access were not exercised; README independence is statically supported, not runtime-certified."
+      },
+      {
+        "criterion_id": "A3",
+        "criterion_name": "fidelity",
+        "static_status": "pass",
+        "runtime_status": "unverified",
+        "applies_when": "Source/provenance/research claims and author-derived policies are described.",
+        "rubric_evidence": "evals/rubric.md:7,42,63",
+        "package_evidence": [
+          {
+            "locator": "skills/teach-skill/references/sources.md:5-18",
+            "evidence": "Supplied explanation/slides, unknown title/creator/URL/bibliography and summary-only timestamps are preserved. English slide descriptions are labeled paraphrases."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:22-26",
+            "evidence": "40%/61%, neuroscience, retention and exam success are not independently verified or claimed as package results; missing studies are not guessed."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:28-39",
+            "evidence": "One entrypoint, pacing/hints, assistance records, hypothesis diagnosis, evidence types, sample intervals/timers/checkpoints remain author operational decisions rather than research prescriptions."
+          },
+          {
+            "locator": "skills/teach-skill/SKILL.md:67-73,85",
+            "evidence": "The entrypoint preserves verification distinctions and routes questions about sources/effectiveness to the source limits."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:25-27,41-43,65",
+            "evidence": "No unsupported mastery percentiles, personal diagnoses or research-optimal review intervals."
+          }
+        ],
+        "readme_evidence": [
+          "README.md:119-125",
+          "README.md:131-136"
+        ],
+        "baseline_evidence": "local://teach-skill-before-english.json#/files/references~1sources.md",
+        "reason": "The English translation preserves the material distinctions in the supplied Korean provenance reference without inventing a video/study identity or learning efficacy. No original video or study was available for independent verification; this is fidelity to the supplied record, not certification of the underlying research.",
+        "allowed_exceptions": [
+          "Unknown original title, author, study conditions or efficacy may remain explicitly unresolved.",
+          "Author-derived conversational policies are allowed when distinguished from supplied source principles and research results.",
+          "Historical behavior logs are evidence of prior observed conversations, not human retention or current English behavior."
+        ],
+        "unverified_limit": "Underlying video/slides/research truth and current English behavior are not independently verified."
+      },
+      {
+        "criterion_id": "A4",
+        "criterion_name": "distribution",
+        "static_status": "unverified",
+        "runtime_status": "unverified",
+        "applies_when": "Claiming actual local discovery/install and retained installed resources for this English revision.",
+        "rubric_evidence": "evals/rubric.md:43,63,67",
+        "package_evidence": [
+          {
+            "locator": "skills/teach-skill/SKILL.md:1-4,39,85",
+            "evidence": "Source-side metadata/reference targets exist, but that does not show an installer discovered or preserved them."
+          },
+          {
+            "locator": "skills/teach-skill/references/roles.md:3",
+            "evidence": "Installed use must actually load the own role reference in addition to the entrypoint."
+          },
+          {
+            "locator": "skills/teach-skill/references/sources.md:39",
+            "evidence": "Installed use must retain the conditional own-source resource."
+          }
+        ],
+        "readme_evidence": [
+          "README.md:9-19",
+          "README.md:40-77",
+          "README.md:134"
+        ],
+        "historical_evidence": [
+          "docs/design-review.md:38-55",
+          "docs/design-review.md:81-93"
+        ],
+        "reason": "No English-revision installer output, installed-resource inspection or real host discovery was supplied or run. The historical Korean local Codex/Claude Code records cannot establish distribution for the translated package; reading source cannot satisfy A4. The owner-reported frontmatter error and its source repair are A1 structural evidence, not a successful install.",
+        "allowed_exceptions": [
+          "Claims must remain scoped to the tested host, project/global scope, copy/link method and package version.",
+          "Remote/global/implicit selection may remain unverified rather than being extrapolated from local explicit use."
+        ],
+        "unverified_limit": "Required runtime proof is unavailable to this read-only reviewer; the integration owner must produce it after concurrent review work concludes."
+      }
+    ],
+    "findings": [
+      {
+        "id": "F1",
+        "status": "unresolved",
+        "severity": "P2",
+        "priority": 2,
+        "criterion_ids": [
+          "A1"
+        ],
+        "title": "Preserve the conditional time limit for untimed sparring practice",
+        "file_path": "skills/teach-skill/references/roles.md",
+        "line_start": 51,
+        "line_end": 51,
+        "raw_learner_input": "teach-skill로 발표를 연습하자. 시간 제한 없이 천천히 하고 싶어. 한국어로 질문 하나씩 해 줘.",
+        "current_instruction": "Announce a time limit before the task begins. Without a timing tool, have the learner use an external timer and label their reported time as self-measured.",
+        "baseline_instruction": "시간 제한이 있으면 과제를 시작하기 전에 제한을 알린다.",
+        "baseline_locator": "local://teach-skill-before-english.json#/files/references~1roles.md (Sparring partner timing paragraph)",
+        "failure_mechanism": "The translation removed the original applicability condition and now requires timing even for untimed practice. This creates a direct conflict between requested untimed constraints and the role procedure. Whether an executor follows the conflicting timer instruction is unverified; the instruction defect itself is observed.",
+        "minimal_repair": "Restore If a time limit applies, announce it before the task begins, and scope the external-timer instruction to timed practice. Retain self-measured/unmeasured labels and the prohibition on fabricated elapsed-time or pass claims.",
+        "confidence": 0.98,
+        "runtime_status": "unverified"
+      }
+    ],
+    "repair_history": [
+      {
+        "id": "R1",
+        "criterion_ids": [
+          "A1"
+        ],
+        "severity": "P1",
+        "status": "repaired-by-integration-owner; runtime-recheck-unverified",
+        "evidence_locator": "skills/teach-skill/SKILL.md:3",
+        "observed_problem": "Initial English description was an unquoted YAML scalar containing goals: followed by a space. The integration owner reported an actual CLI result that required skill teach-skill had invalid frontmatter metadata.",
+        "evidence_source": "Parent IRC message received during this review; treated as observed evidence, not independently rerun.",
+        "before_excerpt": "description: A learning partner ... Use for explicit learning or practice goals: learning plans ...",
+        "repair": "Owner quoted the entire description scalar; read of SKILL.md:1-16 confirms the current scalar is double-quoted with no behavior or line-number change.",
+        "remaining_limit": "No parser/discovery/install was rerun by this reviewer. This repair is recorded, not promoted to A4 installation success or current learner-facing runtime proof."
+      }
+    ]
+  },
+  "integrated_repairs": [
+    {
+      "id": "timing-condition",
+      "criteria": [
+        "B3",
+        "B6",
+        "A1"
+      ],
+      "location": "skills/teach-skill/references/roles.md:51",
+      "change": "Timing only when requested/agreed; explicitly untimed otherwise; truthful timing still required",
+      "static_follow_up": "pass",
+      "static_follow_up_evidence": "Pre-publication sub-agent review SkillPackageReview (gpt-6.1-sol, xhigh): time limit applies only when requested or agreed, untimed by default, self-measured/unmeasured labels and no fabricated timing retained. Static instruction check, not a new runtime execution."
+    },
+    {
+      "id": "frontmatter",
+      "criteria": [
+        "A1"
+      ],
+      "location": "skills/teach-skill/SKILL.md:3",
+      "change": "Quoted description scalar containing colon-space",
+      "proof": "YAML parse, actual local copied install and resource/host smoke completed"
+    }
+  ]
+}

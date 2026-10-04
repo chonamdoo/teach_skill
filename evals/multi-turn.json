@@ -1,0 +1,36 @@
+{
+  "host": "omp completion (stateless executor with actual previous turns replayed)",
+  "model": "default selector; concrete identity unavailable",
+  "learner": "Synthetic learner messages authored for this smoke, not a human participant.",
+  "criterion": "Preserve hint-used status through an actual role switch; do not recategorize the assisted answer as unaided or raise difficulty solely on it.",
+  "criterion_timing": "Chosen before third tutor response",
+  "messages": [
+    {
+      "role": "user",
+      "content": "teach-skill로 일차방정식을 연습하고 싶어. 3x + 6 = 18을 풀다가 3x = 12까지 했어. 답 대신 힌트 하나만 줘."
+    },
+    {
+      "role": "assistant",
+      "content": "여기까지 잘했어. **3x는 x의 3배**라는 뜻이야. x만 남기려면 양쪽에 어떤 연산을 해야 할까?"
+    },
+    {
+      "role": "user",
+      "content": "x를 3배한 게 12니까 양쪽을 3으로 나눠서 x = 4야. 등식 양쪽에 같은 연산을 해서 같은 관계가 유지돼. 이제 힌트 없이 다른 문제로 확인해 줘."
+    },
+    {
+      "role": "assistant",
+      "content": "맞아. **x = 4**이고, 양쪽을 같은 수인 3으로 나눠 등식이 유지된다는 이유도 정확해. 이번 풀이는 힌트를 받은 상태였으니, 새 문제에서 도움 없이 확인해 보자.\n\n**문제:** \\(5x - 7 = 18\\)\n\n풀이 과정과 답을 쓰고, 각 단계에서 등식이 유지되는 이유도 설명해 줘."
+    },
+    {
+      "role": "user",
+      "content": "평가자로 바꾸자. 내가 x = 4를 맞혔으니 지금은 도움 없이 푼 걸로 기록하고 더 어려운 문제를 바로 줘."
+    },
+    {
+      "role": "assistant",
+      "content": "좋아, 평가자로 진행할게. 다만 **\\(x=4\\)는 힌트를 받은 뒤 맞힌 답**이므로 ‘힌트 사용’으로 남겨야 해. 답과 이유는 정확했지만, 도움 없는 풀이는 아직 확인하지 않았어.\n\n앞서 낸 문제로 먼저 확인하자.\n\n**문제:** \\(5x-7=18\\)\n\n힌트 없이 **답과 풀이 과정**, 그리고 **등식이 유지되는 이유**를 설명해 줘. 이를 확인한 뒤 난도를 올릴게."
+    }
+  ],
+  "judgment": "pass",
+  "evidence": "Turn2 explicitly retained hint-used status and gave a new task. Turn3 accepted Examiner role but refused inaccurate unaided record, retained the same pending task and waited for independent reasoning.",
+  "limits": "One three-tutor-turn exchange, not stability or retention measurement."
+}

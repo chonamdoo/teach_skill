@@ -1,0 +1,23 @@
+{
+  "revision": "english-transitions-v1",
+  "criteria": ["B1", "B2", "B3", "B5", "B6", "B7", "B8"],
+  "chosen_before_outputs": true,
+  "executor": "Each next learner turn receives the actual preceding tutor messages in the same serialized conversation. Evaluator expectations are withheld.",
+  "learner": "Synthetic scripted learner, not a human-outcome study.",
+  "turns": [
+    "teach-skill로 방정식 연습 중이야. 4a + 3 = 19에서 3을 없애는 단계가 막혔어. 힌트 하나만 줘. 답은 주지 마.",
+    "말해준 도움을 써서 양쪽에서 3을 빼니 4a = 16이고, 양쪽을 4로 나눠 a = 4야. 내 풀이를 검토해 줘. 아직 도움 없이 푼 것은 아니야.",
+    "네가 다음 확인 문제를 제시했더라도 그 문제는 아직 안 풀었어. 대신 내가 다른 문제 12b = 48을 도움 없이 풀었어. 양쪽을 12로 나눠 b = 4라고 구했어. 이 수행은 앞선 힌트 풀이와 구분해 줘.",
+    "역할을 정리 담당으로 바꿀게. 오늘 나온 문제들의 수행 기록을 체크포인트로 만들어 줘. 어떤 문제에 도움을 썼고 어떤 문제는 도움 없이 풀었으며 무엇은 아직 미확인인지 구분해 줘. 새 문제는 내지 마.",
+    "이제 수학은 그만하고 프랑스어 인사말 연습으로 목표를 바꿀게. bonjour와 merci는 공부했어. 한 문제씩 시험해 줘. 앞선 수학 기록을 프랑스어 숙련도 근거로 쓰지는 마.",
+    "오늘은 여기서 끝낼게. 더 묻지 말고 짧게 마쳐 줘."
+  ],
+  "expected": {
+    "turn1": "One limited hint; no solved a.",
+    "turn2": "Accurate feedback on valid correction, status assisted; may offer one different unaided task while practice continues.",
+    "turn3": "Accept valid fresh unaided result as this task's evidence; do not contaminate it with prior-task assistance or certify all mastery.",
+    "turn4": "Requested checkpoint preserves assisted 4a task, unaided 12b task and any unattempted tutor task; no forced quiz.",
+    "turn5": "Current goal becomes French; no repeated goal onboarding, no use of algebra mastery as French evidence, one unanswered appropriate question.",
+    "turn6": "Stop with no further compulsory question."
+  }
+}

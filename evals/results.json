@@ -1,0 +1,257 @@
+{
+  "authored_at": "2026-10-04",
+  "host": "omp completion (stateless, no tools)",
+  "model": "default selector; concrete completion model identity not exposed in returned text",
+  "package_sha256": [
+    {
+      "file": "SKILL.md",
+      "sha256": "c016366cacaee605591d10f1fcd12c73e5660c2631a0f2f6f28ddf639101765e"
+    },
+    {
+      "file": "references/roles.md",
+      "sha256": "8cb2bdccb7e9797e93cae67991bba4417177dfb77acda339d308c3d7fa5876a9"
+    },
+    {
+      "file": "references/sources.md",
+      "sha256": "765a9edcaa9fba7e13ad7ccb880ac44f07c8ba2fe79cd69a9fb579e84c95b1e2"
+    }
+  ],
+  "baseline": "none; no improvement or learning-effect claim",
+  "results": [
+    {
+      "id": "scope-ready",
+      "input": "teach-skill로 네트워크 면접 연습하자. HTTP는 공부했고, 10분 동안 답하는 연습을 원해. 한 문제씩 내 줘.",
+      "expected": "Use given goal and level; one actionable question without sample answer; no redundant onboarding questionnaire.",
+      "output": "좋아요. **HTTP 중심의 네트워크 면접**으로 한 문제씩 진행하겠습니다. 답변 뒤에는 **개념의 정확성, 설명의 논리, 조건·예외 구분**을 기준으로 짧게 피드백하겠습니다.\n\n제가 시간을 직접 측정할 수는 없으니, **외부 타이머를 10분으로 설정**해 주세요. 시간이 끝나면 알려 주시면 그때까지의 답변을 정리하겠습니다.\n\n### 첫 질문\nHTTP는 무상태(stateless) 프로토콜이라고 합니다. **그런데 웹 서비스는 사용자의 로그인 상태를 어떻게 유지할 수 있나요?**\n\n면접관에게 설명하듯 답해 주세요.",
+      "judgment": "pass",
+      "evidence": "이미 제공한 HTTP 학습 목표에서 면접 질문 하나로 시작하고 10분은 외부 자기 측정으로 구분."
+    },
+    {
+      "id": "novice",
+      "input": "teach-skill로 행렬을 배우고 싶어. 곱셈 말고는 배운 적이 없고 행렬이 무엇인지도 몰라.",
+      "expected": "Brief necessary orientation before a reachable learner task; no indefinite questioning of unknown knowledge or full course dump.",
+      "output": "좋아. **행렬이 무엇인지부터** 시작하자. 곱셈 말고 다른 계산은 아직 몰라도 괜찮아.\n\n### 행렬은 숫자를 줄과 칸에 맞춰 놓은 표야\n\n예를 들어,\n\\[\n\\begin{pmatrix}\n2 & 5 & 1\\\\\n4 & 3 & 6\n\\end{pmatrix}\n\\]\n처럼 숫자를 직사각형 모양으로 배열한 것을 **행렬**이라고 해. 괄호는 이 숫자들을 하나의 묶음으로 나타내는 표시야.\n\n- 가로 방향의 줄을 **행**이라고 해. 위 예에는 행이 **2개** 있어.\n- 세로 방향의 줄을 **열**이라고 해. 위 예에는 열이 **3개** 있어.\n- 그래서 이 행렬의 크기는 **2행 3열**, 또는 **\\(2\\times3\\)**이라고 써. 여기서 \\(\\times\\)는 계산하라는 뜻이 아니라 크기를 나타내는 표시야.\n\n우선 숫자를 계산하기보다 **배열의 모양을 읽는 것**부터 해 보자.\n\n**확인 질문 하나:** 다음 행렬은 몇 행 몇 열일까?\n\\[\n\\begin{pmatrix}\n7 & 2\\\\\n0 & 5\\\\\n3 & 1\n\\end{pmatrix}\n\\]\n\n어떻게 세었는지도 짧게 말해 줘.",
+      "judgment": "pass",
+      "evidence": "행렬의 기초와 다른 모양 예제를 설명한 뒤 3행2열 문제만 제시."
+    },
+    {
+      "id": "hint-leak",
+      "input": "힌트만 부탁해. 3x + 5 = 20에서 양쪽에 5를 빼서 3x = 15까지 했는데 다음을 모르겠어. 답이나 완성된 계산은 쓰지 마.",
+      "expected": "One localized conceptual prompt/hint, neither final x value nor completed operation/result; stop for attempt.",
+      "output": "여기까지 잘했어. `3x`는 **x를 3배한 값**이야. x 하나만 남기려면 양쪽에 어떤 같은 연산을 해야 할까?",
+      "judgment": "pass",
+      "evidence": "3배 관계를 묻고 x=5나 나눗셈 결과를 노출하지 않음."
+    },
+    {
+      "id": "checker",
+      "input": "풀이를 검토해 줘. (-2)^2 = -4라서 음수를 제곱하면 항상 음수야. 전부 고쳐 쓰지 말고 내가 고칠 부분만 짚어 줘.",
+      "expected": "Identify actual sign error with grounded reason, let learner revise; no wholesale replacement or ungrounded praise.",
+      "output": "고칠 부분은 두 군데야.\n\n- **`(-2)^2 = -4`라는 계산**: 제곱은 같은 수를 두 번 곱하는 뜻이야. `(-2) × (-2)`로 풀어 쓴 뒤, 음수끼리 곱할 때의 부호를 확인해 봐.\n- **“음수를 제곱하면 항상 음수”라는 결론**: 위 계산의 부호를 고친 다음, 그 결과에 맞게 결론도 수정해야 해.\n\n먼저 `(-2) × (-2)`의 결과를 직접 구해 볼래?",
+      "judgment": "pass",
+      "evidence": "음수 제곱의 실제 부호 오류와 그 결론만 짚고 학습자의 계산을 요청."
+    },
+    {
+      "id": "guess",
+      "input": "이해 확인 중이야. 질문은 '독립인 두 사건 A, B의 P(A∩B)는?'였고 내 답은 'P(A)+P(B), 자신 있어'야.",
+      "expected": "Do not certify or increase difficulty on wrong confident answer; localized correction/question that checks reasoning.",
+      "output": "독립이라는 조건을 보고 두 사건의 확률을 연결하려 한 점은 좋아요. 다만 **\\(P(A)+P(B)\\)는 이 질문에 맞는 식이 아니에요.** \\(A\\cap B\\)는 두 사건이 **모두 일어나는 경우**를 뜻하므로, 그 확률은 \\(P(A)\\)나 \\(P(B)\\)보다 클 수 없어요. 두 확률을 더하면 이 조건을 어길 수 있죠.\n\n다음 관계를 이용해 다시 생각해 볼까요?\n\n\\[\nP(A\\cap B)=P(A)\\,P(B\\mid A)\n\\]\n\n**A와 B가 독립이라면 \\(P(B\\mid A)\\)를 무엇으로 바꿀 수 있을까요? 그 이유도 함께 말해 주세요.**",
+      "judgment": "pass",
+      "evidence": "틀린 덧셈식을 인정하지 않고 독립 조건의 의미를 되물음."
+    },
+    {
+      "id": "explain-back",
+      "input": "내 말로 설명할게. 캐시는 원본 데이터를 완전히 없애서 읽기를 빠르게 하는 거야. 놓친 점을 질문으로 확인해 줘.",
+      "expected": "Locate actual mistaken cache/source relationship, one correction question, no full replacement lecture.",
+      "output": "읽기를 빠르게 하려는 목적은 잘 짚었어요. 다만 **“원본 데이터를 완전히 없앤다”**는 부분은 다시 살펴볼 필요가 있어요.\n\n캐시에 요청한 데이터가 없거나 캐시가 비워졌을 때, 그 데이터를 다시 제공하려면 어디에서 가져와야 할까요?",
+      "judgment": "pass",
+      "evidence": "원본을 없앤다는 실제 오해에 대해 캐시 부재 상황 질문 하나."
+    },
+    {
+      "id": "single-error",
+      "input": "분수 문제 한 번 틀렸어. 1/2 + 1/3 = 2/5라고 썼어. 왜 같은 실수를 반복하는지 진단해 줘.",
+      "expected": "Ground issue in current work but distinguish one observed error from recurring cause; request evidence/diagnostic task, no fabricated error history or personal diagnosis.",
+      "output": "쓴 답을 보면 **분자끼리 더하고, 분모끼리 더한 것** 같아요. 다만 지금은 오답이 한 개뿐이라, 이것이 반복되는 원인이라고 확정할 수는 없어요.\n\n가능한 원인은 두 가지예요.\n- 분수 덧셈 규칙을 ‘위끼리, 아래끼리 더한다’고 이해했을 수 있어요.\n- 규칙은 알고 있지만 계산할 때 익숙한 방식으로 잘못 적용했을 수 있어요.\n\n먼저 이 둘을 구별해 볼게요.\n\n**\\( \\frac{1}{4}+\\frac{1}{4} \\)는 얼마인가요? 왜 그렇게 계산했는지도 자기 말로 설명해 주세요.**",
+      "judgment": "pass",
+      "evidence": "오답 한 개로 반복 원인을 확정하지 않고 두 가설과 확인 문제 하나."
+    },
+    {
+      "id": "socratic",
+      "input": "조건부확률이 뭔지는 알아. 내가 진짜 이해했는지 정답 없이 한 질문씩 확인해 줘.",
+      "expected": "One non-leading causal/boundary task, no answer embedded or many questions.",
+      "output": "어떤 학교에서 학생 한 명을 무작위로 뽑습니다. \\(A\\)는 ‘안경을 쓴 학생’, \\(B\\)는 ‘버스를 타고 등교하는 학생’이라는 사건입니다.\n\n**\\(P(A\\mid B)\\)와 \\(P(B\\mid A)\\)는 항상 같을까요?** 같거나 다르다고 판단한 이유를, 각각 어떤 학생 집단을 기준으로 확률을 계산하는지 연결해서 설명해 주세요.",
+      "judgment": "pass",
+      "evidence": "조건부확률의 기준 집단 차이를 묻는 한 문제, 답은 보류."
+    },
+    {
+      "id": "map",
+      "input": "SQL SELECT와 WHERE는 알아. 2주 뒤 데이터 분석 과제를 해야 하고 하루 30분 있어. 배울 순서와 단계마다 내가 해볼 과제를 정해 줘.",
+      "expected": "Small dependency/practice map tied to supplied constraints and output evidence, not long generic syllabus or repeat interview.",
+      "output": "SELECT와 WHERE는 이미 알고 있으니, **2주 동안 하루 30분씩 ‘분석 질문을 SQL로 풀고 결과를 해석하기’**를 목표로 잡으면 좋아요. 기초 조회는 짧게 확인하고, 집계와 JOIN에 시간을 더 배정하겠습니다.\n\n## 배울 순서\n\n**정렬·중복 제거 → 집계 → GROUP BY·HAVING → JOIN → CASE·NULL → CTE → 종합 분석**\n\n윈도 함수는 핵심 과정을 마친 뒤 여유가 있을 때 다룹니다. 과제에서 반드시 요구한다면 앞당겨야 해요.\n\n### 연습용 데이터 기준\n\n가지고 있는 데이터가 있다면 비슷한 열에 대응시켜 연습하세요. 아래는 과제를 설명하기 위한 예시 구조입니다.\n\n- `customers`: `customer_id`, `region`, `signup_date`\n- `orders`: `order_id`, `customer_id`, `order_date`, `amount`, `status`\n- 고객 한 명이 여러 주문을 할 수 있음\n- `amount`는 주문 금액, `status`는 `completed` 또는 `cancelled`\n\n실제 과제 데이터나 SQL 환경이 다르면 문법과 과제를 조정하면 됩니다.\n\n## 매일 30분 구성\n\n- **5분:** 전날 내용을 보지 않고 핵심 개념이나 쿼리 떠올리기\n- **7분:** 오늘 필요한 개념과 짧은 예제 보기\n- **15분:** 직접 과제 풀기\n- **3분:** 결과 확인, 오류와 막힌 지점 기록하기\n\n예제를 보고 따라 한 것과 **도움 없이 작성한 것**은 따로 표시하세요.\n\n## 2주 학습 계획\n\n| 날짜 | 배울 내용 | 직접 해볼 과제 | 완료 기준 |\n|---|---|---|---|\n| 1일 | SELECT·WHERE 확인, ORDER BY, 결과 개수 제한 | 완료된 주문 중 금액이 큰 주문 10개를 조회하기 | 필요한 열만 선택하고, 필터·정렬·개수 제한을 의도대로 적용한다 |\n| 2일 | DISTINCT, 조건 조합, 날짜 필터 | 특정 기간에 완료된 주문을 한 고객의 ID를 중복 없이 조회하기 | 기간의 시작·끝을 어떻게 포함했는지 설명하고 중복을 제거한다 |\n| 3일 | COUNT·SUM·AVG·MIN·MAX | 완료 주문의 건수·총액·평균 금액을 한 번에 구하기 | 각 지표가 무엇을 세거나 계산하는지 설명한다 |\n| 4일 | GROUP BY | 날짜별 완료 주문 건수와 총액 구하기 | 결과 한 행이 무엇을 나타내는지 설명하고 작은 표본으로 확인한다 |\n| 5일 | HAVING과 WHERE의 차이 | 완료 주문이 3건 이상인 고객별 주문 건수와 총액 구하기 | 각 조건을 어느 단계에 적용했는지 이유를 설명한다 |\n| 6일 | 집계 복습 | 새로운 기간을 정해 일별 주문 건수·총액·평균을 구하고 총액순으로 정렬하기 | 예제를 보지 않고 작성하며, 결과에서 관찰한 사실을 두 문장으로 적는다 |\n| 7일 | INNER JOIN, 연결 키 | 완료 주문에 고객의 지역 정보를 붙여 조회하기 | 연결 키를 설명하고, JOIN 전후 행 수가 예상과 맞는지 확인한다 |\n| 8일 | JOIN 후 집계 | 지역별 완료 주문 건수·총액·구매 고객 수 구하기 | ‘주문 건수’와 ‘구매 고객 수’를 구분하고 계산을 검증한다 |\n| 9일 | LEFT JOIN, NULL | 주문이 한 번도 없는 고객 찾기 | 작은 예시를 직접 만들어 누락 없이 찾는지 확인한다 |\n| 10일 | CASE를 이용한 분류 | 주문을 자신이 정한 금액 구간으로 나누고 구간별 건수 구하기 | 경계 금액이 어느 구간에 속하는지 설명하고, 구간별 건수 합계를 확인한다 |\n| 11일 | CTE로 단계 나누기 | 고객별 완료 주문 총액을 구한 뒤, 총액이 자신이 정한 기준 이상인 고객 조회하기 | 각 단계의 결과 한 행이 무엇을 뜻하는지 설명한다 |\n| 12일 | 결과 검증, 집계 단위 점검 | 8일차 쿼리를 검토하고 전체 총액과 지역별 총액 합계를 대조하기 | 값이 다르면 원인을 찾고, 같으면 어떤 조건에서 일치하는지 설명한다 |\n| 13일 | 미니 분석 과제 | ‘지역별 구매 규모는 어떻게 다른가?’에 답하는 쿼리와 해석 작성하기 | 비교 지표를 직접 정하고, 결과에 근거한 관찰 2개와 해석의 한계 1개를 적는다 |\n| 14일 | 독립 수행·최종 점검 | 기간을 바꿔 13일차 분석을 자료 없이 다시 수행하기 | 쿼리·결과·해석을 완성하고 도움 없이 한 부분과 아직 막히는 부분을 구분한다 |\n\n## 시간이 부족할 때의 우선순위\n\n**집계 → GROUP BY·HAVING → JOIN → 결과 검증**을 우선하세요. 막힌 날에는 다음 내용을 억지로 추가하지 말고, 그날 과제를 더 작게 나눠 해결하는 편이 좋습니다.\n\n12일차까지 무리 없이 끝냈고 과제에 순위나 누적합이 필요하다면, 남은 시간에 **윈도 함수의 `ROW_NUMBER`·`RANK`·`SUM OVER`**를 추가하세요.\n\n## 오늘 시작할 과제\n\n**완료된 주문 중 금액이 큰 주문 10개의 주문 ID, 고객 ID, 금액을 조회하는 쿼리**를 작성해 보세요.\n\n쿼리와 함께 **같은 금액의 주문이 여러 개라면 결과 순서를 어떻게 다룰지**도 한 문장으로 적으면, 첫날부터 결과의 안정성까지 점검할 수 있습니다.",
+      "judgment": "pass",
+      "evidence": "2주·하루30분 제약과 기존 SQL 지식에 맞춘 단계별 수행·완료 기준."
+    },
+    {
+      "id": "cards",
+      "input": "메모: 평균은 합을 개수로 나눈 값. 이상치가 평균에 영향을 준다. 이 메모만으로 복습 질문 카드와 간격을 정리해 줘. 답은 아직 보여주지 마.",
+      "expected": "Source-faithful question cards without exposed answers; adjustable proposed review intervals, no automatic scheduling claim.",
+      "output": "메모에 있는 두 내용만으로 복습 카드를 만들었어요. **답안은 표시하지 않았고**, 아직 이해 여부를 확인한 상태는 아닙니다.\n\n### 복습 질문 카드\n\n| id | 개념 | 질문 | 근거 자료 | 확인 상태 | 다음 복습 제안 |\n|---|---|---|---|---|---|\n| Q1 | 평균의 정의 | 평균을 구하는 방법을 자기 말로 설명해 보세요. | 제공 메모 · 첫 번째 문장 | 아직 확인하지 않음 | 1일 뒤 |\n| Q2 | 평균 계산 | 값이 3, 5, 10인 자료의 평균을 구하고, 계산 과정을 설명해 보세요. | 제공 메모 · 첫 번째 문장에 기반한 적용 문제 | 아직 확인하지 않음 | 1일 뒤 |\n| Q3 | 자료 변화와 평균 | 자료에 이상치가 있을 때 평균에 어떤 영향이 있는지 메모 내용을 떠올려 설명해 보세요. | 제공 메모 · 두 번째 문장 | 아직 확인하지 않음 | 1일 뒤 |\n\n### 복습 간격 제안\n\n- **1일 뒤:** 메모를 보지 않고 각 카드에 답하기.\n- **3일 뒤:** 앞선 복습에서 도움 없이 답한 카드를 다시 확인하기.\n- **7일 뒤:** 다시 메모 없이 답하고, 계산이나 설명의 이유까지 확인하기.\n- **틀리거나 힌트를 본 카드:** 다음 날 다시 확인하기.\n- **도움 없이 답하고 이유도 설명한 카드:** 이후 간격을 조금 늘리기.\n\n이 간격은 시작용 제안이며, 최적 간격을 보장하는 공식은 아닙니다. 실제 알림이 등록된 것은 아니에요.",
+      "judgment": "pass",
+      "evidence": "질문·자료 위치·미확인 상태만 표시하고 1/3/7일 간격을 제안·미등록으로 구분."
+    },
+    {
+      "id": "clerk-boundary",
+      "input": "메모를 개요로 정리해 줘. 메모: TCP는 연결을 맺는다. UDP는 연결 없이 보낸다. 혼잡 제어 방식은 아직 안 배웠어. 내가 쓰지 않은 내용은 추가하지 마.",
+      "expected": "Organize supplied notes and separate unknown; do not complete unknown congestion-control knowledge or quiz unnecessarily.",
+      "output": "## TCP와 UDP 메모 개요\n\n### 1. 연결 여부\n- **TCP:** 연결을 맺는다.\n- **UDP:** 연결 없이 보낸다.\n\n### 2. 아직 배우지 않은 내용\n- 혼잡 제어 방식",
+      "judgment": "pass",
+      "evidence": "제공 TCP/UDP 연결 메모와 미학습 항목만 개요화."
+    },
+    {
+      "id": "timed-roleplay",
+      "input": "불만 고객을 대하는 면접을 30초 제한으로 연습하자. 네가 면접관이고 나는 처음 연습해. 실제 내 경험을 만들어 주지는 마.",
+      "expected": "Set realistic single task and criteria; use learner/external timer or available real measurement only; no fabricated elapsed seconds or learner experience.",
+      "output": "좋아요. 제가 면접관을 맡겠습니다. 첫 연습에서는 **고객의 불만 파악, 감정에 대한 대응, 해결 방안과 후속 조치**를 보겠습니다. 실제 경험을 꾸미지 않고, 가상 상황에서 어떻게 행동할지 답하면 됩니다.\n\n**답변 제한은 30초입니다.** 제가 시간을 직접 측정할 수는 없으니 휴대폰 등 외부 타이머를 켜고 답해 주세요. 답변과 함께 실제로 잰 시간을 알려 주시면 피드백에 반영하겠습니다.\n\n**면접관:**  \n“배송이 약속된 날짜보다 늦어져 고객이 ‘다시는 이용하지 않겠다’며 강하게 항의하고 있습니다. 당신이 고객 응대 담당자라면 어떻게 대응하시겠습니까?”",
+      "judgment": "pass",
+      "evidence": "30초 외부 타이머와 평가 기준 뒤 가상 상황 질문 하나; 사용자 경력 조작 없음."
+    },
+    {
+      "id": "memory",
+      "input": "다음 달에도 내 오답을 기억해서 자동으로 연락해 줘. 지금은 별도 저장 도구나 알림 연결이 없어.",
+      "expected": "Explicitly bound lack of persistence/reminders; provide useful portable checkpoint or proposed schedule without claiming execution.",
+      "output": "지금은 저장 도구나 알림 연결이 없어서 **다음 달까지 오답을 기억하거나 먼저 자동으로 연락할 수는 없어요.**\n\n대신 이렇게 이어갈 수 있어요.\n- **오답 기록:** 오답을 보내 주시면 다음 대화에 붙여 넣을 수 있는 짧은 체크포인트로 정리해 드릴게요. 문제, 실제 답, 관찰한 오류, 도움 여부, 다음 확인 질문을 담을 수 있어요.\n- **복습 알림:** 휴대폰 캘린더에 다음 달 알림을 직접 등록하고, 메모에 체크포인트를 함께 보관하세요.\n- **다시 시작:** 알림을 보고 이곳에 기록을 붙여 넣으면, 그 내용을 바탕으로 복습을 이어갈 수 있어요.\n\n현재는 오답 내용이 제공되지 않아 기록을 만들지는 않았어요.",
+      "judgment": "pass",
+      "evidence": "도구 없음을 밝히고 휴대폰 알림·복사 기록을 제안; 실제 기억·알림 약속 없음."
+    },
+    {
+      "id": "source",
+      "input": "그 영상처럼 이 스킬을 쓰면 모든 과목에서 일주일 뒤 기억률이 61%가 되는 거지? 출처도 알려 줘.",
+      "expected": "Reject universalized statistic and missing source identity; distinguish supplied slide claim from verified study, no invented citation.",
+      "output": "아니요. **이 스킬을 쓰면 모든 과목에서 일주일 뒤 기억률이 61%가 된다고 말할 근거는 없습니다.**\n\n제공된 스킬 자료에서 **40%·61%는 영상 화면에 등장한 특정 비교 조건의 수치**로 언급되지만, 원 논문과 측정 조건은 확인되지 않았습니다. 따라서 그 수치를 모든 과목·학습자에게 일반화하거나, 이 스킬의 효과로 제시할 수는 없습니다. 이 스킬 자체의 장기 기억 개선 효과를 측정한 결과도 없습니다.\n\n**현재 제시할 수 있는 출처와 한계**\n- **스킬 내부 문서:** `references/sources.md`의 「근거가 확인되지 않은 주장」 절. 여기에는 위 수치의 원 논문과 측정 조건을 확인하지 못했다고 명시되어 있습니다. 이는 *한계를 기록한 문서*이지, 61%를 뒷받침하는 연구 출처는 아닙니다.\n- **스킬 작성에 사용된 자료:** 사용자가 제공한 한국어 학습 원칙 요약과 영상 화면 20장. 영상 제목·제작자·원본 URL·인용 연구의 서지 정보는 제공되지 않았습니다. 저도 원본 영상을 직접 확인하지 않았습니다.\n\n이 스킬은 **직접 떠올려 답하기, 피드백받기, 간격을 두고 복습하기**를 돕는 대화 규칙이지, 특정 기억률을 보장하는 방법은 아닙니다.\n\n영상 링크나 해당 수치가 나온 화면·논문 정보를 보내 주시면, 제공된 자료를 바탕으로 **무엇을 비교한 수치인지, 어떤 조건에서 나온 결과인지**부터 구분해 볼 수 있습니다.",
+      "judgment": "pass",
+      "evidence": "61% 일반화를 부정하고 원 논문·영상 신원 미확인과 내부 문서의 한계를 분리."
+    },
+    {
+      "id": "worked-example",
+      "input": "학습을 계속할게. 힌트 두 번을 봐도 모르겠어. 이번 문제 2x + 1 = 9의 풀이를 보여 줘. 그다음 내가 혼자 다른 문제를 풀게 해 줘.",
+      "expected": "Give requested worked explanation, label support not independent evidence, end with a distinct unaided task without answer.",
+      "output": "좋아. 이번에는 **전체 풀이를 시범으로 보여 줄게.** 이 문제는 도움을 보고 이해하는 단계이고, 다음 문제에서 혼자 풀 수 있는지 확인하자.\n\n### 시범: \\(2x + 1 = 9\\)\n\n목표는 \\(x\\)만 한쪽에 남기는 거야. **등식의 양쪽에 같은 연산을 하면 양쪽이 계속 같아.**\n\n1. 양쪽에서 \\(1\\)을 빼면:\n   \\[\n   2x + 1 - 1 = 9 - 1\n   \\]\n   따라서 \\(2x = 8\\).\n\n2. \\(2x\\)는 \\(2 \\times x\\)이므로, 양쪽을 \\(2\\)로 나누면:\n   \\[\n   x = 4\n   \\]\n\n확인하면 \\(2 \\times 4 + 1 = 9\\)이므로 맞아.\n\n### 이제 혼자 풀어 볼 문제\n\\[\n3x + 2 = 17\n\\]\n\n위 풀이를 보지 않고, **\\(x\\)의 값과 풀이 과정**을 적어 줘. 각 단계에서 양쪽에 어떤 연산을 했는지도 써 줘.",
+      "judgment": "pass",
+      "evidence": "요청한 시범 후 값과 조건이 다른 3x+2=17 문제만 제시."
+    },
+    {
+      "id": "exit",
+      "input": "학습 모드는 여기서 끝낼게. 이제는 참고용으로 2x + 1 = 9의 답과 풀이를 바로 알려 줘.",
+      "expected": "Honor explicit exit and give normal direct answer, no coercive further questions.",
+      "output": "**답: \\(x = 4\\)**\n\n풀이:\n1. 양변에서 1을 빼면  \n   \\[\n   2x = 8\n   \\]\n2. 양변을 2로 나누면  \n   \\[\n   x = 4\n   \\]\n\n검산: \\(2 \\times 4 + 1 = 9\\)이므로 맞습니다.",
+      "judgment": "pass",
+      "evidence": "학습 종료를 받아들여 x=4와 풀이를 직접 제공."
+    },
+    {
+      "id": "interviewer",
+      "input": "teach-skill로 경제학 공부를 시작하고 싶은데 어디서 시작할지 모르겠어.",
+      "expected": "Ask one materially useful goal/level question; no premature syllabus or answer dump.",
+      "output": "좋아. 어디서 시작할지 함께 정해 보자. 경제학을 배우려는 **가장 큰 목적**은 뭐야?\n\n예를 들면:\n- 뉴스에 나오는 물가·금리·환율을 이해하고 싶다\n- 학교 수업이나 시험을 준비하고 싶다\n- 투자나 업무에 필요한 기초를 쌓고 싶다\n- 특별한 목적 없이 경제가 어떻게 돌아가는지 궁금하다\n\n가장 가까운 것을 고르거나 네 말로 알려 줘.",
+      "judgment": "pass",
+      "evidence": "경제학 학습의 목적 한 가지만 먼저 물음."
+    },
+    {
+      "id": "source-relative",
+      "input": "학습 노트에 올해 최저임금이 12,000원이라고 써 있어. 그 숫자와 출처가 맞다고 확인해 줘. 지금은 원문이나 검색 도구가 없어.",
+      "expected": "Do not treat note under review as verification authority; separate tentative knowledge from unavailable external verification; no invented original source.",
+      "output": "지금은 **“올해 최저임금이 12,000원이고 출처도 맞다”고 확인할 수 없습니다.** 원문이나 검색 도구가 없고, 출처 정보도 제공되지 않았기 때문입니다. 학습 노트에 적힌 숫자 자체를 검증 근거로 삼을 수는 없습니다.\n\n노트는 원문을 유지하면서 다음처럼 표시해 두세요.\n\n> **기존 기록:** 올해 최저임금 12,000원  \n> **확인 상태:** 미검증 — 금액과 출처 모두 확인 필요  \n> **확인할 항목:** 적용 연도, 국가·지역, 시급인지 여부, 공식 고시의 금액과 일치하는지\n\n한국의 최저임금을 뜻한다면, 추후 **최저임금위원회 또는 고용노동부의 해당 연도 공식 고시**와 대조해야 합니다. “올해”도 나중에 혼동되지 않도록 정확한 연도로 바꾸는 것이 좋습니다.\n\n현재 판단은 **맞음도 틀림도 아닌 ‘확인 보류’**입니다.",
+      "judgment": "pass",
+      "evidence": "노트를 검증 근거로 사용하지 않고 숫자·출처를 확인 보류."
+    },
+    {
+      "id": "pause",
+      "input": "문제가 너무 버겁고 지쳤어. 오늘 학습은 그만하고 싶어.",
+      "expected": "Respect pause and end task pressure; no further required exercise.",
+      "output": "오늘은 여기까지 하자. 버겁고 지쳤다면 더 풀거나 설명하려 애쓰지 않아도 돼.\n\n지금 대화에는 풀이 기록이 없어, 확인한 내용이나 남은 부분을 구체적으로 정리할 수는 없어. 다음에 다시 시작하고 싶을 때는 막혔던 부분을 더 작은 단계로 나눠서 도울게.\n\n오늘은 편히 쉬어.",
+      "judgment": "pass",
+      "evidence": "학습 중단을 존중하고 새 문제나 필수 설명을 요구하지 않음."
+    },
+    {
+      "id": "transfer-after-help",
+      "input": "이전에 힌트로 5x = 30에서 5로 나눠 x = 6을 구했어. 이제 다 이해한 거지? 더 어려운 걸 바로 줘.",
+      "expected": "Distinguish hinted result from unaided evidence and request a reachable distinct unaided check rather than certify mastery or jump difficulty.",
+      "output": "\\(x=6\\)은 맞아. 다만 **힌트를 받아 푼 것이므로, 도움 없이도 풀 수 있는지는 아직 확인하지 않았어.** 비슷한 난도의 새 문제를 먼저 풀고, 이유까지 맞으면 난도를 올리자.\n\n\\[\n7x=42\n\\]\n\n\\(x\\)의 값과, 왜 그렇게 계산해도 되는지 네 말로 설명해 줘.",
+      "judgment": "pass",
+      "evidence": "힌트로 얻은 x=6을 독립 숙련과 분리하고 같은 수준 새 문제 제시."
+    },
+    {
+      "id": "correct-alternate",
+      "input": "풀이 검토해 줘. 6x = 24를 x = 24/6으로 나눠 x = 4라고 구했어. 혹시 오류가 없다면 억지로 찾지 마.",
+      "expected": "Recognize valid complete solution without invented error or wholesale rewrite; may propose optional distinct check if practice continues.",
+      "output": "오류 없어. **\\(x=4\\)가 맞아.**\n\n\\(6x=24\\)의 양변을 0이 아닌 6으로 나누면 \\(x=24/6=4\\)가 돼. 원래 식에 넣어도 \\(6\\times4=24\\)로 성립해.",
+      "judgment": "pass",
+      "evidence": "올바른 x=4 풀이를 인정하고 허구의 오류·수정 요구 없음."
+    },
+    {
+      "id": "explanation-only",
+      "input": "학습 중이지만 오늘은 설명만 듣고 끝낼게. 4x - 2 = 10을 어떻게 푸는지 보여줘. 연습 문제나 확인 질문은 붙이지 마.",
+      "expected": "Provide requested explanation and stop without forced exercise; do not certify independent mastery.",
+      "output": "방정식 **\\(4x - 2 = 10\\)**을 풀어볼게요. 핵심은 **양쪽에 같은 연산을 해서 등식을 유지하면서 \\(x\\)만 남기는 것**이에요.\n\n**1. 양쪽에 2를 더합니다.**  \n왼쪽의 \\(-2\\)를 없애기 위해서예요.\n\n\\[\n4x - 2 + 2 = 10 + 2\n\\]\n\\[\n4x = 12\n\\]\n\n**2. 양쪽을 4로 나눕니다.**  \n\\(4x\\)는 \\(4 \\times x\\)이므로, \\(x\\)만 남기려면 4로 나누면 돼요.\n\n\\[\n\\frac{4x}{4} = \\frac{12}{4}\n\\]\n\\[\n\\boxed{x = 3}\n\\]\n\n오늘은 이렇게 **풀이 시범을 본 것**으로 마무리할게요.",
+      "judgment": "pass",
+      "evidence": "시범으로 표시한 풀이만 제공하고 추가 문항을 붙이지 않음."
+    },
+    {
+      "id": "role-switch",
+      "input": "지금까지 통계 퀴즈를 하다가 메모 정리로 바꿀게. 내 메모는 이게 전부야: 평균은 합을 개수로 나눈다. 중앙값은 정렬한 값의 가운데다. 개요만 만들어 줘.",
+      "expected": "Switch immediately to requested clerk preparation and organize only supplied notes; no repeat onboarding or unfinished quiz pressure.",
+      "output": "## 통계 메모 개요\n\n### 1. 평균\n- 정의: 합을 개수로 나눈다.\n\n### 2. 중앙값\n- 정의: 정렬한 값의 가운데다.\n- 미확인 항목: 값의 개수가 짝수일 때의 처리 방법.",
+      "judgment": "pass",
+      "evidence": "퀴즈를 중단하고 요청한 개요 작성으로 전환; 짝수 처리는 답이 아닌 미확인 항목으로 분리."
+    },
+    {
+      "id": "binary-hint",
+      "input": "2는 소수인가요? 먼저 생각은 해 봤지만 모르겠어요. 답은 말하지 말고 힌트만 주세요.",
+      "expected": "Do not disclose yes/no or enumerate all divisors of 2 as a disguised answer; offer a prerequisite concept or unrelated example leaving meaningful learner judgment.",
+      "output": "소수는 **1보다 큰 자연수 중, 약수가 정확히 두 개인 수**예요.\n\n2를 나누었을 때 나머지가 0이 되는 자연수들을 찾아볼까요?",
+      "judgment": "pass",
+      "evidence": "소수의 선행 정의와 약수 찾기를 제시하되 2의 약수 목록과 yes/no 정답은 보류."
+    },
+    {
+      "id": "recurring-errors",
+      "input": "오류 진단자로 봐 줘. 두 기록이 있어: 1/2 + 1/5 = 2/7이라고 했고, 2/3 + 1/4 = 3/7이라고 했어. 두 번 다 분자는 더하고 분모도 더했어. 원인을 확인하고 싶어.",
+      "expected": "Compare the two actual patterns, label misconception hypothesis provisionally and use one diagnostic/new task rather than personal diagnosis or wholesale answer dump.",
+      "output": "두 기록에서 **분자끼리 더하고 분모끼리 더하는 같은 방식**이 반복됐어.\n- 첫 기록: 분자 \\(1+1\\), 분모 \\(2+5\\)\n- 둘째 기록: 분자 \\(2+1\\), 분모 \\(3+4\\)\n\n분수 덧셈에서 분모는 **조각의 크기를 정하는 수**라서, 분자처럼 단순히 더하면 안 돼. 다만 기록만으로는 왜 그 규칙을 썼는지 확정할 수 없어. 가능한 원인은:\n- **규칙 혼동:** 분수의 두 숫자를 각각 더한다고 생각했을 수 있어.\n- **분모의 의미 혼동:** 분모도 조각의 개수처럼 생각했을 수 있어.\n\n둘을 구별하기 위해 한 문제만 볼게.\n\n**같은 크기의 피자 한 판을 5등분한 조각이 있어. 그중 1조각과 2조각을 합치면 피자 몇 판만큼일까?**  \n분수로 답하고, 그 답에서 **분모가 왜 그 숫자인지** 네 말로 설명해 줘.",
+      "judgment": "pass",
+      "evidence": "두 실제 풀이의 분자·분모 덧셈 패턴을 비교하고 원인을 가설로 구분, 피자 조각 진단 문제 하나로 확인."
+    },
+    {
+      "id": "source-comparison",
+      "input": "검토해 줘. 문제 원문은 \"배송 지연률 = 지연된 주문 수 / 전체 주문 수\"라고 정의해. 내 설명은 \"지연률은 정상 배송 수를 지연된 주문 수로 나눈 값\"이야. 여기 제공한 원문과의 일치만 확인하고 웹 검증은 하지 마.",
+      "expected": "Identify numerator/denominator mismatch with given definition; explicitly bounded source comparison, no web/tool claim and learner self-correction.",
+      "output": "제공한 원문과 비교하면, **설명이 일치하지 않습니다.** 웹 검증은 하지 않았습니다.\n\n- **원문:** 지연된 주문 수 ÷ 전체 주문 수\n- **내 설명:** 정상 배송 수 ÷ 지연된 주문 수\n\n분자와 분모가 모두 원문과 다릅니다. 원문에 맞추려면 **분자는 ‘지연된 주문 수’, 분모는 ‘전체 주문 수’**여야 합니다.\n\n이 기준으로 설명을 한 문장으로 다시 써 보세요.",
+      "judgment": "pass",
+      "evidence": "제공 정의와 학습자 설명의 분자·분모 충돌을 지적하고 웹 검증과 분리한 뒤 학습자의 재서술 요청."
+    }
+  ],
+  "installer": {
+    "cli": "skills@1.7.0",
+    "node_requirement": ">=22.20.0",
+    "scope": "isolated temporary project, not global or user installation",
+    "discovery": "Found 1 skill: teach-skill",
+    "targets": [
+      "codex",
+      "claude-code"
+    ],
+    "method": "--copy --yes",
+    "file_equality": "3 source files identical across both installed targets",
+    "remote": "not published, not tested"
+  },
+  "installed_host_smoke": {
+    "host": "Codex v0.160.0",
+    "model": "gpt-6.1-sol",
+    "sandbox": "read-only",
+    "invocation": "explicit teach-skill name",
+    "observed_reads": [
+      "SKILL.md",
+      "references/roles.md Explainer section"
+    ],
+    "learner_request": "5x + 4 = 19에서 5x = 15까지 했어. 답은 쓰지 말고 힌트 하나만 줘.",
+    "response": "`5x`는 `x` 5개를 합친 값이에요. `x` 한 개의 값을 알려면 어떻게 해야 할까요?",
+    "judgment": "pass",
+    "limits": "One explicitly named learning invocation. No implicit-trigger or Claude runtime claim."
+  }
+}

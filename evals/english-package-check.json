@@ -1,0 +1,49 @@
+{
+  "package_sha256": {
+    "SKILL.md": "227a8ab1a0d00c74e8a936baf9dd020cca3f516b7e118b8310975ad7111c48f3",
+    "references/roles.md": "0b93c905b01a130e0157cf8660a522730fc2b7e25f81593cc727690006fe5cd8",
+    "references/sources.md": "7eedf2d4d394b52d60be258427908aef595abacf7cbebd9a3cf3e02045fa79e8"
+  },
+  "checks": {
+    "frontmatter": "pass",
+    "package_language": "English",
+    "local_links": "pass",
+    "installed_resources": [
+      ".agents/skills/teach-skill/SKILL.md",
+      ".agents/skills/teach-skill/references/roles.md",
+      ".agents/skills/teach-skill/references/sources.md",
+      ".claude/skills/teach-skill/SKILL.md",
+      ".claude/skills/teach-skill/references/roles.md",
+      ".claude/skills/teach-skill/references/sources.md"
+    ]
+  },
+  "installer": "npx --yes skills@1.7.0 add <local checkout> --skill teach-skill --agent codex claude-code --copy --yes",
+  "installer_output": {
+    "text": "\n│\n●   claude  Agent detected — installing non-interactively\n│\n◇  Source: <local checkout>\n│\n◇  Local path validated\n│\n◇  Found 1 skill\n│\n●  Selected 1 skill: teach-skill\n\n│\n◇  Installation Summary ─────────╮\n│                                │\n│  ./.agents/skills/teach-skill  │\n│    copy → Codex, Claude Code   │\n│                                │\n├────────────────────────────────╯\n│\n◇  Installation complete\n\n│\n◇  Installed 1 skill ────────────────╮\n│                                    │\n│  ✓ teach-skill (copied)            │\n│    → ./.agents/skills/teach-skill  │\n│    → ./.claude/skills/teach-skill  │\n│                                    │\n├────────────────────────────────────╯\n\n│\n└  Done!  Review skills before use; they run with full agent permissions.\n\n\n\nWall time: 1.32 seconds",
+    "details": {
+      "timeoutSeconds": 180,
+      "wallTimeMs": 1315.7024579998106
+    }
+  },
+  "scope": "Isolated project-local copied installation; source/resource identity verified. Remote/global/automatic host selection not implied.",
+  "listing_output": "Project Skills\n\nteach-skill ./.agents/skills/teach-skill\n  Agents: Claude Code, Codex  Source: <local checkout>\n\n\n\nWall time: 0.39 seconds",
+  "codex_host_smoke": {
+    "host": "OpenAI Codex v0.160.0",
+    "model": "gpt-6.1-sol",
+    "provider": "openai",
+    "sandbox": "read-only",
+    "user_config": "ignored",
+    "mode": "ephemeral explicit invocation",
+    "loaded_files": [
+      ".agents/skills/teach-skill/SKILL.md",
+      ".agents/skills/teach-skill/references/roles.md (Explainer section)"
+    ],
+    "input": "teach-skill로 연습하자. 6x + 2 = 26에서 막혔어. 전체 답은 말하지 말고 다음 단계 힌트 하나만 줘. 설치된 SKILL.md와 Explainer 참조 규칙을 사용해.",
+    "output": "`6x`만 남기려면 왼쪽의 `+ 2`를 없애야 해요. 양쪽에 똑같이 어떤 계산을 하면 될까요?",
+    "judgment": {
+      "B1": "pass",
+      "B3": "pass"
+    },
+    "evidence": "Observed actual Codex process output; loaded own entrypoint and Explainer reference; no full solution. Temporary workdir omitted from public record."
+  }
+}

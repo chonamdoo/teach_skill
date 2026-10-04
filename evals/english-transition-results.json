@@ -1,0 +1,121 @@
+{
+  "rubric": "rubric-v1",
+  "host": "omp completion",
+  "model_selector": "default",
+  "concrete_model": "not exposed by completion API",
+  "tools": "none",
+  "package_sha256": {
+    "SKILL.md": "227a8ab1a0d00c74e8a936baf9dd020cca3f516b7e118b8310975ad7111c48f3",
+    "references/roles.md": "0b93c905b01a130e0157cf8660a522730fc2b7e25f81593cc727690006fe5cd8",
+    "references/sources.md": "7eedf2d4d394b52d60be258427908aef595abacf7cbebd9a3cf3e02045fa79e8"
+  },
+  "learner": "Synthetic scripted learner; actual tutor outputs replayed across all six turns",
+  "transcript": [
+    {
+      "role": "user",
+      "content": "teach-skill로 방정식 연습 중이야. 4a + 3 = 19에서 3을 없애는 단계가 막혔어. 힌트 하나만 줘. 답은 주지 마."
+    },
+    {
+      "role": "assistant",
+      "content": "등식의 양쪽에 같은 연산을 해야 균형이 유지돼. 왼쪽의 **+3을 없애려면 양쪽에 어떤 연산**을 하면 될까?"
+    },
+    {
+      "role": "user",
+      "content": "말해준 도움을 써서 양쪽에서 3을 빼니 4a = 16이고, 양쪽을 4로 나눠 a = 4야. 내 풀이를 검토해 줘. 아직 도움 없이 푼 것은 아니야."
+    },
+    {
+      "role": "assistant",
+      "content": "풀이가 정확해.\n\n- **양쪽에서 3을 빼기:** \\(4a + 3 = 19 \\rightarrow 4a = 16\\)\n- **양쪽을 4로 나누기:** \\(4a = 16 \\rightarrow a = 4\\)\n\n두 단계 모두 등식의 양쪽에 같은 연산을 적용했으므로 등식이 유지돼. 수정할 부분은 없어.\n\n이번 풀이는 **‘힌트 사용 후 정확히 해결’**로 기록할게. 네 말대로 아직 도움 없이 푼 것으로 보지는 않을게.\n\n이제 도움 없이 확인해 보자. **\\(5b + 2 = 22\\)**를 풀고, 각 단계에서 양쪽에 어떤 연산을 했는지 설명해 줘."
+    },
+    {
+      "role": "user",
+      "content": "네가 다음 확인 문제를 제시했더라도 그 문제는 아직 안 풀었어. 대신 내가 다른 문제 12b = 48을 도움 없이 풀었어. 양쪽을 12로 나눠 b = 4라고 구했어. 이 수행은 앞선 힌트 풀이와 구분해 줘."
+    },
+    {
+      "role": "assistant",
+      "content": "맞아. **네가 실제로 푼 문제와 도움 여부를 각각 구분해야 해.**\n\n이번 풀이 \\(12b = 48\\)에서 양쪽을 12로 나눠 \\(b = 4\\)를 구한 것은 정확해. 양쪽에 같은 연산을 적용했고, 계산도 맞아.\n\n| 문제 | 실제 수행 | 도움 여부 |\n|---|---|---|\n| \\(4a + 3 = 19\\) | 정확히 해결 | **힌트 사용** |\n| \\(5b + 2 = 22\\) | 아직 풀지 않음 | **미평가** |\n| \\(12b = 48\\) | 정확히 해결 | **도움 없이 해결** |\n\n이번 수행으로는 **계수가 곱해진 방정식에서 양쪽을 그 계수로 나누는 단계**를 도움 없이 정확히 적용했다는 점이 확인돼. 다만 **덧셈 항을 없앤 뒤 나누는 두 단계 풀이**를 도움 없이 할 수 있는지는 아직 확인되지 않았어."
+    },
+    {
+      "role": "user",
+      "content": "역할을 정리 담당으로 바꿀게. 오늘 나온 문제들의 수행 기록을 체크포인트로 만들어 줘. 어떤 문제에 도움을 썼고 어떤 문제는 도움 없이 풀었으며 무엇은 아직 미확인인지 구분해 줘. 새 문제는 내지 마."
+    },
+    {
+      "role": "assistant",
+      "content": "## 학습 체크포인트\n\n**목표:** 방정식을 풀 때 등식의 양쪽에 같은 연산을 적용하기.\n\n### 문제별 수행 기록\n\n| 문제 | 실제 수행 | 도움 여부·평가 상태 |\n|---|---|---|\n| \\(4a + 3 = 19\\) | 양쪽에서 3을 빼 \\(4a = 16\\), 양쪽을 4로 나눠 \\(a = 4\\). 풀이와 계산 모두 정확함. | **힌트 사용 후 해결**. 도움 없이 푼 수행과 구분함. |\n| \\(5b + 2 = 22\\) | 확인 문제로 제시되었으나 아직 풀지 않음. | **미평가**. 제시된 것만으로 수행했다고 기록하지 않음. |\n| \\(12b = 48\\) | 양쪽을 12로 나눠 \\(b = 4\\). 풀이와 계산 모두 정확함. | **도움 없이 해결**. 앞선 힌트 풀이와 별개의 수행임. |\n\n### 확인된 범위\n- \\(12b = 48\\)에서 **양쪽을 계수로 나누는 한 단계 풀이**를 도움 없이 정확히 수행함.\n- \\(4a + 3 = 19\\)에서 **덧셈 항을 없앤 뒤 계수로 나누는 두 단계 풀이**를 힌트 사용 후 정확히 수행함.\n\n### 아직 미확인인 점\n- 덧셈 항을 없애는 단계를 **도움 없이** 수행할 수 있는지.\n- 덧셈 항 제거와 나눗셈을 연결한 **두 단계 풀이 전체를 도움 없이** 수행할 수 있는지.\n- 한 번의 도움 없는 정답만으로 다른 문제에서도 안정적으로 수행한다고 판단하지 않음.\n\n**관찰된 오류:** 제출한 두 풀이에는 오류 없음.  \n**재개 지점:** 다음 연습 시 두 단계 풀이의 도움 없는 수행 여부 확인. 이번에는 새 문제를 제시하지 않음."
+    },
+    {
+      "role": "user",
+      "content": "이제 수학은 그만하고 프랑스어 인사말 연습으로 목표를 바꿀게. bonjour와 merci는 공부했어. 한 문제씩 시험해 줘. 앞선 수학 기록을 프랑스어 숙련도 근거로 쓰지는 마."
+    },
+    {
+      "role": "assistant",
+      "content": "좋아. 수학 기록은 프랑스어 숙련도 판단에 사용하지 않을게. 공부한 **bonjour와 merci**를 한 문제씩 확인하자.\n\n**문제 1:** 낮에 사람을 만났을 때 “안녕하세요”라고 인사하려면 프랑스어로 무엇이라고 할까? 표현과 그 표현을 고른 이유를 적어 줘."
+    },
+    {
+      "role": "user",
+      "content": "오늘은 여기서 끝낼게. 더 묻지 말고 짧게 마쳐 줘."
+    },
+    {
+      "role": "assistant",
+      "content": "오늘은 여기서 마칠게. 프랑스어 확인 문제에는 아직 답하지 않았으므로 **프랑스어 수행은 미평가**야. 다음에 원하면 bonjour와 merci 복습부터 이어가자. 수고했어!"
+    }
+  ],
+  "judgments": [
+    {
+      "turn": 1,
+      "criteria": [
+        "B1",
+        "B3"
+      ],
+      "status": "pass",
+      "evidence": "One balancing-operation hint; no a value."
+    },
+    {
+      "turn": 2,
+      "criteria": [
+        "B2",
+        "B5"
+      ],
+      "status": "pass",
+      "evidence": "Correct submitted a=4 accepted as hint-assisted; distinct 5b+2=22 check offered without answer."
+    },
+    {
+      "turn": 3,
+      "criteria": [
+        "B2",
+        "B5"
+      ],
+      "status": "pass",
+      "evidence": "Separates assisted 4a task, unattempted 5b task and unaided 12b task; bounds assessed one-step versus unassessed two-step skill."
+    },
+    {
+      "turn": 4,
+      "criteria": [
+        "B3",
+        "B5",
+        "B6",
+        "B8"
+      ],
+      "status": "pass",
+      "evidence": "Requested checkpoint preserves all three task-specific states and explicitly gives no new task."
+    },
+    {
+      "turn": 5,
+      "criteria": [
+        "B1",
+        "B3",
+        "B5"
+      ],
+      "status": "pass",
+      "evidence": "Goal moves to French, algebra not used as French evidence; one unanswered greeting check."
+    },
+    {
+      "turn": 6,
+      "criteria": [
+        "B6"
+      ],
+      "status": "pass",
+      "evidence": "Stops without another question or task."
+    }
+  ]
+}
