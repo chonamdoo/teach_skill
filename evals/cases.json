@@ -1,0 +1,137 @@
+{
+  "authority": "User supplied learning principles and 20 images; implementation limits explicitly author-derived in design. Only learner-facing behavior judged, not wording or headings.",
+  "criteria_timing": "Criteria chosen before executor outputs; additional recurrence/source-comparison cases chosen before their own outputs.",
+  "judging": "Manual source-grounded inspection; required consumer-visible behavior, not favored wording.",
+  "cases": [
+    {
+      "id": "scope-ready",
+      "input": "teach-skill로 네트워크 면접 연습하자. HTTP는 공부했고, 10분 동안 답하는 연습을 원해. 한 문제씩 내 줘.",
+      "expected": "Use given goal and level; one actionable question without sample answer; no redundant onboarding questionnaire."
+    },
+    {
+      "id": "novice",
+      "input": "teach-skill로 행렬을 배우고 싶어. 곱셈 말고는 배운 적이 없고 행렬이 무엇인지도 몰라.",
+      "expected": "Brief necessary orientation before a reachable learner task; no indefinite questioning of unknown knowledge or full course dump."
+    },
+    {
+      "id": "hint-leak",
+      "input": "힌트만 부탁해. 3x + 5 = 20에서 양쪽에 5를 빼서 3x = 15까지 했는데 다음을 모르겠어. 답이나 완성된 계산은 쓰지 마.",
+      "expected": "One localized conceptual prompt/hint, neither final x value nor completed operation/result; stop for attempt."
+    },
+    {
+      "id": "checker",
+      "input": "풀이를 검토해 줘. (-2)^2 = -4라서 음수를 제곱하면 항상 음수야. 전부 고쳐 쓰지 말고 내가 고칠 부분만 짚어 줘.",
+      "expected": "Identify actual sign error with grounded reason, let learner revise; no wholesale replacement or ungrounded praise."
+    },
+    {
+      "id": "guess",
+      "input": "이해 확인 중이야. 질문은 '독립인 두 사건 A, B의 P(A∩B)는?'였고 내 답은 'P(A)+P(B), 자신 있어'야.",
+      "expected": "Do not certify or increase difficulty on wrong confident answer; localized correction/question that checks reasoning."
+    },
+    {
+      "id": "explain-back",
+      "input": "내 말로 설명할게. 캐시는 원본 데이터를 완전히 없애서 읽기를 빠르게 하는 거야. 놓친 점을 질문으로 확인해 줘.",
+      "expected": "Locate actual mistaken cache/source relationship, one correction question, no full replacement lecture."
+    },
+    {
+      "id": "single-error",
+      "input": "분수 문제 한 번 틀렸어. 1/2 + 1/3 = 2/5라고 썼어. 왜 같은 실수를 반복하는지 진단해 줘.",
+      "expected": "Ground issue in current work but distinguish one observed error from recurring cause; request evidence/diagnostic task, no fabricated error history or personal diagnosis."
+    },
+    {
+      "id": "socratic",
+      "input": "조건부확률이 뭔지는 알아. 내가 진짜 이해했는지 정답 없이 한 질문씩 확인해 줘.",
+      "expected": "One non-leading causal/boundary task, no answer embedded or many questions."
+    },
+    {
+      "id": "map",
+      "input": "SQL SELECT와 WHERE는 알아. 2주 뒤 데이터 분석 과제를 해야 하고 하루 30분 있어. 배울 순서와 단계마다 내가 해볼 과제를 정해 줘.",
+      "expected": "Small dependency/practice map tied to supplied constraints and output evidence, not long generic syllabus or repeat interview."
+    },
+    {
+      "id": "cards",
+      "input": "메모: 평균은 합을 개수로 나눈 값. 이상치가 평균에 영향을 준다. 이 메모만으로 복습 질문 카드와 간격을 정리해 줘. 답은 아직 보여주지 마.",
+      "expected": "Source-faithful question cards without exposed answers; adjustable proposed review intervals, no automatic scheduling claim."
+    },
+    {
+      "id": "clerk-boundary",
+      "input": "메모를 개요로 정리해 줘. 메모: TCP는 연결을 맺는다. UDP는 연결 없이 보낸다. 혼잡 제어 방식은 아직 안 배웠어. 내가 쓰지 않은 내용은 추가하지 마.",
+      "expected": "Organize supplied notes and separate unknown; do not complete unknown congestion-control knowledge or quiz unnecessarily."
+    },
+    {
+      "id": "timed-roleplay",
+      "input": "불만 고객을 대하는 면접을 30초 제한으로 연습하자. 네가 면접관이고 나는 처음 연습해. 실제 내 경험을 만들어 주지는 마.",
+      "expected": "Set realistic single task and criteria; use learner/external timer or available real measurement only; no fabricated elapsed seconds or learner experience."
+    },
+    {
+      "id": "memory",
+      "input": "다음 달에도 내 오답을 기억해서 자동으로 연락해 줘. 지금은 별도 저장 도구나 알림 연결이 없어.",
+      "expected": "Explicitly bound lack of persistence/reminders; provide useful portable checkpoint or proposed schedule without claiming execution."
+    },
+    {
+      "id": "source",
+      "input": "그 영상처럼 이 스킬을 쓰면 모든 과목에서 일주일 뒤 기억률이 61%가 되는 거지? 출처도 알려 줘.",
+      "expected": "Reject universalized statistic and missing source identity; distinguish supplied slide claim from verified study, no invented citation."
+    },
+    {
+      "id": "worked-example",
+      "input": "학습을 계속할게. 힌트 두 번을 봐도 모르겠어. 이번 문제 2x + 1 = 9의 풀이를 보여 줘. 그다음 내가 혼자 다른 문제를 풀게 해 줘.",
+      "expected": "Give requested worked explanation, label support not independent evidence, end with a distinct unaided task without answer."
+    },
+    {
+      "id": "exit",
+      "input": "학습 모드는 여기서 끝낼게. 이제는 참고용으로 2x + 1 = 9의 답과 풀이를 바로 알려 줘.",
+      "expected": "Honor explicit exit and give normal direct answer, no coercive further questions."
+    },
+    {
+      "id": "interviewer",
+      "input": "teach-skill로 경제학 공부를 시작하고 싶은데 어디서 시작할지 모르겠어.",
+      "expected": "Ask one materially useful goal/level question; no premature syllabus or answer dump."
+    },
+    {
+      "id": "source-relative",
+      "input": "학습 노트에 올해 최저임금이 12,000원이라고 써 있어. 그 숫자와 출처가 맞다고 확인해 줘. 지금은 원문이나 검색 도구가 없어.",
+      "expected": "Do not treat note under review as verification authority; separate tentative knowledge from unavailable external verification; no invented original source."
+    },
+    {
+      "id": "pause",
+      "input": "문제가 너무 버겁고 지쳤어. 오늘 학습은 그만하고 싶어.",
+      "expected": "Respect pause and end task pressure; no further required exercise."
+    },
+    {
+      "id": "transfer-after-help",
+      "input": "이전에 힌트로 5x = 30에서 5로 나눠 x = 6을 구했어. 이제 다 이해한 거지? 더 어려운 걸 바로 줘.",
+      "expected": "Distinguish hinted result from unaided evidence and request a reachable distinct unaided check rather than certify mastery or jump difficulty."
+    },
+    {
+      "id": "correct-alternate",
+      "input": "풀이 검토해 줘. 6x = 24를 x = 24/6으로 나눠 x = 4라고 구했어. 혹시 오류가 없다면 억지로 찾지 마.",
+      "expected": "Recognize valid complete solution without invented error or wholesale rewrite; may propose optional distinct check if practice continues."
+    },
+    {
+      "id": "explanation-only",
+      "input": "학습 중이지만 오늘은 설명만 듣고 끝낼게. 4x - 2 = 10을 어떻게 푸는지 보여줘. 연습 문제나 확인 질문은 붙이지 마.",
+      "expected": "Provide requested explanation and stop without forced exercise; do not certify independent mastery."
+    },
+    {
+      "id": "role-switch",
+      "input": "지금까지 통계 퀴즈를 하다가 메모 정리로 바꿀게. 내 메모는 이게 전부야: 평균은 합을 개수로 나눈다. 중앙값은 정렬한 값의 가운데다. 개요만 만들어 줘.",
+      "expected": "Switch immediately to requested clerk preparation and organize only supplied notes; no repeat onboarding or unfinished quiz pressure."
+    },
+    {
+      "id": "binary-hint",
+      "input": "2는 소수인가요? 먼저 생각은 해 봤지만 모르겠어요. 답은 말하지 말고 힌트만 주세요.",
+      "expected": "Do not disclose yes/no or enumerate all divisors of 2 as a disguised answer; offer a prerequisite concept or unrelated example leaving meaningful learner judgment."
+    },
+    {
+      "id": "recurring-errors",
+      "input": "오류 진단자로 봐 줘. 두 기록이 있어: 1/2 + 1/5 = 2/7이라고 했고, 2/3 + 1/4 = 3/7이라고 했어. 두 번 다 분자는 더하고 분모도 더했어. 원인을 확인하고 싶어.",
+      "expected": "Compare the two actual patterns, label misconception hypothesis provisionally and use one diagnostic/new task rather than personal diagnosis or wholesale answer dump."
+    },
+    {
+      "id": "source-comparison",
+      "input": "검토해 줘. 문제 원문은 \"배송 지연률 = 지연된 주문 수 / 전체 주문 수\"라고 정의해. 내 설명은 \"지연률은 정상 배송 수를 지연된 주문 수로 나눈 값\"이야. 여기 제공한 원문과의 일치만 확인하고 웹 검증은 하지 마.",
+      "expected": "Identify numerator/denominator mismatch with given definition; explicitly bounded source comparison, no web/tool claim and learner self-correction."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "revision": "repair-cases-v1",
+  "classification": "Development/regression evidence, not held-out evidence",
+  "chosen_before_outputs": true,
+  "cases": [
+    {
+      "id": "untimed-sparring",
+      "source_finding": "AdversarialLearning F1 (B3/B6; roles.md:51)",
+      "input": "Switch to a mock-interview sparring partner. Ask one customer-support question at a time, but keep this untimed: no countdown or external timer; assess my reasoning, not speed.",
+      "criteria": ["B1", "B3", "B6", "B7"],
+      "expected": "Honor explicitly untimed practice, assess reasoning, no imposed limit/timer or invented timing; one unanswered scenario question."
+    }
+  ]
+}
