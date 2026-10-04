@@ -1,24 +1,26 @@
 # teach-skill
 
-AI에게 공부를 대신 맡기지 않고, 직접 생각하고 풀고 설명하는 연습을 돕는 에이전트 스킬입니다. AI는 질문을 만들고, 막힌 부분의 힌트를 주고, 내가 낸 답을 검토합니다. 답을 읽었다는 이유만으로 이해했다고 판정하지 않습니다.
+English | [한국어](README.ko.md)
 
-학습 계획, 개념 이해 확인, 코딩·수학 문제 풀이, 면접·발표 연습, 복습 카드와 학습 메모 정리에 사용할 수 있습니다. 별도 학습 앱이나 자동 알림 서비스는 아닙니다.
+An agent skill that helps you practice thinking, solving, and explaining on your own instead of handing your studying to an AI. The AI writes questions, gives hints for the step where you are stuck, and reviews the answers you submit. Reading an answer does not count as understanding it.
 
-스킬 지침과 참조 문서는 영어입니다. 학습 대화는 사용자의 언어로 진행합니다.
+Use it for study plans, understanding checks, coding and math problems, interview and presentation practice, review cards, and study notes. It is not a separate learning app or a reminder service.
 
-## 설치
+The skill instructions are in English. Learning conversations follow the learner's language.
 
-Node.js와 `npx`, 스킬을 읽을 수 있는 에이전트가 필요합니다. 아래 명령은 [Vercel의 skills CLI](https://github.com/vercel-labs/skills)를 사용합니다. 검증에 사용한 `skills@1.7.0`의 Node.js 요구 사항은 `>=22.20.0`입니다.
+## Installation
 
-### GitHub에서 설치
+You need Node.js, `npx`, and an agent that can read skills. The commands below use the [Vercel skills CLI](https://github.com/vercel-labs/skills). `skills@1.7.0`, the version used for verification, requires Node.js `>=22.20.0`.
+
+### Install from GitHub
 
 ```bash
 npx skills add chonamdoo/teach_skill --skill teach-skill
 ```
 
-대화형 안내에서 사용할 에이전트와 설치 방식을 선택합니다. 기본 설치 범위는 현재 프로젝트입니다.
+The interactive prompts ask which agents to install for and which install method to use. The default scope is the current project.
 
-특정 에이전트에 프로젝트 단위로 설치하려면:
+To install for a specific agent in the current project:
 
 ```bash
 # Codex
@@ -28,112 +30,117 @@ npx skills add chonamdoo/teach_skill --skill teach-skill --agent codex
 npx skills add chonamdoo/teach_skill --skill teach-skill --agent claude-code
 ```
 
-여러 프로젝트에서 사용하려면 `--global`을 추가합니다.
+To use the skill across projects, add `--global`:
 
 ```bash
 npx skills add chonamdoo/teach_skill --skill teach-skill --agent codex --global
 ```
 
-### 로컬 파일에서 설치
+### Install from a local checkout
 
-이 저장소의 루트에서 실행합니다. GitHub에 게시하기 전에도 사용할 수 있습니다.
+Run this from the root of this repository. It works without publishing to GitHub.
 
 ```bash
 npx skills add . --skill teach-skill --agent codex
 ```
 
-다른 프로젝트에 설치할 때는 `.` 대신 이 저장소의 실제 경로를 입력하고, 대상 프로젝트에서 명령을 실행하세요. Claude Code를 쓰면 `--agent claude-code`로 바꿉니다.
+To install into another project, run the command in that project and replace `.` with the path to this repository. For Claude Code, use `--agent claude-code`.
 
-### 설치 확인과 제거
+### Check and remove the installation
 
 ```bash
-# 설치하지 않고 저장소에서 스킬을 찾기
+# List the skills in this repository without installing
 npx skills add . --list
 
-# 현재 프로젝트에 설치된 Codex 스킬 확인
+# List Codex skills installed in the current project
 npx skills list --agent codex
 
-# 전역 설치를 확인할 때
+# List global installations
 npx skills list --agent codex --global
 
-# 현재 프로젝트에서 제거
+# Remove from the current project
 npx skills remove teach-skill --agent codex
 ```
 
-목록에 `teach-skill`이 나타나는지 확인하세요. 설치와 에이전트의 자동 선택은 별개입니다. 새 대화에서 스킬 이름과 학습 목표를 함께 요청해 실제 응답을 확인하세요. 목록에 없다면 명령을 실행한 프로젝트와 `--global` 사용 여부를 확인합니다. 원격 저장소에서 스킬을 찾지 못하면 게시 여부를 확인하거나 로컬 설치 경로를 사용합니다.
+`teach-skill` should appear in the list. Installing the skill does not mean the agent will pick it automatically. Start a new conversation, name the skill together with your learning goal, and check the actual response. If the skill is missing from the list, check which project you ran the command in and whether you used `--global`. If the CLI cannot find the skill on GitHub, check that the repository is published, or install from a local checkout.
 
-## 시작하기
+## Getting started
 
-설치한 에이전트에 다음처럼 요청합니다.
+Ask your agent something like this:
 
 ```text
-teach-skill로 SQL을 공부하자.
-SELECT와 WHERE는 알고, 2주 뒤 데이터 분석 과제를 해야 해.
-하루 30분씩 쓸 수 있어. 배울 순서를 정하고 한 문제씩 연습하게 해 줘.
+Let's study SQL with teach-skill.
+I know SELECT and WHERE, and I have a data analysis assignment in two weeks.
+I can spend 30 minutes a day. Plan the order to learn things in and give me one problem at a time.
 ```
 
-목표나 수준이 불명확하면 필요한 질문 하나부터 시작합니다. 이미 목표·풀이를 제공했다면 같은 질문을 다시 묻지 않고 다음 행동으로 넘어갑니다.
+If your goal or level is unclear, the skill starts with the one question it needs. If you have already given your goal or your work, it moves on instead of asking again.
 
-대화는 보통 다음 순서로 진행합니다.
+A typical exchange goes like this:
 
-1. AI가 질문이나 과제 하나를 냅니다.
-2. 내가 먼저 답하거나 풀어 봅니다.
-3. AI가 실제 답을 바탕으로 피드백하거나 막힌 부분만 돕습니다.
-4. 내가 수정하고, 다른 조건의 작은 문제를 도움 없이 확인합니다.
+1. The AI gives you one question or task.
+2. You answer or attempt it first.
+3. The AI gives feedback on your actual answer, or helps only with the step where you are stuck.
+4. You revise, then check yourself on a small problem with different conditions, without help.
 
-처음 배우는 개념은 필요한 기초 설명부터 받을 수 있습니다. 설명만 듣거나 쉬고 싶을 때도 그 요청을 따릅니다. 힌트나 풀이를 본 상태는 도움 없이 해낸 상태와 구분합니다.
+For a concept you have never learned, you can get the necessary basics first. The skill also follows requests to explain only or to take a break. It keeps work done after seeing a hint or a solution separate from work done without help.
 
-## 상황에 맞는 10가지 역할
+## Ten roles
 
-역할을 직접 지정해도 되고, 현재 상황을 말하면 스킬이 선택하게 해도 됩니다.
+Name a role directly, or describe your situation and let the skill choose.
 
-| 역할 | 사용할 때 | 요청 예시 |
+| Role | When to use it | Example request |
 | --- | --- | --- |
-| 목표 인터뷰어 | 목표와 수준이 막연할 때 | 가르치기 전에 내 목표와 수준을 한 질문씩 확인해 줘. |
-| 학습 지도 제작자 | 배울 순서가 필요할 때 | 내가 아는 것에서 목표까지 필요한 개념과 연습 과제를 연결해 줘. |
-| 설명자 | 직접 풀다가 막혔을 때 | 이 단계에서 막혔어. 답 대신 이 부분의 힌트만 줘. |
-| 질문자 | 이해했는지 확인할 때 | 이유나 반례를 한 질문씩 물어봐 줘. |
-| 평가자 | 공부한 내용을 시험할 때 | 한 문제씩 내고, 답과 이유가 타당하면 난도를 올려 줘. |
-| 검토자 | 풀이·요약·코드를 만들었을 때 | 실제 오류나 빠진 부분만 짚어 줘. 전체를 다시 쓰지는 마. |
-| 설명을 듣는 역할 | 내 말로 설명해 볼 때 | 내 설명에서 잘못 연결하거나 빠뜨린 개념을 확인해 줘. |
-| 오류 진단자 | 같은 실수가 반복될 때 | 이 오답들과 풀이에서 공통 원인 후보를 찾아 확인 문제를 내 줘. |
-| 훈련 상대 | 면접·발표·업무 대응을 연습할 때 | 면접관처럼 질문해 줘. 30초 제한은 내가 타이머로 측정할게. |
-| 정리 담당 | 메모·카드·일정을 정리할 때 | 이 메모만 개요와 복습 질문으로 정리해 줘. 새 사실은 넣지 마. |
+| Interviewer | Your goal or level is vague | Before teaching me, check my goal and level one question at a time. |
+| Mapmaker | You need an order of study | Connect the concepts and practice tasks I need, from what I know to my goal. |
+| Explainer | You are stuck while solving | I'm stuck at this step. Give me a hint for this part, not the answer. |
+| Socratic questioner | You want to check your understanding | Ask me about reasons or counterexamples, one question at a time. |
+| Examiner | You want a test on what you studied | Give me one problem at a time, and raise the difficulty when my answer and reasoning hold up. |
+| Checker | You wrote a solution, summary, or code | Point out only real errors or gaps. Don't rewrite the whole thing. |
+| Listener | You explain a concept in your own words | Check where my explanation connects ideas wrongly or leaves a concept out. |
+| Diagnostician | You keep making the same mistake | Find possible common causes in these wrong answers and give me a problem that tells them apart. |
+| Sparring partner | You practice an interview, presentation, or work situation | Question me like an interviewer. I'll time the 30-second limit myself. |
+| Clerk | You organize notes, cards, or a schedule | Turn only these notes into an outline and review questions. Don't add new facts. |
 
-## 복습과 다음 대화
-
-```text
-오늘 틀린 문제를 새 질문 카드로 바꿔 줘.
-처음에는 질문만 보여 주고, 내가 답한 뒤 확인해 줘.
-내 수행에 맞는 복습 간격도 제안해 줘.
-```
-
-복습 간격은 조정 가능한 제안입니다. 일정표를 만든다고 알림이 등록되지는 않습니다. 새 대화에서도 이어가려면 다음처럼 기록을 요청하고 복사해 두세요.
+## Review and the next conversation
 
 ```text
-다음 대화에 붙여 넣을 체크포인트를 만들어 줘.
-목표, 실제로 확인한 내용, 도움 여부, 미확인 지점, 다음 질문을 담아 줘.
+Turn today's wrong answers into new question cards.
+Show me only the questions first, and check my answers after I respond.
+Also suggest review intervals based on how I did.
 ```
 
-## 범위와 한계
+Review intervals are adjustable suggestions. Making a schedule does not register reminders. To continue in a new conversation, ask for a record like this and copy it:
 
-- 학습 목적의 대화에 적용합니다. 일반 코드 구현이나 업무 문서 작성을 자동으로 퀴즈로 바꾸지 않습니다.
-- 내가 먼저 생각하는 것이 기본값입니다. 전체 풀이를 요청하면 시범을 받을 수 있고, 학습 모드 종료를 명시하면 일반 요청으로 전환합니다.
-- AI의 피드백이 항상 맞는 것은 아닙니다. 제공 원문과의 일치, 모델 지식에 따른 설명, 실제 외부 출처 검증을 구분합니다. 원문·검색·실행 도구 없이 확인했다고 말하지 않습니다.
-- 시간은 실제 측정하거나 사용자가 보고한 범위에서만 다룹니다. 세션을 넘어 기억하거나 자동 연락하는 기능은 없습니다.
-- 스킬은 행동 지침입니다. 에이전트의 도구 권한을 강제로 제한하는 보안 장치는 아닙니다.
-- 특정 기억률, 장기 기억 개선, 시험 합격을 보장하지 않습니다. 제공 화면의 40%·61%는 원 연구와 조건을 확인하지 못해 이 스킬의 성과로 사용하지 않았습니다.
-- 제공 화면에 나온 답변 시간 30초와 점수 7/10은 예시 값입니다. 이 스킬의 기본 시간 제한이나 채점 기준으로 쓰지 않습니다.
+```text
+Make a checkpoint I can paste into the next conversation.
+Include the goal, what was actually checked, whether I used help, what is still unchecked, and the next question.
+```
 
-## 설계와 검증 자료
+## Scope and limits
 
-- [스킬 진입점](skills/teach-skill/SKILL.md): 적용 조건과 공통 대화 규칙.
-- [역할별 규칙](skills/teach-skill/references/roles.md): 10개 역할, 복습 카드, 체크포인트.
-- [설계 근거](skills/teach-skill/references/sources.md): 제공 자료의 범위와 작성자의 설계 결정을 구분한 기록.
-- [적대적 리뷰와 검증 기록](docs/design-review.md): 실제 지적, 반영한 수정, 실행 근거와 미검증 범위.
-- [평가 항목](evals/rubric.md): 필수 행동, 적용 조건·예외, 상쇄할 수 없는 실패, 증거별 판정 방법.
-- [영어 버전 적대적 평가](docs/english-review.md): 평가 항목별 서브에이전트 검토, 수정, 실제 영어 스킬 실행 결과.
+- The skill applies to learning conversations. It does not turn ordinary coding or document writing into a quiz.
+- You think first by default. You can ask for a full worked solution, and if you explicitly leave learning mode, the request is handled as a normal one.
+- AI feedback is not always right. The skill separates agreement with material you supplied, explanations from model knowledge, and actual checks against external sources. It does not claim a check without the source, search, or execution tools to make it.
+- Time is handled only as actually measured or as you report it. The skill does not remember across sessions or contact you on its own.
+- The skill is a set of behavioral instructions. It is not a security control that restricts the agent's tool permissions.
+- It does not guarantee a retention rate, better long-term memory, or passing an exam. The 40% and 61% figures in the supplied slides are not used as this skill's results, because the original study and its conditions could not be verified.
+- The 30-second answer time and the 7/10 score in the supplied slides are example values. The skill does not use them as a default time limit or grading standard.
 
-최초 한국어 버전의 26개 입력·3턴 대화 기록은 이력으로 보존했습니다. 영어 버전은 별도로 단일 입력 24개와 실제 응답을 이어 붙인 6턴 대화를 실행했습니다. 격리된 프로젝트에서 Codex·Claude Code 대상 복사 설치와 참조 파일을 확인했고, 설치된 Codex의 명시적 호출도 실행했습니다. 모델별 반복 안정성, 스킬 없는 비교군, 사람의 학습 효과는 검증하지 않았습니다. 상세 조건과 실제 응답은 영어 버전 평가 기록에 있습니다.
+## What's in this repository
 
-이 패키지는 작성 도구인 `work-to-skill`이나 `write-for-work`를 설치하지 않아도 사용할 수 있습니다.
+| Path | Contents |
+| --- | --- |
+| [skills/teach-skill/SKILL.md](skills/teach-skill/SKILL.md) | Skill entrypoint: when the skill applies and the shared conversation rules. |
+| [skills/teach-skill/references/roles.md](skills/teach-skill/references/roles.md) | Procedures for the ten roles, review cards, and checkpoints. |
+| [skills/teach-skill/references/sources.md](skills/teach-skill/references/sources.md) | Design basis, separating what the supplied material says from the author's design decisions. |
+| [evals/rubric.md](evals/rubric.md) | Evaluation criteria: required behavior, conditions and exceptions, failures that a score cannot offset, and how each kind of evidence is judged. |
+| [evals/](evals/) | Test cases, recorded responses with per-criterion judgments, review records, and installation checks. |
+| [docs/english-review.md](docs/english-review.md) | Adversarial evaluation of the English version: per-criterion sub-agent reviews, fixes, and actual runs (in Korean). |
+| [docs/design-review.md](docs/design-review.md) | History of the first Korean version: review findings, fixes, evidence, and unverified scope (in Korean). |
+
+Only `skills/teach-skill/` is installed. `evals/` and `docs/` are evaluation records.
+
+The first Korean version's records of 26 inputs and a three-turn conversation are kept as history. The English version was run separately on 24 single inputs and a six-turn conversation built from its actual responses. In an isolated project, copied installs for Codex and Claude Code were checked together with their reference files, and the installed skill was invoked explicitly in Codex. Repeat-run stability, a no-skill baseline, and human learning outcomes were not tested. The English-version evaluation record has the detailed conditions and actual responses.
+
+You do not need the authoring tools `work-to-skill` or `write-for-work` to use this package.
