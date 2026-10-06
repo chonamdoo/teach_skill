@@ -137,6 +137,7 @@ Include the goal, what was actually checked, whether I used help, what is still 
 | [evals/rubric.md](evals/rubric.md) | Evaluation criteria: required behavior, conditions and exceptions, failures that a score cannot offset, and how each kind of evidence is judged. |
 | [evals/](evals/) | Test cases, recorded responses with per-criterion judgments, review records, and installation checks. |
 | [docs/english-review.md](docs/english-review.md) | Adversarial evaluation of the English version: per-criterion sub-agent reviews, fixes, and actual runs (in Korean). |
+| [docs/refine-2026-10-06.md](docs/refine-2026-10-06.md) | 2026-10-06 revision: assistance record kept internal and a shared difficulty rule, compared across three package versions (in Korean). |
 | [docs/claude-code-review.md](docs/claude-code-review.md) | Rubric evaluation in Claude Code: two runs per input, a paired no-skill baseline, and blinded sub-agent judging (in Korean). |
 | [docs/design-review.md](docs/design-review.md) | History of the first Korean version: review findings, fixes, evidence, and unverified scope (in Korean). |
 
