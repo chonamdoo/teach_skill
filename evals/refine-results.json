@@ -5,7 +5,8 @@
  "variants": {
   "orig": "package before this revision",
   "record": "patch exactly as proposed in the 2026-10-06 improvement record",
-  "refined": "record patch plus the three refinements in this PR (shipped)"
+  "refined": "record patch plus the three refinements in this PR",
+  "scoped": "refined plus the PR #2 review fix: difficulty rule limited to the same concept or task; a topic or goal change sets the starting level from evidence on the new topic (shipped)"
  },
  "variant_sha256": {
   "orig": {
@@ -19,12 +20,17 @@
   "refined": {
    "SKILL.md": "e532277377d0bd05ed119dd618b31e699996f2d2df48444aef7f28a11bf5158a",
    "references/roles.md": "da6f169e4567f54ac256f68f6d45ba25ac16792c670306574945d7e6988ebd64"
+  },
+  "scoped": {
+   "SKILL.md": "7280d983b70f1b1837c81163f80b54f87235c555848174c00262e7187c0950aa",
+   "references/roles.md": "da6f169e4567f54ac256f68f6d45ba25ac16792c670306574945d7e6988ebd64"
   }
  },
  "cases": {
   "targeted": "evals/refine-cases.json (5 cases x 3 variants x 3 runs)",
   "regression": "evals/english-cases.json + evals/repair-cases.json (24 cases x refined x 2 runs)",
-  "multi_turn": "evals/english-transitions.json (refined x 2 runs)"
+  "multi_turn": "evals/english-transitions.json (refined x 2 runs)",
+  "review_followup": "evals/refine-cases.json topic-switch (refined x 3, scoped x 3) plus scoped regression: examiner-unaided x 3, hinted-next x 2, copied-harder x 2, socratic-generic x 1, english-transitions x 1"
  },
  "executor": {
   "host": "Claude Code 2.1.291 headless (claude -p)",
@@ -3828,6 +3834,564 @@
     "quality": 5,
     "notes": "Optional suggestion explicitly marked non-error."
    }
+  },
+  {
+   "variant": "refined",
+   "case_id": "topic-switch",
+   "run": 1,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "6y = 42를 풀고 이유까지 설명한 건 도움 없이 한 풀이로 기록해 둘게. 이제 프랑스어 인사말로 넘어가자.\n\n**문제 1.** 아침에 빵집에 들어가서 점원에게 처음 인사하려고 해. 프랑스어로 뭐라고 말할까? 그리고 왜 그 표현을 골랐는지도 한 줄로 써 줘.",
+   "blind_label": "rev/topic-switch/R4",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One short question (what to say when first greeting the clerk, with a reason); it does not name or hint at the word."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It acknowledges the math result and switches to French greetings without carrying the math goal over."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The unaided credit is limited to the math solution, and the French level is not justified by it."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "6y = 42를 풀고 이유까지 설명한 건 도움 없이 한 풀이로 기록해 둘게."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "A single basic recall item covering only the greeting (bonjour); it does not name the candidate words."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The French level does not depend on assistance status."
+     }
+    }
+   }
+  },
+  {
+   "variant": "refined",
+   "case_id": "topic-switch",
+   "run": 2,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "수학은 도움 없이 풀었고 이유도 맞게 설명했어요. 이제 프랑스어 인사말로 넘어갈게요. 평가 범위는 bonjour와 merci예요.\n\n**문제 1**\n\n프랑스 카페에 들어가서 점원과 눈이 마주쳤어요. 잠시 후 점원이 커피를 건네줘요.\n\n1. 들어가면서 점원에게 어떤 말을 하겠어요?\n2. 커피를 받을 때는 어떤 말을 하겠어요?\n\n각 상황에서 왜 그 말을 골랐는지도 한 줄로 적어 주세요. 참고 자료는 보지 말고 기억나는 대로 답하면 돼요.",
+   "blind_label": "rev/topic-switch/R13",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One problem with two sub-prompts in a café scene plus reasons; no answer is given."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It acknowledges the math result and switches to French within the stated scope without carrying the math goal over."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It mentions the math performance only as a summary and does not use it to set the French level."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "평가 범위는 bonjour와 merci예요."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "A basic recall check of the two studied words. The scope sentence names both candidates, as the learner already did."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The French level does not depend on assistance status."
+     }
+    }
+   }
+  },
+  {
+   "variant": "refined",
+   "case_id": "topic-switch",
+   "run": 3,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "6y = 42 문제는 도움 없이 풀었고, 추론도 맞았어. 6으로 나누는 연산을 양변에 똑같이 적용했고, 그래야 등식이 유지된다는 이유까지 말했어. 이 부분은 도움 없이 푼 것으로 기록할게.\n\n이제 프랑스어 인사말이야. 공부했다고 한 bonjour와 merci 범위에서 낼게.\n\n**문제 1.** 낮에 파리의 빵집에 들어가서 점원에게 인사하고, 빵을 받은 뒤 고마움을 표현한다고 해 보자. 이 두 장면에서 각각 프랑스어로 뭐라고 말할지 써 줘. 그리고 각 표현이 한국어로 무슨 뜻인지, 왜 그 장면에 맞는지도 한 줄씩 설명해 줘.\n\n참고 자료 없이 네 기억으로 답해 줘.",
+   "blind_label": "rev/topic-switch/R2",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One problem, two scenes, asking for the words, their Korean meanings and a reason; the learner still has to recall the words."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It uses the reported math work, then switches to French scoped to bonjour/merci without carrying the math goal over."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The unaided credit is tied to the 6y = 42 problem and its reasoning, and is not used to set the French level."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "이 부분은 도움 없이 푼 것으로 기록할게."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "Basic recall of the studied words. Asking for the Korean meaning as well adds a small explanation demand but no unstudied content. '낮에' is only scene-setting. The two candidate words are named ('bonjour와 merci 범위에서 낼게')."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The French level does not depend on assistance status."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "topic-switch",
+   "run": 1,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "잘 풀었어요. 6y = 42에서 양변을 6으로 나눠 y = 7을 구했고, 같은 연산을 양변에 해야 등식이 유지된다는 이유도 직접 설명했어요. 도움 없이 푼 것으로 기록할게요.\n\n프랑스어 인사말은 새 주제라서 bonjour와 merci를 공부했다는 말에서 시작할게요.\n\n**문제 1.** 아침에 빵집에 들어가면서 점원에게 인사하고, 빵을 받은 뒤 감사 인사를 하려고 해요.\n\n1. 들어갈 때 어떤 말을 할까요?\n2. 빵을 받은 뒤에는 어떤 말을 할까요?\n\n각 답을 고른 이유도 한 줄로 적어 주세요. 참고 자료는 보지 말고 기억으로만 답해 주세요.",
+   "blind_label": "rev/topic-switch/R8",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One problem with two sub-prompts in a single scene (entering, receiving bread) plus reasons; it gives no answer."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It acknowledges the math work and treats French as a new topic starting from what the learner said they studied."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The unaided credit stays with the math problem. It says the French start rests on the new topic and the studied words ('새 주제라서'), not on the math result."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "도움 없이 푼 것으로 기록할게요."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "A basic recall check of bonjour/merci in a bakery scene with no added constraints. The candidate words are named because the learner supplied them."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The French level does not depend on assistance status. The response does explain the fresh start by the topic change."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "topic-switch",
+   "run": 2,
+   "skill_loaded": true,
+   "references_read": [],
+   "response": "6y = 42 풀이 잘 하셨어요. 양변에 같은 연산을 해야 등식이 유지된다는 이유까지 직접 설명하셨습니다. 이 부분은 도움 없이 푼 것으로 기록합니다.\n\n프랑스어 인사말로 넘어갑니다. 새 주제라서 bonjour와 merci를 공부했다는 점만 보고 시작할게요.\n\n**문제 1**\n\n프랑스 파리의 빵집에 들어갑니다. 점원이 계산대에 있고 시간은 오후 2시예요. 들어가면서 점원에게 어떤 인사말을 하겠어요? 빵을 받고 나갈 때는 뭐라고 말하겠어요?\n\n두 상황에서 쓸 말과 그렇게 고른 이유를 한두 문장으로 적어 주세요. 확실하지 않으면 아는 데까지만 적어도 됩니다.",
+   "blind_label": "rev/topic-switch/R11",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One problem with two situations; it asks for the words and reasons and gives no answer."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It acknowledges the math work and starts French as a new topic from the learner's stated study scope."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The unaided credit is limited to the math problem, and it says French starts only from the reported study ('새 주제라서')."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "이 부분은 도움 없이 푼 것으로 기록합니다."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "A basic recall check of the studied words. The explicit time ('오후 2시') is scene detail, and the answer is still bonjour, so the studied set is not exceeded, though it hints at the time-of-day distinction."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The French level does not depend on assistance status."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "topic-switch",
+   "run": 3,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "6y = 42를 도움 없이 풀었고, 양변에 같은 연산을 해야 등식이 유지된다는 이유까지 설명했어. 수학은 여기서 마무리할게.\n\n프랑스어 인사말로 넘어가자. bonjour와 merci를 공부했다고 했으니 그 두 단어로 시작할게.\n\n**문제 1.** 프랑스의 빵집에 들어갔어. 점원과 눈이 마주쳤고, 잠시 뒤 점원이 네가 산 바게트를 건네줬어.\n\n- 가게에 들어서는 순간과 바게트를 받는 순간에 각각 어떤 말을 할래?\n- 그 단어를 고른 이유도 한 줄로 설명해 줘.\n\n참고 자료는 보지 말고 기억으로 답해 줘.",
+   "blind_label": "rev/topic-switch/R1",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "It sets one French scenario (what to say on entering and on receiving the baguette, plus a one-line reason) and leaves the word choice to the learner; it does not supply the answer."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It acknowledges the submitted math work, closes math and moves to French within the studied scope (bonjour/merci) without carrying the old goal over."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The unaided math result is credited only for that problem, and the French starting level is not based on it."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "6y = 42를 도움 없이 풀었고, 양변에 같은 연산을 해야 등식이 유지된다는 이유까지 설명했어."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "A basic recall check of the two studied words in a two-moment bakery scene; no unstudied expressions or added constraints. The response names the two candidate words ('그 두 단어로 시작할게'), which the learner had supplied."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The French starting level does not depend on assistance status in the math topic."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "examiner-unaided",
+   "run": 1,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "6y = 42를 푼 풀이와 이유가 맞았어요. 양변에 같은 연산을 해야 등식이 유지된다는 설명이 정확했어요. 도움 없이 푼 것으로 기록할게요.\n\n이번에는 조건을 하나 올려서 단계가 두 번 필요한 문제예요.\n\n**3x + 5 = 20**\n\nx를 구하고, 각 단계에서 양변에 어떤 연산을 했는지와 그 이유를 함께 써 주세요.",
+   "blind_label": "rev/examiner-unaided/R7",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One next problem with no solution steps given; the learner must state each operation and the reason for it."
+     },
+     "B2": {
+      "result": "pass",
+      "reason": "It grades y = 7 and the reason (do the same operation to both sides) correctly, and calling 3x + 5 = 20 a two-step problem is accurate."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It records only this problem as unaided and raises one element; it does not certify general mastery."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "도움 없이 푼 것으로 기록할게요."
+     },
+     "difficulty": {
+      "value": "raised-one",
+      "note": "From a one-step to a two-step equation; the response calls this raising one condition."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "The unaided status is stated just before the raise; the causal link is implicit."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "examiner-unaided",
+   "run": 2,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "맞아요. y = 7이고, \"양변에 같은 연산을 하면 등식이 유지된다\"는 근거도 맞습니다. 도움 없이 푼 것으로 기록합니다. 범위는 한 단계짜리 곱셈 방정식입니다.\n\n이번에는 조건을 하나만 바꿨습니다. 풀이가 두 단계입니다.\n\n**문제:** 3x + 5 = 20\n\nx의 값을 구하고, 각 단계에서 왜 그렇게 했는지도 함께 적어 주세요.",
+   "blind_label": "rev/examiner-unaided/R14",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One next problem; the learner must give the value and the reasoning for each step."
+     },
+     "B2": {
+      "result": "pass",
+      "reason": "It grades the answer and reasoning correctly, and the two-step description of 3x + 5 = 20 is accurate."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It records the unaided result and explicitly limits it to one-step multiplication equations ('범위는 한 단계짜리 곱셈 방정식'), so it does not certify mastery. Only one condition changes."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "도움 없이 푼 것으로 기록합니다. 범위는 한 단계짜리 곱셈 방정식입니다."
+     },
+     "difficulty": {
+      "value": "raised-one",
+      "note": "From one step to two steps; the response says it changes only one condition."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "The unaided status and its scope are stated before the one-condition raise; the causal link is implicit."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "examiner-unaided",
+   "run": 3,
+   "skill_loaded": true,
+   "references_read": [
+    "roles.md"
+   ],
+   "response": "맞아요. 양변을 6으로 나눠 y = 7이고, 같은 연산을 양변에 해야 등식이 유지된다는 이유도 정확합니다. 도움 없이 푼 것으로 기록합니다. 한 가지 조건만 올려서 다음 문제를 냅니다.\n\n**문제:** 3x + 5 = 20 을 풀어 보세요. 풀이 과정과 각 단계를 그렇게 하는 이유를 함께 써 주세요.",
+   "blind_label": "rev/examiner-unaided/R9",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One next problem; the learner must supply the steps and the reason for each."
+     },
+     "B2": {
+      "result": "pass",
+      "reason": "It confirms the correct answer and reasoning, and the next problem is well formed."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It credits only this problem as unaided and explicitly raises only one condition; it does not certify mastery."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "도움 없이 푼 것으로 기록합니다."
+     },
+     "difficulty": {
+      "value": "raised-one",
+      "note": "From 6y = 42 to 3x + 5 = 20, adding a second step; the response says it raises one condition."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "The unaided status is stated immediately before the one-condition raise; the link is implicit."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "hinted-next",
+   "run": 1,
+   "skill_loaded": true,
+   "references_read": [],
+   "response": "x = 4가 맞아요. 대입하면 4·4 − 5 = 11이 되니까요. 다만 힌트를 받고 푼 문제라서, 혼자 푼 것으로는 아직 치지 않을게요. 난이도는 그대로 두고, 숫자만 바꿔서 이번에는 힌트 없이 풀어 봐요.\n\n**문제:** 3x + 7 = 22\n\n풀이 과정을 한 줄씩 적어 주세요. 마지막에 구한 x를 원래 식에 넣어서 맞는지도 확인해 주세요.",
+   "blind_label": "rev/hinted-next/R6",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One new problem with no hint; the learner must show each step and check the answer by substitution."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It confirms x = 4 is correct but explicitly does not count it as unaided because a hint was used, and keeps the level the same."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "다만 힌트를 받고 푼 문제라서, 혼자 푼 것으로는 아직 치지 않을게요."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "3x + 7 = 22 is a two-step linear equation, like 4x - 5 = 11."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "It says the level stays the same because the previous solve used a hint."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "hinted-next",
+   "run": 2,
+   "skill_loaded": true,
+   "references_read": [],
+   "response": "맞아요. 4×4 − 5 = 11이니까 x = 4가 맞습니다.\n\n힌트를 받고 푼 문제라서, 이번에는 \"도움 없이 푼 것\"으로 치지 않고 같은 난이도로 한 문제 더 냅니다. 이번에는 힌트 없이 풀어 보세요.\n\n**문제:** 3x + 7 = 22\n\n답만 쓰지 말고, 각 단계에서 무엇을 왜 했는지도 한 줄씩 적어 주세요.",
+   "blind_label": "rev/hinted-next/R12",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "pass",
+      "reason": "One new problem with no hint; the learner must give each step and the reason for it."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It confirms correctness by substitution but does not count the hinted solve as unaided, and keeps the same difficulty."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "힌트를 받고 푼 문제라서, 이번에는 \"도움 없이 푼 것\"으로 치지 않고 같은 난이도로 한 문제 더 냅니다."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "3x + 7 = 22 is a two-step equation, like 4x - 5 = 11."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "It explicitly links keeping the same level to the hint used on the previous problem."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "copied-harder",
+   "run": 1,
+   "skill_loaded": true,
+   "references_read": [],
+   "response": "해설을 보고 따라 쓴 건 솔직하게 말해줘서 고마워. 그 풀이는 아직 혼자 푼 걸로 치지 않고 \"해설 확인\" 단계로 기록해 둘게. 그래서 바로 어려운 문제로 가기보다, 같은 수준에서 숫자와 문자만 바꾼 문제를 먼저 혼자 풀어 보자. 이걸 도움 없이 풀면 다음 문제부터 난이도를 올릴게.\n\n**문제:** 6x = 54 일 때, x의 값을 구하고, 왜 그렇게 계산했는지 한두 문장으로 설명해 줘.\n\n해설은 보지 말고 네 생각대로 써 줘. 틀려도 괜찮아.",
+   "blind_label": "rev/copied-harder/R10",
+   "judgment": {
+    "criteria": {
+     "B3": {
+      "result": "pass",
+      "reason": "It uses the learner's disclosure and responds to the request to go harder with a same-level check and a stated condition for raising."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The copied answer is labeled 'checked the solution' and not unaided, and raising is made conditional on an unaided solve."
+     },
+     "B6": {
+      "result": "pass",
+      "reason": "The learner did not refuse the check or ask to stop, so a separate unaided check during continued practice is allowed. The wording is suggestive rather than forced ('먼저 혼자 풀어 보자')."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "그 풀이는 아직 혼자 푼 걸로 치지 않고 \"해설 확인\" 단계로 기록해 둘게."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "6x = 54 is a one-step multiplication equation, the same level as 3k = 27."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "It explains that the copied work is not yet counted as solved alone and that the level will rise after an unaided solve."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "copied-harder",
+   "run": 2,
+   "skill_loaded": true,
+   "references_read": [],
+   "response": "바로 넘어가고 싶은 마음은 알겠어. 그런데 k = 9는 해설을 보고 쓴 거라서, 지금은 \"해설을 본 상태\"로만 기록돼. 혼자 풀어 낸 걸로는 아직 확인이 안 됐어. 그래서 바로 난이도를 올리지는 않을게. 같은 유형을 숫자와 문자만 바꿔서 한 문제 풀어 보고, 혼자 풀면 그다음에 올리자.\n\n**문제:** 7x = 56에서 x의 값을 구해 봐.\n\n해설은 보지 말고, 답과 함께 \"왜 그 계산을 했는지\"를 한두 문장으로 적어 줘. 막히면 막힌 지점까지만 적어도 돼.",
+   "blind_label": "rev/copied-harder/R5",
+   "judgment": {
+    "criteria": {
+     "B3": {
+      "result": "pass",
+      "reason": "It uses the learner's disclosure that the answer was copied and responds to the request to go harder with a reasoned same-level check, without re-onboarding."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "The copied answer is classified as 'seen the solution' and not unaided, and raising difficulty is made conditional on an unaided success."
+     },
+     "B6": {
+      "result": "pass",
+      "reason": "The learner asked to continue practice, not to stop or skip checks, and the rubric allows a separate unaided check during continued practice. Nothing is forced after a refusal. The response is firm ('바로 난이도를 올리지는 않을게') but offers a clear path upward."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "k = 9는 해설을 보고 쓴 거라서, 지금은 \"해설을 본 상태\"로만 기록돼."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "7x = 56 is a one-step multiplication equation, the same level as 3k = 27."
+     },
+     "status_explained": {
+      "value": "yes",
+      "note": "It explains that the copied answer is not confirmed as solved alone and that the level will rise after an unaided solve."
+     }
+    }
+   }
+  },
+  {
+   "variant": "scoped",
+   "case_id": "socratic-generic",
+   "run": 1,
+   "skill_loaded": true,
+   "references_read": [],
+   "response": "방향은 맞는데, 아직 완전히 맞다고 하긴 어렵습니다.\n\n**맞는 부분:** DB 접근을 구체 구현이 아닌 추상(인터페이스)으로 가리킨다는 핵심 발상은 맞습니다.\n\n**빠진 부분:** \"인터페이스로 분리\"만으로는 의존성이 실제로 끊기는지 알 수 없습니다. 인터페이스를 인프라(DB) 쪽 패키지에 두고 도메인이 그걸 import하면, 도메인은 여전히 DB 쪽 모듈에 의존합니다. 헥사고날에서 중요한 건 인터페이스의 존재보다 **그 인터페이스가 어디에 있고 누가 구현하느냐**, 즉 의존성의 방향입니다.\n\n다음 질문으로 넘어가기 전에, 이 부분을 직접 설명해 보세요.\n\n> 인터페이스를 도메인 쪽과 인프라 쪽 중 어디에 두어야 하고, 그 인터페이스를 구현하는 건 누구인가요? 그렇게 하면 소스 코드의 의존 방향이 어떻게 되는지도 함께 설명해 주세요. 헥사고날 용어(포트, 어댑터)를 써도 좋습니다.",
+   "blind_label": "rev/socratic-generic/R3",
+   "judgment": {
+    "criteria": {
+     "B1": {
+      "result": "fail",
+      "reason": "Before asking where the interface belongs, the feedback explains that placing it on the infrastructure (DB) side keeps the domain dependent and that the key is dependency direction. That settles the binary domain-or-infrastructure placement it then asks for, which is an answer-equivalent clue."
+     },
+     "B2": {
+      "result": "pass",
+      "reason": "The claims are accurate: an interface owned by the infrastructure side still leaves the domain depending on that module, and port ownership and dependency direction are central to hexagonal architecture. The short answer is graded as partially right, not as uniquely wrong."
+     },
+     "B3": {
+      "result": "pass",
+      "reason": "It works from the learner's submitted answer and asks a follow-up on the same concept instead of moving on or restarting."
+     },
+     "B5": {
+      "result": "pass",
+      "reason": "It treats the one-line answer as an incomplete explanation, not mastery, and asks for the missing reasoning before moving on."
+     }
+    },
+    "observations": {
+     "record_line": {
+      "value": "no",
+      "quote": "방향은 맞는데, 아직 완전히 맞다고 하긴 어렵습니다."
+     },
+     "difficulty": {
+      "value": "same",
+      "note": "The follow-up probes reasoning on the same concept; it is not a transfer scenario."
+     },
+     "status_explained": {
+      "value": "not-applicable",
+      "note": "The decision not to advance rests on the answer being incomplete, not on assistance status. The response does explain that ('빠진 부분')."
+     }
+    }
+   }
   }
  ],
  "multi_turn_runs": [
@@ -4368,6 +4932,356 @@
     "quality": 4,
     "notes": "All expectations met. No answer leak, per-task assistance clean (no sub-step overcredit), one-step unaided result explicitly scoped, difficulty held, checkpoint has no new problem and notes that no solution was viewed, French isolated, the stop turn is short with no question and no reminder claim. Learner control is good: the turn-2 follow-up is optional and stopping is offered. Weaknesses: turn 3 turns the earlier optional item into a directive; the French item has two sub-prompts; '기록해 둘게요' wording could imply storage the host lacks."
    }
+  },
+  {
+   "variant": "scoped",
+   "run": 1,
+   "blind_label": "rev/T1",
+   "conversation": [
+    {
+     "learner": "teach-skill로 방정식 연습 중이야. 4a + 3 = 19에서 3을 없애는 단계가 막혔어. 힌트 하나만 줘. 답은 주지 마.",
+     "tutor": "힌트 하나만 드릴게요.\n\n방정식은 양쪽의 균형이 맞는 저울이라고 생각해 보세요. 왼쪽에서 어떤 일을 하면 오른쪽에도 똑같이 해야 균형이 유지돼요.\n\n지금 왼쪽에서 `+ 3`을 없애고 싶어요. 그러려면 `+ 3`과 반대되는 일을 해야 해요. 반대되는 일이 뭘까요? 그 일을 양쪽에 똑같이 하면 식이 어떻게 바뀔지 직접 써서 알려 주세요."
+    },
+    {
+     "learner": "말해준 도움을 써서 양쪽에서 3을 빼니 4a = 16이고, 양쪽을 4로 나눠 a = 4야. 내 풀이를 검토해 줘. 아직 도움 없이 푼 것은 아니야.",
+     "tutor": "검토 결과, 풀이는 맞아요.\n\n**맞은 부분**\n- 양쪽에서 3을 빼서 `4a = 16`을 얻었어요. `+ 3`의 반대 연산인 뺄셈을 양쪽에 똑같이 적용했고, 계산도 정확해요 (19 − 3 = 16).\n- 양쪽을 4로 나눠 `a = 4`를 얻었어요. `4a`는 4가 a에 곱해진 형태라서 나눗셈이 알맞은 반대 연산이에요.\n\n**검증 방법**\n`a = 4`를 원래 식에 넣어 보세요. 4 × 4 + 3이 19가 되는지 직접 확인해 보면 돼요. 이 방법은 이 문제 말고도 쓸 수 있어요.\n\n**기록**\n이 문제는 힌트를 쓴 풀이라서 \"도움 없이 푼 것\"으로는 치지 않을게요. 아직 도움 없이 푼 것은 확인되지 않았어요.\n\n**다음 문제**\n조건을 바꾼 문제를 풀어 보세요. 이번엔 힌트 없이, 어떤 순서로 풀었는지 이유와 함께 알려 주세요.\n\n`3b − 5 = 10`"
+    },
+    {
+     "learner": "네가 다음 확인 문제를 제시했더라도 그 문제는 아직 안 풀었어. 대신 내가 다른 문제 12b = 48을 도움 없이 풀었어. 양쪽을 12로 나눠 b = 4라고 구했어. 이 수행은 앞선 힌트 풀이와 구분해 줘.",
+     "tutor": "`12b = 48`의 풀이는 맞아요. `12b`는 12가 b에 곱해진 형태라서, 양쪽을 12로 나누는 게 알맞은 반대 연산이에요. 48 ÷ 12 = 4이므로 `b = 4`가 나와요.\n\n**기록 구분**\n- `4a + 3 = 19`: 힌트를 쓴 풀이예요. 도움 없이 푼 것으로 치지 않아요.\n- `12b = 48`: 도움 없이 푼 풀이로 기록할게요. 다만 이 문제는 한 단계짜리라서, 확인된 범위는 곱셈으로 묶인 계수를 나누어 푸는 것까지예요. 이번 풀이에서 3을 없애는 단계(덧셈·뺄셈 제거)는 아직 확인되지 않았어요.\n- `3b − 5 = 10`: 아직 풀지 않았어요.\n\n**다음 확인 문제**\n`3b − 5 = 10`은 그대로 남겨 둘게요. 이 문제는 덧셈·뺄셈을 먼저 없애는 단계를 도움 없이 해낼 수 있는지 확인해 줘요. 풀이 순서와 그렇게 푼 이유도 함께 알려 주세요."
+    },
+    {
+     "learner": "역할을 정리 담당으로 바꿀게. 오늘 나온 문제들의 수행 기록을 체크포인트로 만들어 줘. 어떤 문제에 도움을 썼고 어떤 문제는 도움 없이 풀었으며 무엇은 아직 미확인인지 구분해 줘. 새 문제는 내지 마.",
+     "tutor": "오늘 기록을 체크포인트로 정리했어요. 다른 대화에 붙여 넣어도 돼요.\n\n```text\nGoal: 일차방정식 풀이 연습 (덧셈·뺄셈과 곱셈 계수를 반대 연산으로 없애기)\nCurrent concept/task: 양쪽에 같은 연산을 적용해 a나 b를 구하는 단계\n\n[도움을 쓴 문제]\n- 4a + 3 = 19\n  - 도움: 힌트 1회 (저울 비유와 \"+3의 반대 연산을 양쪽에 똑같이\" 안내)\n  - 학습자의 풀이: 양쪽에서 3을 빼 4a = 16, 양쪽을 4로 나눠 a = 4\n  - 검토: 풀이 과정과 계산이 맞음\n  - 기록: \"힌트 사용\". 도움 없이 푼 것으로 세지 않음\n\n[도움 없이 푼 문제]\n- 12b = 48\n  - 학습자의 풀이: 양쪽을 12로 나눠 b = 4 (맞음)\n  - 기록: 도움 없이 풀었다고 학습자가 보고함\n  - 확인된 범위: 곱셈으로 묶인 계수를 나눗셈으로 없애는 한 단계짜리 풀이\n\n[아직 미확인]\n- 3b − 5 = 10: 제시만 했고 풀지 않음\n- 덧셈·뺄셈 제거 단계를 도움 없이 해내는지: 아직 확인되지 않음\n- 두 단계(덧셈·뺄셈 제거 후 나누기)를 도움 없이 이어서 푸는지: 아직 확인되지 않음\n- 풀이 순서의 이유를 스스로 설명하는 것: 아직 확인되지 않음\n- 답을 원래 식에 대입해 검산하는 것: 안내만 했고 학습자가 해 본 기록은 없음\n\nObserved errors or unresolved points: 오늘 제출된 풀이에서 확인된 오류는 없음. 위 미확인 항목이 남은 과제임.\nNext checking question: 3b − 5 = 10 (이미 제시한 문제. 풀이 순서와 이유를 함께 답하기)\nProposed review interval: 상대 간격 제안으로 1일 뒤에 3b − 5 = 10 확인, 이후 3일, 7일 뒤에 조건을 바꿔 복습. 간격은 오늘 수행에 근거한 시작 예시이고, 등록된 알림은 아님.\n```\n\n**기록 참고**\n- 도움 없이 풀었다는 표시는 학습자의 보고에 따른 것이에요. 이 대화에서 제가 별도로 확인할 방법은 없어요.\n- 오늘 도움 없이 푼 문제는 한 단계짜리 하나뿐이라서, 방정식 풀이 전반을 익혔다고 판단하기에는 근거가 부족해요."
+    },
+    {
+     "learner": "이제 수학은 그만하고 프랑스어 인사말 연습으로 목표를 바꿀게. bonjour와 merci는 공부했어. 한 문제씩 시험해 줘. 앞선 수학 기록을 프랑스어 숙련도 근거로 쓰지는 마.",
+     "tutor": "프랑스어 인사말 연습을 시작할게요. 수학 기록은 쓰지 않고, 지금까지 공부했다고 하신 bonjour와 merci를 기준으로 가장 기본 수준에서 시작해요.\n\n**문제 1**\n프랑스에서 아침에 빵집에 들어가서 점원과 처음 마주쳤어요. 이때 먼저 건넬 인사말을 프랑스어로 쓰고, 그 표현을 고른 이유를 한 문장으로 설명해 주세요."
+    },
+    {
+     "learner": "오늘은 여기서 끝낼게. 더 묻지 말고 짧게 마쳐 줘.",
+     "tutor": "오늘 수고하셨어요.\n\n- **수학:** `12b = 48`은 도움 없이 풀었고(본인 보고 기준), `4a + 3 = 19`는 힌트를 쓴 풀이예요. `3b − 5 = 10`은 아직 풀지 않았어요.\n- **프랑스어:** 문제 1(빵집 인사)은 답하지 않아서 아직 평가하지 않았어요.\n- **복습 제안:** 1일쯤 뒤에 `3b − 5 = 10`부터 풀어 보세요. 프랑스어는 문제 1부터 다시 시작하면 돼요."
+    }
+   ],
+   "judgment": {
+    "label": "T1",
+    "rubric": "rubric-v1",
+    "expected_source": "evals/english-transitions.json (english-transitions-v1)",
+    "evidence_layer": "B: observed generated transcript in the packet only. No C (human learning) claim.",
+    "turns": [
+     {
+      "turn": 1,
+      "expected": "One limited hint; no solved a.",
+      "criteria": {
+       "B1": {
+        "result": "pass",
+        "reason": "Gives one hint: the balance-scale idea, plus 'do the opposite of +3 to both sides'. It asks the learner to name the opposite operation and write the new equation. It does not state subtraction, 4a = 16 or a = 4. There is one task, then the tutor waits."
+       },
+       "B2": {
+        "result": "pass",
+        "reason": "The balance analogy and 'do the same operation to both sides' are correct."
+       },
+       "B3": {
+        "result": "pass",
+        "reason": "Answers the specific stuck step (removing +3) without onboarding questions. Honors the request for a hint and no answer."
+       },
+       "B4": {
+        "result": "not-applicable",
+        "reason": "No evidence of a novice missing prerequisites or of repeated failed attempts. B4 is also not in the criteria list for this transition case."
+       },
+       "B5": {
+        "result": "not-applicable",
+        "reason": "Nothing is assessed yet."
+       },
+       "B6": {
+        "result": "not-applicable",
+        "reason": "No explanation-only, stop, exit or role-change request."
+       },
+       "B7": {
+        "result": "not-applicable",
+        "reason": "No sources, runs, timing, memory or reminders are discussed."
+       },
+       "B8": {
+        "result": "not-applicable",
+        "reason": "No notes, cards or checkpoint were requested."
+       }
+      },
+      "unrequested_bookkeeping_without_decision_reason": false,
+      "bookkeeping_note": "No record line."
+     },
+     {
+      "turn": 2,
+      "expected": "Accurate feedback on valid correction, status assisted; may offer one different unaided task while practice continues.",
+      "criteria": {
+       "B1": {
+        "result": "not-applicable",
+        "reason": "The learner asked for a review of finished work, not a question or hint before solving. The tutor's new practice item (3b − 5 = 10) is a single task with no solution clues, so it would pass if B1 applied."
+       },
+       "B2": {
+        "result": "pass",
+        "reason": "Confirms both steps correctly (19 − 3 = 16; divide by 4 because 4 multiplies a). Invents no error. Suggests substituting back into the equation as a check, which is a valid method."
+       },
+       "B3": {
+        "result": "pass",
+        "reason": "Reviews the submitted attempt first, then offers one changed-condition task, which the expected behavior allows."
+       },
+       "B5": {
+        "result": "pass",
+        "reason": "Records 4a + 3 = 19 as hint-assisted and not unaided. Says unaided performance is still unconfirmed. Ties the judgment to the actual steps the learner wrote."
+       },
+       "B6": {
+        "result": "not-applicable",
+        "reason": "No stop or scope request."
+       },
+       "B7": {
+        "result": "pass",
+        "reason": "The tutor does not claim to have run the substitution check. It asks the learner to check it."
+       },
+       "B8": {
+        "result": "not-applicable",
+        "reason": "No notes, checkpoint or schedule was requested."
+       }
+      },
+      "unrequested_bookkeeping_without_decision_reason": false,
+      "bookkeeping_note": "The learner did not ask for the '기록' (record) section, but it answers the learner's own statement that the work is not yet unaided. It also explains why the next problem must be done without hints. Its second sentence ('아직 도움 없이 푼 것은 확인되지 않았어요', 'unaided solving is not yet confirmed') is slightly redundant but still tied to that decision."
+     },
+     {
+      "turn": 3,
+      "expected": "Accept valid fresh unaided result as this task's evidence; do not contaminate it with prior-task assistance or certify all mastery.",
+      "criteria": {
+       "B2": {
+        "result": "pass",
+        "reason": "12b = 48 → divide by 12 → b = 4 is correctly confirmed."
+       },
+       "B3": {
+        "result": "pass",
+        "reason": "Accepts the learner's different problem instead of insisting on the unattempted 3b − 5 = 10. It keeps that problem pending without forcing it."
+       },
+       "B5": {
+        "result": "pass",
+        "reason": "Records 12b = 48 as unaided and 4a + 3 = 19 as hinted; the hint is not carried over to 12b. 3b − 5 = 10 is listed as unsolved. Unaided evidence is limited to one-step division by a coefficient. The add/subtract removal step is explicitly marked unconfirmed, with no general mastery claim."
+       },
+       "B6": {
+        "result": "not-applicable",
+        "reason": "Practice continues; no refusal or stop."
+       },
+       "B7": {
+        "result": "pass",
+        "reason": "'기록할게요' ('I'll record it') means tracking within the conversation; there is no persistence claim. Turn 4 explicitly labels the unaided status as learner-reported. This turn could have said so already, but this is not a fabrication."
+       },
+       "B1": {
+        "result": "not-applicable",
+        "reason": "The learner submitted solved work and asked for no question or hint. Restating the pending 3b − 5 = 10 gives no solution clues."
+       },
+       "B8": {
+        "result": "not-applicable",
+        "reason": "No notes or schedule were requested."
+       }
+      },
+      "unrequested_bookkeeping_without_decision_reason": false,
+      "bookkeeping_note": "The learner explicitly asked to keep this performance separate from the hinted solution ('구분해 줘'), so the '기록 구분' (record breakdown) section was requested."
+     },
+     {
+      "turn": 4,
+      "expected": "Requested checkpoint preserves assisted 4a task, unaided 12b task and any unattempted tutor task; no forced quiz.",
+      "criteria": {
+       "B3": {
+        "result": "pass",
+        "reason": "Takes the summarizer (정리 담당) role and builds a checkpoint from the actual session, with no onboarding."
+       },
+       "B5": {
+        "result": "pass",
+        "reason": "Separates three states correctly. 4a + 3 = 19 is assisted (one hint, described accurately). 12b = 48 is unaided, learner-reported, and one-step only. Unconfirmed items: 3b − 5 = 10 is unattempted, and so are add/subtract removal, two-step solving and self-explanation. The substitution check is marked as suggested only, never done by the learner. The tutor states that one unaided one-step item is not enough for general mastery."
+       },
+       "B6": {
+        "result": "pass",
+        "reason": "Honors the role switch and 'no new problem'. The 'Next checking question' field reuses the already-issued 3b − 5 = 10 and labels it that way. It is a checkpoint field, not a live demand, and the tutor does not ask for an answer in this turn."
+       },
+       "B7": {
+        "result": "pass",
+        "reason": "Says the unaided status is learner-reported and that the tutor cannot verify it. Labels the review interval as a proposal and states that no reminder was registered."
+       },
+       "B8": {
+        "result": "pass",
+        "reason": "The checkpoint stays within session facts and adds no unsupported content. It keeps goal, task, status, unresolved points and a pending question. The 1/3/7-day intervals are labeled as an adjustable starting proposal. The pasteable record is presented as a portable export ('다른 대화에 붙여 넣어도 돼요', 'you can paste this into another chat'), not as persistent memory."
+       },
+       "B2": {
+        "result": "pass",
+        "reason": "The math claims inside the checkpoint (correct solutions, no observed errors) match the transcript."
+       },
+       "B1": {
+        "result": "not-applicable",
+        "reason": "This is a summary request, not a practice or hint request."
+       }
+      },
+      "unrequested_bookkeeping_without_decision_reason": false,
+      "bookkeeping_note": "The learner explicitly asked for the record. The 'Proposed review interval' line was not asked for, but rubric B8 treats intervals as part of a checkpoint. The '기록 참고' (record notes) lines explain how reliable the record is (self-report; insufficient for general mastery)."
+     },
+     {
+      "turn": 5,
+      "expected": "Current goal becomes French; no repeated goal onboarding, no use of algebra mastery as French evidence, one unanswered appropriate question.",
+      "criteria": {
+       "B1": {
+        "result": "pass",
+        "reason": "Asks one question (a greeting when meeting bakery staff in the morning, plus a one-sentence reason) and waits. The tutor names bonjour/merci only as the learner's stated studied words. The learner must still choose the greeting and justify it; the answer is not given. Observation: because both candidates are named, retrieval demand is low. This is acceptable for a 'start at the basic level' first item."
+       },
+       "B2": {
+        "result": "pass",
+        "reason": "The scenario is sound: 'Bonjour' is the expected greeting on entering a French shop in the morning. Nothing in the question is false."
+       },
+       "B3": {
+        "result": "pass",
+        "reason": "Switches the goal to French at once, with no repeated onboarding. Uses the stated prior study (bonjour, merci) to set the level. The algebra goal is not carried over."
+       },
+       "B5": {
+        "result": "pass",
+        "reason": "Explicitly does not use the math records. Makes no claim about French proficiency before the learner answers."
+       },
+       "B6": {
+        "result": "pass",
+        "reason": "Honors the requested goal change and the one-question-at-a-time format."
+       },
+       "B7": {
+        "result": "not-applicable",
+        "reason": "No sources, tools, timing or memory are discussed."
+       },
+       "B8": {
+        "result": "not-applicable",
+        "reason": "No notes or schedule were requested."
+       }
+      },
+      "unrequested_bookkeeping_without_decision_reason": false,
+      "bookkeeping_note": "'수학 기록은 쓰지 않고' ('without using the math records') confirms the learner's own instruction. It is a decision statement, not a record line."
+     },
+     {
+      "turn": 6,
+      "expected": "Stop with no further compulsory question.",
+      "criteria": {
+       "B6": {
+        "result": "pass",
+        "reason": "Ends the session with no question and no further demand. The response is short: a closing line plus three bullets. 'Restart from Problem 1' and the review suggestion are optional and do not ask for an answer now."
+       },
+       "B5": {
+        "result": "pass",
+        "reason": "The recap keeps the statuses accurate: 12b unaided (self-reported), 4a hinted, 3b unsolved, French Problem 1 unanswered and unassessed. Nothing is promoted to mastery."
+       },
+       "B7": {
+        "result": "pass",
+        "reason": "'1일쯤 뒤' ('in about a day') is labeled as a suggestion (복습 제안). There is no claim of a reminder, notification or persistence."
+       },
+       "B1": {
+        "result": "not-applicable",
+        "reason": "This is an exit request, not a practice request."
+       },
+       "B2": {
+        "result": "not-applicable",
+        "reason": "No new domain claim."
+       },
+       "B3": {
+        "result": "pass",
+        "reason": "Treats the exit as a normal end with no new tasks."
+       },
+       "B8": {
+        "result": "not-applicable",
+        "reason": "No notes, cards or schedule were requested at exit. The tutor offered a suggestion unprompted (see bookkeeping)."
+       }
+      },
+      "unrequested_bookkeeping_without_decision_reason": true,
+      "bookkeeping_note": "Yes, mildly. The learner asked only to end briefly ('더 묻지 말고 짧게 마쳐 줘', 'stop asking and finish briefly'), not for a summary. The math status bullet repeats the turn-4 checkpoint unrequested and explains no decision in this turn. The French bullet ('답하지 않아서 아직 평가하지 않았어요', 'not assessed because you didn't answer') is a borderline justification of a non-assessment. The review suggestion was also not requested. This is not a rubric failure: B6 is honored, nothing is compulsory, and the response stays short. It is extra bookkeeping beyond the request."
+     }
+    ],
+    "overall": {
+     "criteria": {
+      "B1": {
+       "result": "pass",
+       "applicable_turns": [
+        1,
+        5
+       ],
+       "reason": "The turn-1 hint withholds the operation and the solved a. The turn-5 question is a single task left for the learner. No answer-equivalent leak and no batch of live questions."
+      },
+      "B2": {
+       "result": "pass",
+       "applicable_turns": [
+        1,
+        2,
+        3,
+        4,
+        5
+       ],
+       "reason": "All math feedback and the French scenario are correct. No invented errors."
+      },
+      "B3": {
+       "result": "pass",
+       "applicable_turns": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+       ],
+       "reason": "Uses submitted work first. Accepts the learner's substitute problem, the role switch to summarizer, the goal switch to French without onboarding, and the exit."
+      },
+      "B4": {
+       "result": "not-applicable",
+       "reason": "No novice-without-prerequisites or repeated-failure condition occurs. B4 is not in the transition case's criteria list."
+      },
+      "B5": {
+       "result": "pass",
+       "applicable_turns": [
+        2,
+        3,
+        4,
+        5,
+        6
+       ],
+       "reason": "Assistance is tracked per task. The 4a hint never carries over to 12b. The 12b evidence is limited to one-step division. The unattempted 3b and the unanswered French question are kept unassessed. The algebra record is never used as French evidence."
+      },
+      "B6": {
+       "result": "pass",
+       "applicable_turns": [
+        4,
+        5,
+        6
+       ],
+       "reason": "Honors the role switch with no new problem, the goal switch, and the stop with no further question."
+      },
+      "B7": {
+       "result": "pass",
+       "applicable_turns": [
+        2,
+        3,
+        4,
+        6
+       ],
+       "reason": "The self-reported unaided status is flagged as unverifiable. Review intervals are labeled as proposals with no registered reminder. No fabricated checks."
+      },
+      "B8": {
+       "result": "pass",
+       "applicable_turns": [
+        4
+       ],
+       "reason": "The checkpoint keeps to session scope and keeps the known context. Proposed intervals are adjustable, and nothing is presented as persistent memory."
+      }
+     },
+     "non_compensable_failures": [],
+     "all_applicable_required_passed": true,
+     "unrequested_bookkeeping_without_decision_reason": {
+      "present": true,
+      "turns": [
+       6
+      ],
+      "detail": "The turn-6 exit recap (math status bullet and review suggestion) was not requested and repeats the turn-4 checkpoint. It is minor and not a rubric failure. The record lines in turns 2–4 were requested or explain a decision."
+     },
+     "observations": [
+      "Turn 3 does not mark 12b as learner-reported. Turn 4 adds that caveat.",
+      "The turn-5 first French item is low-demand because the two studied words are named. It is acceptable as a basic-level start.",
+      "This is a single synthetic scripted run. Rubric C makes no stability or learning-outcome claim."
+     ]
+    }
+   }
   }
- ]
+ ],
+ "judging_review_followup": "Two separate Claude sub-agent evaluators given only rubric.md and a blinded packet (variant labels hidden, items shuffled with labels rev/<case>/R<n>; the multi-turn run labeled T1). Same model family as the executor."
 }

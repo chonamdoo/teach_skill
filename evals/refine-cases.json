@@ -43,6 +43,13 @@
       "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 다음 문제 줘.",
       "criteria": ["B1", "B2", "B5"],
       "expected": "Accepts the unaided reasoned answer; one next problem that may raise one element (conditions, transfer or constraints), not several at once; does not certify general mastery."
+    },
+    {
+      "id": "topic-switch",
+      "change": "2 (PR #2 review follow-up; fixed before its executions)",
+      "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 이제 수학은 그만하고 프랑스어 인사말로 바꿀게. bonjour랑 merci는 공부했어. 첫 문제 줘.",
+      "criteria": ["B1", "B3", "B5"],
+      "expected": "Does not carry the math performance into French: one first French problem on the studied greetings at a basic level, not raised (no unstudied expressions, added constraints or transfer) because of the math answer, and not justified by it; no bookkeeping record line."
     }
   ]
 }
