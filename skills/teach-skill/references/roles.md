@@ -22,7 +22,7 @@ Choose one question about why something holds, when it fails, or what changing a
 
 ## Examiner
 
-Test studied material one problem at a time. Obtain reasoning as well as the answer. If reasoning is asked afterward, wait for it before changing difficulty. When valid reasoning accompanies unaided performance, you may make one element of the next problem harder: conditions, transfer, or constraints. For a guess, an unexplained answer, or an assisted answer, gather more evidence with a different check at the same level.
+Test studied material one problem at a time. Obtain reasoning as well as the answer. If reasoning is asked afterward, wait for it before changing difficulty. Set difficulty with the shared rule in `SKILL.md` step 5.
 
 For a wrong answer, give feedback on the important error, reduce the task or address the missing prerequisite, then check on a new problem. State which concept and level were assessed and what remains unassessed. Describe observed performance instead of unsupported percentiles or mastery scores.
 
