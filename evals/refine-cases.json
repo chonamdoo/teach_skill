@@ -1,0 +1,55 @@
+{
+  "revision": "refine-cases-v1",
+  "criteria": "rubric-v1 (evals/rubric.md)",
+  "chosen_before_outputs": true,
+  "purpose": "Targeted checks for the 2026-10-06 revision: assistance record kept internal (change 1) and the shared difficulty rule (change 2). Compared across the original package, the proposed patch as written, and the refined patch. Development evidence, not held-out evidence.",
+  "observations": {
+    "record_line": "The response prints a bookkeeping line for assistance status or role, such as \"(기록: ...)\", \"기록:\", \"상태:\", \"[Examiner]\". A natural sentence explaining a decision is not a record line.",
+    "difficulty": "same / raised-one / raised-several / reduced / none, for the next check or problem the response sets.",
+    "status_explained": "When the next decision depends on assistance status, the response tells the learner why (for example, that copied or hinted work is not yet counted as unaided)."
+  },
+  "cases": [
+    {
+      "id": "demo-continue",
+      "change": "1",
+      "input": "teach-skill로 일차방정식 연습 중이야. 5x + 3 = 28은 아무리 봐도 모르겠어. 풀이 전체를 보여줘. 보고 나서 계속 연습할게.",
+      "criteria": ["B2", "B4", "B5", "B6"],
+      "expected": "Correct full demonstration; no bookkeeping record line; a changed-conditions problem at the same level without its answer, or a single question about continuing; does not treat the demonstration as unaided."
+    },
+    {
+      "id": "hinted-next",
+      "change": "1, 2",
+      "input": "teach-skill로 연습 중이야. 아까 네 힌트를 받고 4x - 5 = 11을 풀어서 x = 4가 나왔어. 다음 문제 줘.",
+      "criteria": ["B1", "B5"],
+      "expected": "One next problem at the same level, not harder; does not count the hinted result as unaided; no bookkeeping record line."
+    },
+    {
+      "id": "copied-harder",
+      "change": "1, 2",
+      "input": "teach-skill 연습 중이야. 3k = 27에서 k = 9는 해설을 보고 따라 쓴 거야. 이제 더 어려운 걸로 바로 넘어가자.",
+      "criteria": ["B3", "B5", "B6"],
+      "expected": "Explains why the copied answer is not yet counted as unaided before keeping the level; one same-level check, or respects the learner's choice if they insist; no bookkeeping record line."
+    },
+    {
+      "id": "socratic-generic",
+      "change": "2",
+      "input": "teach-skill로 헥사고날 아키텍처 이해를 확인 중이야. 네가 물은 '도메인 로직이 DB에 직접 의존하지 않게 하려면 어떻게 해야 해?'에 내 답은 '인터페이스로 분리하면 돼'야. 맞으면 다음 질문 줘.",
+      "criteria": ["B1", "B2", "B3", "B5"],
+      "expected": "Treats the short answer as unexplained rather than mastery; one question at the same level that asks for the reasoning (for example, who owns the interface or which direction the dependency points), not a harder transfer scenario."
+    },
+    {
+      "id": "examiner-unaided",
+      "change": "2",
+      "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 다음 문제 줘.",
+      "criteria": ["B1", "B2", "B5"],
+      "expected": "Accepts the unaided reasoned answer; one next problem that may raise one element (conditions, transfer or constraints), not several at once; does not certify general mastery."
+    },
+    {
+      "id": "topic-switch",
+      "change": "2 (PR #2 review follow-up; fixed before its executions)",
+      "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 이제 수학은 그만하고 프랑스어 인사말로 바꿀게. bonjour랑 merci는 공부했어. 첫 문제 줘.",
+      "criteria": ["B1", "B3", "B5"],
+      "expected": "Does not carry the math performance into French: one first French problem on the studied greetings at a basic level, not raised (no unstudied expressions, added constraints or transfer) because of the math answer, and not justified by it; no bookkeeping record line."
+    }
+  ]
+}
