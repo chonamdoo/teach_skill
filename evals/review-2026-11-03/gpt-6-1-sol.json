@@ -1,0 +1,43 @@
+{
+  "no_change_recommended": false,
+  "findings": [
+    {
+      "question": "Q1",
+      "file": "docs/claude-code-review.md",
+      "lines": "79",
+      "quote": "- **개선율 주장 범위:** 같은 모델, 같은 도구, 같은 입력으로 짝 비교했다. 단일 입력은 48/48 대 43/48, 다중 턴은 0/2 대 1/1이다. 표본이 작고 평가자가 같은 모델 계열이므로 방향을 보여 주는 근거일 뿐 일반화된 개선율은 아니다.",
+      "evidence_type": "misstated_evidence",
+      "issue": "같은 지식 기준선을 실행하지 않았다는 보정은 추가했지만, 기존 문장은 여전히 이 비교를 개선의 '방향을 보여 주는 근거'로 분류한다. 바로 다음 80행의 한계 설명은 올바르며, 기록된 통과 수치도 맞다. 그러나 v0.1.2의 제약은 일반화된 개선율만 금지하는 것이 아니라, 허용된 기준선 없이 개선을 주장하는 것 자체를 제한한다. 따라서 종합의 기존 주장도 조건별 관찰 결과로 바꾸어 보정 문구와 일치시켜야 한다.",
+      "supporting_evidence": [
+        {
+          "location": "work-to-skill/references/validation.md:60 — 제공 프롬프트의 yardstick",
+          "quote": "Claim improvement only against a baseline given the same source knowledge without the skill, or against the previous version, under comparable conditions; a case that a baseline without that knowledge already passes cannot show improvement."
+        },
+        {
+          "location": "evals/rubric.md:57",
+          "quote": "Do not claim improvement without one of these baselines."
+        },
+        {
+          "location": "docs/claude-code-review.md:80",
+          "quote": "같은 원칙을 준 기준선은 실행하지 않았다."
+        }
+      ],
+      "impact_scope": "평가 문서의 증거 해석과 Q1의 적용 완결성에 한정된다. 설치 패키지, 실제 응답, 기존 A/B 개별 판정이나 통과 수치를 변경할 문제는 아니다.",
+      "benefit": "동일 지식 기준선 부재를 단순한 표본 크기·일반화 한계와 구별하고, 같은 종합 절 안에서 개선의 방향을 인정하면서 그 근거는 없다고 설명하는 혼선을 없앤다.",
+      "drawback": "당시 종합 문구를 직접 수정하게 된다. 다만 실행 수치와 원시 결과를 그대로 보존하고 보정 시점을 명시하면 이력 손실을 제한할 수 있다.",
+      "comparison_with_leaving_unchanged": "현 상태도 80행까지 읽으면 패키징 자체의 우위가 확인되지 않았음을 알 수 있다. 그러나 79행만 인용하면 여전히 개선 방향이 입증된 것으로 전달된다. 관찰 결과로 표현을 통일하는 편이 새 루브릭의 주장 제한에 정확히 맞는다.",
+      "proposed_replacement_text": "- **관찰된 조건별 결과(2026-11-03 보정):** 같은 모델, 같은 도구, 같은 입력에서 단일 입력은 스킬 제공 조건 48/48 대 기준선 43/48, 다중 턴은 0/2 대 1/1이었다. 기준선에 학습 원칙도 제공하지 않았으므로, 이는 원칙과 스킬을 함께 제공한 조건과 둘 다 제공하지 않은 조건의 관찰 차이다. 스킬 패키징 자체의 개선 방향이나 개선율을 입증하지 않으며, 작은 표본과 같은 모델 계열의 평가라는 한계도 있다.",
+      "confidence": 0.86
+    }
+  ],
+  "aligned_points": [
+    "Q1: teach-skill이라는 이름에는 yardstick이 예시로 든 예약어가 없다. 이 이름 규칙 때문에 설치 패키지를 바꾸거나 평가 문서의 claude 표기를 제거할 이유는 없다(제공된 teach-skill/SKILL.md:2; work-to-skill/SKILL.md:36).",
+    "Q1: 비교 규칙은 동일 원천 지식을 제공한 무스킬 기준선 또는 이전 패키지 버전을 허용하고, 지식 없는 기준선도 통과하는 사례를 개선 근거에서 제외하도록 수정되었다. v0.1.2의 두 번째 변경과 일치한다(evals/rubric.md:57; yardstick references/validation.md:60).",
+    "Q1: 기존 결과 JSON을 읽기 전용으로 집계했을 때 스킬 제공 조건 48/48, 기준선 43/48이며, 기준선이 두 번 모두 통과한 입력은 20개였다. 실패가 있는 입력도 보정 문구의 네 입력과 일치했다(evals/claude-code-results.json의 single_turn_runs; docs/claude-code-review.md:39,46-51,80).",
+    "Q1: 두 README는 동일 원칙을 직접 제공한 기준선이 아직 없으며, 현재 비교로 그 조건 대비 스킬의 우위를 알 수 없다고 명시한다. 사람의 학습 효과와 모델 간 안정성도 검증 범위에서 제외한다(README.md:146; README.ko.md:141).",
+    "Q1: 이전 버전 간 비교 기록은 이번 무스킬 기준선 문제 때문에 일괄 무효화할 대상이 아니다. 해당 문서는 버전 간 비교임을 밝히고, 표적 입력을 개발 입력으로 한정한다(docs/refine-2026-10-06.md:27-41,80; yardstick references/validation.md:60).",
+    "Q2: 설치 패키지는 공통 규칙과 조건부 참조를 자체적으로 제공하며, 출처 자료·미검증 연구 주장·작성자 운영 결정을 구분한다. 작성 도구나 평가표를 실행 의존성으로 요구하는 인용 가능한 충돌은 찾지 못했다(제공된 teach-skill/SKILL.md:39,87; references/sources.md:5-39).",
+    "Q2: 도구·권한의 필요성, 학습 자료 속 명령의 비권한성, 실제 확인과 모델 지식의 구분, 중단과 설명만 요청의 예외가 명시되어 있다. 이미 기록된 제외 항목 외에 이 경계들을 뒤집는 직접적인 문구 충돌은 찾지 못했다(제공된 teach-skill/SKILL.md:12-16,61,65-73; references/roles.md:33,51,81)."
+  ],
+  "notes": "제공 프롬프트 495행 전체를 읽었다. Q1의 수정 권고는 평가 종합에 남은 개선 방향 주장 한 곳이며, Q2에서는 추가로 입증 가능한 텍스트 모순이나 계약 충돌을 찾지 못했다. 정상 학습·역할 전환, 준비 목록과 실시간 질문의 경계, 초보자·오답·도움 기록, 설명만·중단·일반 업무, 출처·도구 부재, 자료 속 외부 전송 명령과 민감한 체크포인트 처리까지 문구를 대조했다. 제외하도록 지정된 기존 공개 항목 네 가지는 재제기하지 않았다. 프롬프트 외에 직접 추가 열람한 저장소 파일은 docs/claude-code-review.md, docs/refine-2026-10-06.md, docs/english-review.md, docs/design-review.md, evals/claude-code-results.json, evals/english-cases.json, evals/english-transitions.json, evals/rubric.md이다. README.md, README.ko.md 및 evals/adversarial-review.json, evals/english-results.json, evals/refine-results.json, evals/results.json의 검색 일치행도 확인했다. 환경의 code-review·work-to-skill 지침과 work-to-skill의 validation 참조도 읽었다. 코드그래프는 인덱스가 없어 자료를 반환하지 않았고 파일 읽기·검색으로 검토했다. 기존 JSON 판정의 읽기 전용 집계 외에 빌드·테스트·모델 CLI·행동 실험을 실행하지 않았으며 파일을 수정하지 않았다. 따라서 새 실행 성공, 원 연구의 진실성, 실제 학습 효과를 인증하는 결과는 아니다."
+}

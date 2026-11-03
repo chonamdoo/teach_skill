@@ -1,0 +1,77 @@
+{
+  "no_change_recommended": false,
+  "findings": [
+    {
+      "id": "F1",
+      "question": "Q1",
+      "file": "docs/claude-code-review.md",
+      "lines": "75, 42 (같은 절 80행과 충돌)",
+      "quote": "- **차이가 난 행동:** 목표가 모호할 때 질문 하나로 시작하기, 카드 메타데이터에서 정답 숨기기, 한 번에 한 과제 내기, 시간 제한 연습의 평가 기준 제시, 학습자 설명의 수정 몫 남기기. 이 다섯에서 스킬 쪽이 일관되게 기준에 맞았다. || | 보조 품질 점수 평균(1–5, 비보상) | 4.52 | 3.79 |",
+      "evidence_type": "text_contradiction",
+      "evidence": "이번 변경으로 추가된 80행은 \"차이를 낸 입력은 `goal-interview`, `metadata-leak`, `single-step-binary`, `recurring-error` 4개다\"라고 쓴다. 그런데 바로 위 75행은 수정되지 않았고, 차이 난 행동 5개를 든다. 그중 '시간 제한 연습의 평가 기준 제시'(timed-simulation)와 '학습자 설명의 수정 몫 남기기'(self-explanation)는 기준선이 두 번 모두 통과한 입력에서 나왔다. evals/claude-code-results.json을 jq로 확인한 결과, 두 입력 모두 기준선 실패 기준이 두 실행에서 다 `[]`였다. 평가자 메모도 \"That is a quality gap, not a rubric-level B3 failure\", \"No B failure column covers this\"였다. 75행이 말하는 '기준'은 루브릭이 아니라 english-cases.json의 `expected` 필드다. 반대로 변별 입력인 recurring-error는 75행 목록에 없다. rubric.md:57(v1.1)은 \"report such cases separately from the cases that discriminate\"를 요구하고, validation.md:60은 \"a case that a baseline without that knowledge already passes cannot show improvement\"라고 한다. 42행 품질 평균도 직접 나눠 계산했다. 기준선이 두 번 모두 통과한 20개 입력(40회)은 스킬 4.58 대 기준선 3.95, 변별 입력 4개(8회)는 4.25 대 3.00이었다. 4.52 대 3.79라는 격차의 대부분이 개선을 보일 수 없는 사례에서 나온다.",
+      "impact_scope": "docs/claude-code-review.md의 B 단일 입력 표와 '종합' 절. 두 README가 이 문서를 링크하므로 독자는 이 목록을 '스킬이 더 나았던 행동'으로 읽게 된다. 설치 패키지에는 영향이 없다.",
+      "benefit": "같은 '종합' 절 안의 4개 대 5개 모순이 사라진다. v1.1의 '따로 보고' 규칙과 validation.md:60의 're-evaluate affected results consistently'를 충족하게 된다.",
+      "drawback": "2026-10-06 기록 본문을 사후에 고치게 된다. 날짜를 붙인 보정 문장으로 처리하면 완화된다. 평가자 기대 행동에서 난 차이는 덜 눈에 띄게 된다.",
+      "comparison_with_unchanged": "그대로 두면 80행과 75행이 같은 절에서 서로 다른 변별 집합을 주장한다. 품질 평균도 비변별 사례를 섞은 채 남아 v1.1의 새 규칙과 어긋난다. 고치는 비용은 문장 두 개다.",
+      "proposed_replacement": "75행: \"- **차이가 난 행동(2026-11-03 보정):** 루브릭 판정이 갈린 입력은 `goal-interview`(목표가 모호할 때 질문 하나로 시작), `metadata-leak`(카드 메타데이터에서 정답 숨기기), `single-step-binary`(한 번에 한 과제), `recurring-error`(가설 구분표의 예측값) 4개다. `timed-simulation`(시간 제한 연습의 평가 기준 제시)과 `self-explanation`(학습자 설명의 수정 몫 남기기)은 기준선도 두 번 모두 루브릭을 통과했다. 차이는 루브릭에 실패 조건이 없는 평가자 기대 행동과 보조 품질 점수에서만 나타났으므로, rubric-v1.1에 따라 개선을 보일 수 없는 사례로 따로 둔다.\" 42행: \"| 보조 품질 점수 평균(1–5, 비보상) | 변별 4개 입력 4.25 / 기준선이 두 번 모두 통과한 20개 입력 4.58 | 3.00 / 3.95 |\". 표 아래에 \"20개 입력의 점수 차는 개선 근거가 아니다\"를 덧붙인다.",
+      "confidence": 0.75
+    },
+    {
+      "id": "F2",
+      "question": "Q1",
+      "file": "docs/claude-code-review.md",
+      "lines": "79-80",
+      "quote": "- **개선율 주장 범위:** 같은 모델, 같은 도구, 같은 입력으로 짝 비교했다. 단일 입력은 48/48 대 43/48, 다중 턴은 0/2 대 1/1이다. 표본이 작고 평가자가 같은 모델 계열이므로 방향을 보여 주는 근거일 뿐 일반화된 개선율은 아니다. || 따라서 위 차이는 원칙과 스킬을 함께 준 효과이며",
+      "evidence_type": "contract_conflict",
+      "evidence": "rubric.md:57(v1.1)의 마지막 문장은 \"Do not claim improvement without one of these baselines.\"이고, validation.md:60은 \"Claim improvement only against a baseline given the same source knowledge without the skill, or against the previous version\"이다. 이 비교의 기준선은 둘 중 어느 쪽도 아니다. 그런데 79행은 '개선율 주장 범위'라는 제목 아래 이 비교를 여전히 '방향을 보여 주는 근거'로 남겨 둔다. 보정 문장인 80행은 이를 철회하지 않고, 오히려 '효과'라는 인과 표현을 덧붙인다. '위 차이'에는 다중 턴 0/2 대 1/1이 포함되는데, 이는 스킬 조건이 더 나빴던 결과다(claude-code-review.md:66-68). 변별 입력 4개 중 3개는 두 실행 중 한 번만 차이가 났다(claude-code-review.md:51, results JSON에서 확인). 즉 '효과'라는 귀속은 79행 자신의 '방향을 보여 주는 근거일 뿐'보다 강하고, 다중 턴 결과의 방향과도 맞지 않는다.",
+      "impact_scope": "docs/claude-code-review.md의 '종합' 절. README 두 파일은 이미 '보여 주지 않는다'로 좁혀져 직접 영향이 없다.",
+      "benefit": "기록이 rubric-v1.1의 금지 문장, yardstick과 일치하게 된다. 일부만 유리하고 다중 턴에서는 반대 방향인 결과를 '효과'로 귀속하는 과대 해석이 사라진다.",
+      "drawback": "지식 없는 기준선 대비 관찰된 차이(특히 goal-interview 2/2)가 '방향 근거'라는 표현을 잃는다. 사실 수치는 그대로 남으므로 정보 손실은 작다.",
+      "comparison_with_unchanged": "그대로 두면 같은 문서가 v1.1을 인용(80행)하면서 v1.1이 금지한 개선 방향 주장(79행)을 유지한다. 80행이 붙어 있어 독자 오해는 일부 줄지만, 계약 충돌은 남는다.",
+      "proposed_replacement": "79-80행을 다음 한 항목으로 바꾼다. \"- **짝 비교의 범위(2026-11-03 보정):** 같은 모델, 같은 도구, 같은 입력으로 짝 비교했다. 단일 입력은 48/48 대 43/48, 다중 턴은 0/2 대 1/1이다. 기준선은 스킬도, 스킬이 담은 학습 원칙도 받지 않았으므로 rubric-v1.1(`work-to-skill` v0.1.2)이 개선 주장에 요구하는 기준선이 아니다. 이 차이를 개선 근거로 쓰지 않으며, 원칙과 스킬 중 무엇이 차이를 냈는지도 구분할 수 없다. 24개 입력 중 20개는 기준선이 두 번 모두 통과해 개선을 보일 수 없다. 결과가 갈린 입력은 `goal-interview`(2/2)와 `metadata-leak`·`single-step-binary`·`recurring-error`(각 2회 중 1회) 4개다. 다중 턴에서는 기준선이 더 많이 통과했다. 같은 원칙을 준 기준선은 실행하지 않았다.\"",
+      "confidence": 0.55
+    },
+    {
+      "id": "F3",
+      "question": "Q1",
+      "file": "evals/rubric.md (+ README.md, README.ko.md, docs/claude-code-review.md 문구)",
+      "lines": "evals/rubric.md:57; README.md:146; README.ko.md:141; docs/claude-code-review.md:80",
+      "quote": "against a baseline given the same source knowledge without the skill (the supplied learning principles) || That comparison therefore does not show whether the skill does better than pasting the same principles into a conversation; such a baseline has not been run. || 그래서 같은 원칙을 대화에 직접 붙여 넣은 경우보다 스킬이 나은지는 이 비교로 알 수 없으며",
+      "evidence_type": "contract_conflict",
+      "evidence": "yardstick(validation.md:60)이 요구하는 것은 'the same source knowledge'다. 그런데 같은 rubric의 7행은 \"The user supplied learning principles and 20 slides\"라고 원칙과 슬라이드 20장을 따로 열거하고, sources.md:5도 \"Korean explanation of learning principles and 20 video slides\"라고 쓴다. sources.md:9-16은 각 원칙의 근거로 슬라이드를 든다. 따라서 57행의 괄호 '(the supplied learning principles)'는 문서 자체의 열거에 따르면 슬라이드를 뺀 정의로 읽힌다. README의 'pasting the same principles' / '같은 원칙을 … 붙여 넣은'은 원 자료가 아니라 스킬이 담은 원칙, 즉 SKILL.md나 sources.md 요약을 붙여 넣는 설계로도 읽힌다. 그렇게 하면 스킬 내용이나 작성자 추출본을 주는 셈이어서 '같은 지식, 스킬 없음'이 아니다. 저장소에는 원 슬라이드가 없다(png/jpg/pdf/pptx/txt를 gitignore 무시하고 glob한 결과 0건). 그래서 미래 실행자가 대체물을 쓸 위험이 있다[추정]. 또 반복 실행에서 'already passes'를 어떻게 판정하는지 정의가 없다. 유지보수자는 '두 번 모두 통과'로 셌는데, 이 운용 기준이 rubric에 적혀 있지 않다.",
+      "impact_scope": "앞으로 실행할 같은 지식 기준선 비교의 설계와 그 결과 해석, README 두 곳의 한 문장. 현재 실행된 같은 지식 기준선은 없어 기존 판정은 바뀌지 않는다.",
+      "benefit": "원 자료 일부만 받아 약해진(스킬에 유리한) 기준선이나, 스킬 내용을 붙여 넣어 사실상 스킬끼리 비교하는 설계를 막는다. 반복 실행에서 비변별 판정 기준이 명시된다.",
+      "drawback": "원 슬라이드의 보존 여부와 재사용 권리가 불명이다(sources.md:5, 제작자·URL 미상). 그래서 충실한 기준선이 실행 불가능할 수 있고, 그 경우 비교를 '미해결'로 남겨야 한다. 문구도 길어진다.",
+      "comparison_with_unchanged": "그대로 두면 v1.1의 정의가 yardstick보다 좁거나 다르게 읽힐 여지가 남는다. 다만 당장 깨지는 판정은 없고, 위험은 다음 비교를 설계할 때 생긴다.",
+      "proposed_replacement": "rubric.md:57: \"- Comparative change = paired results on the same raw cases against a baseline given the same source knowledge without the skill — the Korean learning-principles explanation and the 20 slides supplied with the authoring request (identified in the package's `references/sources.md`), not this package's `SKILL.md`, references or an author summary of them; record how that material was supplied, or leave the comparison unresolved if it cannot be supplied with permission — or against the previous package version, using the same pinned model, settings, tools and raw task requests in isolated executions. A case that a baseline without that knowledge passes in every repeated run cannot show improvement; report such cases separately from the cases that discriminate. A baseline without the source knowledge measures the knowledge and the skill together, not the skill's own contribution. Do not claim improvement without one of these baselines.\" README.md:146: \"…does better than giving the same supplied source material (the learning-principles explanation and slides) directly in a conversation; such a baseline has not been run.\" README.ko.md:141과 claude-code-review.md:80: \"같은 원 자료(학습 원칙 설명과 슬라이드)를 대화에 직접 준 경우보다…\"",
+      "confidence": 0.45
+    },
+    {
+      "id": "F4",
+      "question": "Q1",
+      "file": "evals/rubric.md",
+      "lines": "40, 3",
+      "quote": "| A1 package | Name remains teach-skill; complete instruction package is English; local references exist; invocation policy and ten roles preserved | YAML/file/link checks plus original-to-English meaning review | || v1.1 (2026-11-03) changes only the comparative-change baseline below, following `work-to-skill` v0.1.2; the A and B criteria are unchanged from rubric-v1, so earlier per-criterion judgments still apply.",
+      "evidence_type": "contract_conflict",
+      "evidence": "권고 수준 지적이다. yardstick SKILL.md:36은 \"Respect the documented frontmatter limits of hosts where the skill may be used\"를, SKILL.md:54는 \"Check frontmatter\"를 요구한다. Anthropic 문서(https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md, 149-162행)의 한도는 name 최대 64자, 소문자·숫자·하이픈만, XML 태그 금지, `anthropic`·`claude` 금지이고, description은 비어 있지 않을 것, 최대 1,024자, XML 태그 금지다. 직접 계산한 결과 name은 11자, description은 489자이고 XML 태그와 예약어가 없다. 따라서 패키지는 문서화된 한도를 모두 통과하며, 유지보수자의 '영향 없음' 결론은 옳다. 다만 이번 변경의 근거는 예약어 하나뿐이고, diff 어디에도 변경 (1)을 점검한 기록이 없다. A1에도 호스트 한도가 없다. claude-code-review.md의 수정 제안 3은 description을 늘리자는 내용인데, 지금 A1으로는 그 편집이 한도를 넘는지 잡지 못한다. 참고로 Codex rust-v0.65.0 문서는 description을 500자 이하로 문서화했다(https://github.com/openai/codex/blob/rust-v0.65.0/docs/skills.md). 현행 Codex의 한도는 1,024자로 보인다[추정, openai/codex 이슈 #13941·#27074 제목 근거].",
+      "impact_scope": "평가 문서의 A1 기준과 v1.1 머리말만 해당한다. 패키지와 현재 판정에는 영향이 없다.",
+      "benefit": "v0.1.2 변경 (1)을 적용했다는 근거가 저장소에 남는다. description을 늘리는 편집을 할 때 한도 검사가 강제된다.",
+      "drawback": "머리말의 'A and B criteria are unchanged … earlier per-criterion judgments still apply'를 고치고 A1을 다시 판정해야 한다. 재판정은 위 계산 한 번이면 된다.",
+      "comparison_with_unchanged": "그대로 둬도 현 패키지는 통과한다. 위험은 앞으로의 편집에 한정되므로 우선순위는 낮다.",
+      "proposed_replacement": "A1 행: \"| A1 package | Name remains teach-skill; frontmatter stays within the documented limits of the hosts the README targets (Claude: name ≤64 characters of lowercase letters, digits and hyphens, no XML tags, no `anthropic` or `claude`; description non-empty, ≤1,024 characters, no XML tags); complete instruction package is English; local references exist; invocation policy and ten roles preserved | YAML/file/link checks, a frontmatter-limit check citing the host documentation and retrieval date, plus original-to-English meaning review |\". 3행 끝: \"v1.1 (2026-11-03), written after the Claude Code outputs had been observed, follows `work-to-skill` v0.1.2: it changes the comparative-change baseline and adds host frontmatter limits to A1 (re-checked: name 11 characters, description 489 characters, no XML tags or reserved words); the B criteria are unchanged from rubric-v1, so earlier B judgments still apply.\"",
+      "confidence": 0.3
+    }
+  ],
+  "aligned_points": [
+    "설치 패키지는 변경 없음: SKILL.md·roles.md·sources.md·rubric.md SHA-256이 manifest와 일치하고, git diff --stat에 skills/ 변경이 없음",
+    "teach-skill의 frontmatter는 Anthropic 문서의 name·description 한도를 모두 충족(name 11자, description 489자, XML·예약어 없음)",
+    "기준선 수치 확인: 24개 중 20개 입력을 두 번 모두 통과, 실패는 goal-interview 2/2, metadata-leak·single-step-binary·recurring-error 각 1/2로 결과 JSON과 일치",
+    "'기준선은 스킬도 원칙도 받지 않았다'는 서술이 정확함(빈 프로젝트, 입력 23+1개에 원칙 본문 없음)",
+    "rubric v1.1의 실제 변경은 3행과 57행뿐이고 A/B 기준은 불변이라는 서술이 맞음",
+    "README 두 언어판의 축소 문구가 서로 일치하고, 같은 지식 기준선을 실행하지 않았다고 명시함",
+    "refine-2026-10-06의 비교는 이전 버전 기준선이며 개발 입력으로 표시되어 v0.1.2와 양립",
+    "design-review·english-review에는 개선 주장이 없어 수정이 필요 없음",
+    "Q2: 패키지가 출처·작성자 결정 분리, 도구 부재 시 한계, 문서 속 지시 비권한, 평가 문서 비의존 면에서 yardstick과 인용 가능한 충돌 없음"
+  ],
+  "notes": "프롬프트 외에 읽은 파일: docs/claude-code-review.md, docs/refine-2026-10-06.md, docs/english-review.md, docs/design-review.md, README.md, README.ko.md. jq로 조회한 파일: evals/claude-code-results.json, evals/english-cases.json, evals/refine-results.json(메타데이터만). 추적되지 않는 evals/review-2026-11-03/prompt-manifest.md도 읽었다(프롬프트 해시 a1d9e6ab…와 일치). 읽기 전용 명령으로 git status --short, git diff --stat, shasum을 실행했다. 직접 계산: python3로 frontmatter 길이를 쟀고, 품질 평균을 변별 입력 4개와 비변별 입력 20개로 나눠 계산했다. 웹: platform.claude.com best-practices.md(frontmatter 한도), openai/codex rust-v0.65.0 docs/skills.md, 그리고 Codex 한도 관련 검색 결과(이슈 제목만 확인, [추정]). 빌드·테스트·모델 CLI는 실행하지 않았다. Q2 발견은 없다. 확인했지만 올리지 않은 것: (1) claude-code-review.md:3과 english-review.md:3이 'rubric-v1'이라고 쓰면서 링크는 지금 v1.1인 파일을 가리킨다. v1.1 머리말이 변경 범위를 밝히고 있어 영향이 작다. (2) README의 'ran each input twice'는 다중 턴 기준선이 1회 실행이었던 점과 다르다. 기존 문장이고 이번 변경으로 나빠지지 않았다. (3) Claude Code 평가 대상은 2026-10-06 개정 전 패키지(SKILL.md 227a8ab…)다. 배포본(7280d983…)으로 24개 전체를 돌린 기록은 없다(refine은 refined로 24×2, scoped로는 일부만 실행). README는 이 버전 차이를 밝히지 않지만 평가 기록에는 해시가 있다. (4) refine 문서의 6턴 '0/2 → 2/2'는 평가자 집합이 달라 같은 조건의 비교가 아니다. 다만 같은 문서가 평가자 간 판정 차이를 명시하고, 저장 제안은 이미 기록된 열린 항목이다. (5) rubric 3행의 'before … executions' 문장과 사후 개정인 v1.1의 관계는 F4 대체문에 반영했다. 이미 기록된 열린 항목 네 가지는 이번 변경으로 악화되지 않아 다시 올리지 않았다."
+}

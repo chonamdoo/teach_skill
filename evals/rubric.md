@@ -1,6 +1,6 @@
 # teach-skill evaluation criteria
 
-Revision: rubric-v1. This is an evaluator document, outside the installable skill. It records the requested criteria before the English-package adversarial review and new behavioral executions. It is not a requirement for learners to install or read.
+Revision: rubric-v1.1. This is an evaluator document, outside the installable skill. It is not a requirement for learners to install or read. rubric-v1 recorded the requested criteria before the English-package adversarial review and new behavioral executions. v1.1 (2026-11-03), written after the 2026-10-06 Claude Code outputs had been observed, follows `work-to-skill` v0.1.2: it changes the comparative-change baseline below and lets executors of that baseline receive its source material. It narrows improvement claims and changes no judgment; the A and B criteria are unchanged from rubric-v1, so earlier per-criterion judgments still apply.
 
 ## Authority and interpretation
 
@@ -54,7 +54,7 @@ Report denominators alongside outcomes:
 - Complete scenario rate = executions with every applicable required criterion passed / applicable completed executions. List missing/unverified executions separately so they cannot improve the apparent rate.
 - Role/scenario rates = the same required-result accounting within each declared role or boundary family.
 - Stability = per-case outcomes across repeated runs, with run count; no statistical generalization from a few runs.
-- Comparative change = paired results on the same raw cases without/with skill, using the same pinned model, settings, tools and raw task context in isolated executions. Do not claim improvement without this baseline.
+- Comparative change = paired results on the same raw cases against a baseline given the same source knowledge without the skill, or against the previous package version, using the same pinned model, settings, tools and raw task context in isolated executions. Here the source knowledge is the material supplied with the authoring request (the Korean learning-principles explanation and the 20 slides identified in `references/sources.md`), not this package's text or an author summary of it; record how it was supplied, and leave the comparison unresolved if it cannot be supplied with permission. A case that a baseline without that knowledge passes in every repeated run cannot show improvement; report such cases separately from the cases that discriminate. A baseline without the source knowledge measures the knowledge and the skill together, not the skill packaging. Do not claim improvement without one of these baselines.
 
 No arbitrary weighted 100-point score or scientific pass threshold is introduced. Optional style/usability scores may be separate, never compensatory.
 
@@ -62,6 +62,6 @@ No arbitrary weighted 100-point score or scientific pass threshold is introduced
 
 Freeze rubric/cases before their executor outputs. Preserve skill hashes, exact model identifier when exposed, host, settings, tools, raw learner requests, actual responses and per-criterion evidence. Keep old Korean-package runs as historical/regression evidence, not proof of the English revision. Cases used for repair are development/regression cases, not held-out evidence after repair.
 
-Fresh executors receive only raw tasks, the selected skill/package resources and necessary environment. Evaluators receive this rubric and the actual transcript. Separate evaluator context from executor/author context; hide with/without condition labels for paired scoring when practical. An evaluator may challenge the rubric itself with a source-grounded reason but must not silently change it. Independently inspected source evidence, supplied execution logs and new executions are labeled separately. Model agreement is not expert certification.
+Fresh executors receive only raw tasks, the selected skill/package resources (or, for a same-knowledge baseline, the source material defined under Comparative change, supplied as recorded there) and necessary environment. Evaluators receive this rubric and the actual transcript. Separate evaluator context from executor/author context; hide with/without condition labels for paired scoring when practical. An evaluator may challenge the rubric itself with a source-grounded reason but must not silently change it. Independently inspected source evidence, supplied execution logs and new executions are labeled separately. Model agreement is not expert certification.
 
 For this authoring update: sub-agent adversarial static evaluation is required; the integration owner executes the smoke scenarios after all concurrent review work finishes. Reviewers must not execute builds, linters, formatters or tests mid-flight. Runtime proof remains separate from their static verdict.
