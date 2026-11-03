@@ -1,0 +1,53 @@
+{
+  "no_change_recommended": false,
+  "findings": [
+    {
+      "id": "F1",
+      "question": "Q2",
+      "file": "README.md",
+      "lines": "141, 147",
+      "related_locations": [
+        "README.ko.md:139,142",
+        "docs/claude-code-review.md:6"
+      ],
+      "quote": "A later Claude Code evaluation ran each input twice with and without the skill, using one pinned model and blinded sub-agent judges",
+      "related_quote": "이후 Claude Code에서 모델 하나를 고정해 입력마다 스킬 사용·미사용을 각 2회 실행하고 블라인드로 판정했습니다",
+      "evidence_type": "misstated_evidence",
+      "issue": "조건별 각 2회라는 설명은 단일 입력 평가에만 맞는다. 다중 턴 기준선은 1회뿐인데, 두 README의 본문과 평가 문서 소개에는 단일 입력이라는 한정이 없다. docs/claude-code-review.md:6의 반복 실행 요약도 같은 예외를 생략한다. 기존 문구이지만 이번에 수정한 평가 요약 안에 그대로 남아 있어, 전체 평가가 동일한 반복 횟수로 짝 비교된 것으로 읽힐 수 있다.",
+      "evidence": [
+        {
+          "location": "docs/claude-code-review.md:20-21",
+          "quote": "| 실행 수 | 단일 입력 24 × 2조건 × 2회 = 96. 다중 턴은 스킬 2회, 기준선 1회 |"
+        },
+        {
+          "location": "evals/claude-code-results.json:3257-3748",
+          "observation": "multi_turn_runs를 읽기 전용으로 집계한 결과, with-skill은 run 1·2의 두 기록이고 no-skill baseline은 run 1의 한 기록뿐이었다. 각 기록의 조건·회차는 3259-3260, 3425-3426, 3582-3583행에 있다."
+        }
+      ],
+      "impact_scope": "두 README와 호스트 평가 도입부의 실행 횟수 설명에 한정된다. 원시 결과, 통과율, 설치 패키지에는 영향이 없다.",
+      "benefit": "반복 횟수와 다중 턴 비교의 비대칭이 공개 요약에서도 정확해진다. 독자가 상세 기록을 열어야만 예외를 발견하는 문제를 없앤다.",
+      "drawback": "요약이 조금 길어진다. 단일 입력만을 뜻한다고 읽던 독자에게는 새로운 정보가 거의 없다.",
+      "comparison_with_leaving_unchanged": "그대로 두어도 상세 실행 조건 표에서는 정확한 횟수를 확인할 수 있다. 그러나 README만 읽거나 해당 문장을 인용하면 기준선의 다중 턴 반복 실행까지 확인된 것으로 전달될 수 있다. 수치나 판정을 바꾸지 않고 범위와 예외만 명시하는 편이 정확하다.",
+      "proposed_replacement_text": {
+        "README.md:141": "Rubric evaluation in Claude Code: two runs per single input per condition, a paired no-skill baseline without the source principles, and blinded sub-agent judging; the multi-turn scenario ran twice with the skill and once without it (in Korean).",
+        "README.md:147 해당 문장": "A later Claude Code evaluation ran each of the 24 single inputs twice with and without the skill, using one pinned model and blinded sub-agent judges; the six-turn scenario ran twice with the skill and once without it. See [docs/claude-code-review.md](docs/claude-code-review.md).",
+        "README.ko.md:139": "- [Claude Code 호스트 평가](docs/claude-code-review.md): 단일 입력별 조건당 2회 실행, 원칙도 스킬도 주지 않은 기준선과의 짝 비교, 블라인드 서브에이전트 판정. 다중 턴은 스킬 사용 2회·기준선 1회.",
+        "README.ko.md:142 해당 문장": "이후 Claude Code에서 모델 하나를 고정해 단일 입력 24개를 스킬 사용·미사용 조건에서 각각 2회 실행하고 블라인드로 판정했습니다. 6턴 시나리오는 스킬 사용 2회, 기준선 1회 실행했습니다([Claude Code 호스트 평가](docs/claude-code-review.md)).",
+        "docs/claude-code-review.md:6": "- 단일 입력의 반복 실행(조건별 각 2회; 다중 턴은 스킬 사용 2회·기준선 1회)"
+      },
+      "confidence": 0.95
+    }
+  ],
+  "aligned_points": [
+    "Q1: 개선 방향의 근거라는 기존 표현은 제거되었다. 현재 종합은 이 비교를 개선 근거로 쓰지 않는다고 명시하고, 다중 턴 결과가 스킬 0/2 대 기준선 1/1이라는 역방향도 드러낸다(docs/claude-code-review.md:79).",
+    "Q1: 원시 JSON 집계에서 단일 입력은 스킬 48/48, 기준선 43/48이었다. 기준선이 두 번 모두 통과한 입력은 20개이며, 실패는 goal-interview 2회와 metadata-leak·single-step-binary·recurring-error 각 1회였다. 보정된 문서와 일치한다(evals/claude-code-results.json:20-3256; docs/claude-code-review.md:39,46-51,75,79; docs/review-2026-11-03.md:10).",
+    "Q1: 품질 평균도 재계산과 일치한다. 변별 8회는 스킬 34/8=4.25, 기준선 24/8=3.00이고, 나머지 40회는 183/40=4.575와 158/40=3.95다. 전체 평균은 217/48과 182/48로 각각 4.52와 3.79로 반올림된다(evals/claude-code-results.json:20-3256; docs/claude-code-review.md:42; docs/review-2026-11-03.md:29).",
+    "Q1: timed-simulation과 self-explanation의 기준선 통과를 루브릭 실패와 혼동하던 부분은 보정되었다. 원시 판정은 모두 pass이며, 해당 차이를 평가자 기대 행동과 보조 품질의 차이로 설명한다(evals/claude-code-results.json:1168-1230,1554-1626; docs/claude-code-review.md:75).",
+    "Q1: 첫 리뷰 기록의 확신도는 원시 JSON과 일치한다. 공통 발견은 Astra 0.97·Opus 0.55·Sol 0.86이고, Opus의 나머지 발견은 0.75·0.45·0.30이다. 앞의 세 논점을 채택하고 A1 기준 확장은 하지 않았다는 처리 설명도 현재 diff와 부합한다(docs/review-2026-11-03.md:28-31; evals/review-2026-11-03/astra.json:21; opus-5-5.json:17,32,47,62; gpt-6-1-sol.json:30).",
+    "Q1: 동일 지식 기준선의 자료를 원 설명과 슬라이드 20장으로 명확히 하고, 패키지 본문으로 대체하지 못하게 하며, 허가된 자료 제공이 불가능하면 비교를 미해결로 남기는 규칙이 반영되었다. 두 README도 같은 원 자료 기준선을 실행하지 않았다고 밝힌다(evals/rubric.md:57; README.md:147; README.ko.md:142).",
+    "Q1: frontmatter의 이름 11자·설명 489자·예약어 및 XML 태그 부재는 직접 길이 계산과 일치한다. 패키지 세 파일의 SHA-256도 manifest의 값과 일치했다. 현재 rubric 해시는 manifest와 다르지만, 리뷰 후 반영으로 달라졌다고 문서가 명시하므로 모순이 아니다(skills/teach-skill/SKILL.md:1-4; evals/review-2026-11-03/prompt-manifest.md:8-11; docs/review-2026-11-03.md:9,20).",
+    "Q2: 과거 기록의 rubric-v1 표기는 당시 판정 버전으로서 타당하다. v1.1은 비교 규칙만 바꾸고 A·B 기준은 유지한다고 명시하므로, 과거 JSON과 평가 기록을 일괄 rubric-v1.1로 바꾸는 것은 오히려 이력을 잘못 표시한다(evals/rubric.md:3; docs/claude-code-review.md:3; docs/english-review.md:3; evals/claude-code-results.json:3).",
+    "Q1: 리뷰 입력 범위가 완전히 같았다고 포장하지 않는다. Astra는 제공 프롬프트만 검토했고 Opus·Sol은 추가 파일을 읽었다는 원시 응답과, 입력 범위가 달랐다는 한계 설명이 양립한다(docs/review-2026-11-03.md:16-18,36; evals/review-2026-11-03/astra.json:32; opus-5-5.json:76; gpt-6-1-sol.json:42)."
+  ],
+  "notes": "git status --short, 작업 트리 diff와 staged diff를 확인하고, 상태에 나온 미추적 리뷰 기록 5개를 읽었다. 정상 비교, 모든 반복 통과, 일부 반복 실패, 다중 턴의 반대 방향 결과, 원 자료 부재·재사용 권한, 패키지 본문을 기준선 자료로 대체하는 경우, 과거 루브릭 버전과 사후 보정의 구분을 대조했다. Q1의 첫 리뷰 수정에는 추가로 입증되는 결함을 찾지 못했고, Q2에서는 반복 횟수 요약 한 건을 권고한다. 지정된 네 가지 열린 패키지 항목은 재제기하지 않았다. 파일이나 git 상태를 변경하지 않았고 빌드·테스트·모델 CLI·행동 실험을 실행하지 않았다. 실행한 계산은 기존 JSON의 읽기 전용 집계, 공개 frontmatter 문자열의 길이 계산, 파일 체크섬 계산뿐이다. 원시 리뷰 JSON만으로 실제 리뷰 모델의 응답 메타데이터나 실패한 CLI 실행 이력을 독립 인증할 수는 없으며, 문서도 모델 응답 메타데이터 미보관을 밝힌다(docs/review-2026-11-03.md:18,20)."
+}
