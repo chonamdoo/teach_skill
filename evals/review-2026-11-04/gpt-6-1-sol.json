@@ -1,0 +1,190 @@
+{
+  "reviewer": "gpt-6.1-sol",
+  "no_change_recommended": false,
+  "findings": [
+    {
+      "id": "Q1-1",
+      "question": "Q1",
+      "title": "저장 실행뿐 아니라 저장 제안에도 도구 가용 조건을 적용해야 한다",
+      "file": "skills/teach-skill/references/roles.md",
+      "line_numbers": [81],
+      "quote": "Save only at the specified location when a save request and tool are available.",
+      "evidence_type": "observed_failure",
+      "evidence": [
+        "skills/teach-skill/references/roles.md:81은 저장 실행 조건만 규정하고, 쓰기 도구가 없는 상태에서의 저장 제안은 다루지 않는다.",
+        "evals/claude-code-results.json:3605: \"원하면 파일로 저장해 드릴 수도 있어요.\"",
+        "evals/claude-code-results.json:3691-3693: \"result\": \"fail\", \"reason\": \"Executor had no write tools; offers an unauthorized file-save capability (false capability claim, though no effect claimed as done).\"",
+        "단일 입력에서도 같은 제안이 있다. evals/claude-code-results.json:1944: \"원하시면 이 카드를 파일로 저장하거나, 나중에 한 문제씩 복습하는 연습으로 이어 갈 수 있습니다.\" 따라서 다중 턴에만 나타나는 문제로 한정할 수 없다."
+      ],
+      "impact_scope": "Clerk의 체크포인트와 카드 내보내기, 특히 쓰기 도구가 없는 환경. B7의 기능·실행 경계와 B8의 복사 가능한 기록에 영향을 준다.",
+      "benefit_of_change": "지금 변경을 권고한다. 실행하지도 못할 저장 기능을 약속하지 않고, 도구 없는 환경에서도 요청한 기록은 복사 가능한 텍스트로 제공할 수 있다.",
+      "drawback_or_regression_risk": "도구가 실제로 제공되는 환경의 저장까지 금지하면 기능을 불필요하게 줄인다. 제안문은 도구 없는 경우만 제한하고 기존 저장 요청·위치 조건을 유지한다.",
+      "comparison_with_leaving_unchanged": "그대로 두면 실행 완료를 거짓으로 주장하지 않더라도 사용할 수 없는 기능을 제공할 수 있다고 말하는 빈틈이 남는다. 이미 관찰된 실패이므로 단순한 문체 수정이 아니다.",
+      "proposed_replacement_text": "Without a file-writing tool, provide copyable text instead of offering to save it. Save only at the specified location when a save request and file-writing tool are available.",
+      "priority": "should",
+      "confidence": 0.99
+    },
+    {
+      "id": "Q1-2",
+      "question": "Q1",
+      "title": "하나의 상황이나 번호 아래 묶인 독립 질문도 각각의 과제로 세어야 한다",
+      "file": "skills/teach-skill/SKILL.md",
+      "line_numbers": [43],
+      "quote": "In a live question/problem-solving exchange before the learner answers, present one question or task they can answer now and wait.",
+      "evidence_type": "observed_failure",
+      "evidence": [
+        "evals/claude-code-results.json:3288-3289에서 학습자는 \"한 문제씩 시험해 줘\"라고 요청했지만 응답은 \"1. 들어가면서 점원에게 할 프랑스어 한 마디는 무엇인가요?\\n2. 빵을 받으면서 할 프랑스어 한 마디는 무엇인가요?\"를 함께 냈다.",
+        "evals/claude-code-results.json:3380-3383의 B1 판정: \"Learner asked for one question at a time; tutor issues two live questions plus two reasons, and the pairing to the two studied words allows answer by elimination.\"",
+        "docs/refine-2026-10-06.md:50: \"이번 평가자는 \"한 상황에 대한 두 부분\"으로 보아 경계선 통과로 판정했지만, 이전 평가자는 같은 패턴을 실패로 보았다.\"",
+        "같은 문단은 \"이 개정으로 해결된 것은 아니다\"라고 명시한다. 판정이 달라진 것을 행동 개선으로 볼 수 없다."
+      ],
+      "impact_scope": "모든 역할의 실시간 질문, 특히 Examiner, Socratic questioner, Listener, Sparring partner. B1의 한 과제 원칙에 영향을 준다. 준비용 목록과 문제의 답·근거를 함께 요구하는 예외는 유지해야 한다.",
+      "benefit_of_change": "지금 변경을 권고한다. 질문 개수를 제목이나 장면 수가 아니라 독립적으로 답할 수 있는 요구의 수로 판단하게 한다.",
+      "drawback_or_regression_risk": "지나치게 엄격하게 적용하면 하나의 풀이에 필요한 근거나 통합적인 비교까지 분리할 수 있다. 따라서 '답과 그 이유'는 한 과제로 남긴다.",
+      "comparison_with_leaving_unchanged": "그대로 두면 실행자와 평가자가 서로 다른 단위로 'one question or task'를 해석할 수 있다. 제안은 관찰된 두 인사말 질문을 분리하면서 준비 목록 예외를 보존한다.",
+      "proposed_replacement_text": "In a live question/problem-solving exchange before the learner answers, present one question or task they can answer now and wait. Treat independently answerable sub-questions as separate tasks even when numbered, paired, or set in one scenario; an answer and its reasoning remain one task. Do not append the answer, model response, or next question in the same message. Ask for observable output such as an explanation or application. Preparation requests, including a multi-stage study map, note outline, or card set, may receive lists. One-at-a-time applies to the live exchange, not preparation lists.",
+      "priority": "should",
+      "confidence": 0.98
+    },
+    {
+      "id": "Q1-3",
+      "question": "Q1",
+      "title": "설명·전체 풀이·중단 요청도 학습 세션의 적용 상황으로 description에 명시해야 한다",
+      "file": "skills/teach-skill/SKILL.md",
+      "line_numbers": [3],
+      "quote": "Use for explicit learning or practice goals: learning plans, hints for a stuck step, checking understanding, one-question-at-a-time tests, solution review, reviewing self-explanations, recurring-error analysis, interview or workplace practice, review cards, and study-note organization.",
+      "evidence_type": "observed_failure",
+      "evidence": [
+        "본문은 더 넓은 범위를 규정한다. skills/teach-skill/SKILL.md:12: \"Apply when a learning/practice goal is explicit or the user requests `teach-skill`.\"",
+        "skills/teach-skill/SKILL.md:14: \"Honor limits such as \"explanation only,\" \"that's enough for today,\" or \"practice another time.\"\"",
+        "docs/refine-2026-10-06.md:74: \"스킬 이름을 써도 `demo-continue` 9/9, 이전 평가의 `explanation-only`·`minimal-stop` 4/4가 호출되지 않았다.\"",
+        "evals/claude-code-results.json:2064-2067과 2101-2104에서 explanation-only의 with-skill 두 실행 모두 \"skill_loaded\": false이다.",
+        "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices: \"The description is critical for skill selection\". 다만 현재 문구가 미호출의 유일한 원인인지는 확인되지 않았다."
+      ],
+      "impact_scope": "최초 발견과 세션 제어 요청의 재선택. 설명 전용, 전체 풀이, 일시 중단, 종료에서 B3·B5·B6 규칙을 실제로 불러올 수 있는지에 영향을 준다.",
+      "benefit_of_change": "낮은 우선순위로 지금 문구를 보완할 것을 권고한다. 본문이 이미 처리하는 상황을 발견 문구에도 드러내고, 자동 발견과 명시적 요청을 모두 보존한다. [추정] 실제 호출률 개선 여부는 별도 실행이 필요하다.",
+      "drawback_or_regression_risk": "description이 489자에서 645자로 늘어난다. 학습 문맥이라는 조건이 빠지면 일반 업무의 '멈춰'까지 과도하게 선택할 수 있다. 기본 모델이 이미 올바르게 처리한 사례의 성과를 스킬 개선 효과로 주장해서는 안 된다.",
+      "comparison_with_leaving_unchanged": "그대로 두어도 기록된 설명·중단 응답은 대체로 적절했다. 다만 패키지 호출과 기본 모델의 적절한 응답은 다르며, 시범 이력 등 패키지 고유 규칙의 적용은 계속 불확실하다.",
+      "proposed_replacement_text": "description: \"A learning partner that helps learners solve problems and explain ideas themselves. Also use for explicit teach-skill requests and changes within a learning session, including full-solution requests, explanation only, pausing, or stopping. Use for explicit learning or practice goals: learning plans, hints for a stuck step, checking understanding, one-question-at-a-time tests, solution review, reviewing self-explanations, recurring-error analysis, interview or workplace practice, review cards, and study-note organization. Do not use ordinary requests to implement code, write deliverables, or look up a fact as invitations to quiz the user.\"",
+      "priority": "could",
+      "confidence": 0.94
+    },
+    {
+      "id": "Q1-4",
+      "question": "Q1",
+      "title": "다음 확인 문제의 정답 노출을 직전 피드백과 반례까지 포함해 판단해야 한다",
+      "file": "skills/teach-skill/SKILL.md",
+      "line_numbers": [45],
+      "quote": "This applies to hints, question wording, study maps, and concept/source metadata on cards.",
+      "evidence_type": "observed_failure",
+      "evidence": [
+        "skills/teach-skill/references/roles.md:21도 \"Do not supply the reason or answer being assessed inside the question\"이라고 하여 질문 내부만 강조한다.",
+        "evals/refine-results.json:673에서는 인프라 쪽에 인터페이스를 두면 의존이 남는다고 설명한 뒤 \"그 인터페이스는 어느 쪽(도메인/애플리케이션 vs. 인프라)에 두나요?\"라고 묻는다.",
+        "evals/refine-results.json:678-680의 B1 실패 근거: \"It rules out the infra placement and then asks 'domain/application vs infra?'.\"",
+        "docs/refine-2026-10-06.md:75는 원본 3/3, 제안 2/3, 보완 2/3에서 같은 실패를 기록한다.",
+        "현재 범위 제한 수정본에서도 evals/refine-results.json:4359-4366에 같은 반례와 이분 선택 질문이 있고, B1은 \"result\": \"fail\"이다."
+      ],
+      "impact_scope": "Socratic questioner, Listener, Checker 등 피드백 뒤 확인 문제를 내는 역할. B1의 정답 상당 힌트 금지와 B5의 도움 여부 기록에 영향을 준다.",
+      "benefit_of_change": "지금 변경해야 한다. 정답을 직접 쓰지 않고 오답 선택지를 제거하는 방식도 누출로 다루며, 이미 알려 준 내용을 반복한 응답을 도움 없는 수행으로 평가하지 않게 한다.",
+      "drawback_or_regression_risk": "피드백 자체에서 반례나 설명을 금지하면 학습에 필요한 교정이 약해진다. 제안은 피드백을 없애는 대신 다음 확인의 목표를 바꾸거나 해당 응답을 도움받은 것으로 분류한다. 요청된 시범의 예외도 유지한다.",
+      "comparison_with_leaving_unchanged": "그대로 두면 정확한 개념 설명과 단일 질문을 각각 지켜도, 두 내용을 합친 메시지에서는 의미 있는 판단이 사라질 수 있다. 이미 여러 버전에서 반복된 비보상 B1 실패다.",
+      "proposed_replacement_text": "Before showing information or choosing the next check, check whether the learner-facing context determines the target answer or removes all meaningful learner judgment. Include feedback and counterexamples as well as hints, question wording, study maps, and concept/source metadata on cards; ruling out all but one option also reveals the answer. If it would give away the answer, use a different example or prerequisite explanation, or identify the help as an answer-revealing demonstration and obtain the learner's choice. If earlier feedback already determines the answer, treat that response as assisted and choose a same-level check requiring new reasoning.",
+      "priority": "must",
+      "confidence": 0.99
+    },
+    {
+      "id": "Q2-1",
+      "question": "Q2",
+      "title": "한 단계 문제의 비노출 규칙에 명시적 전체 풀이 예외가 빠져 있다",
+      "file": "skills/teach-skill/references/roles.md",
+      "line_numbers": [17],
+      "quote": "If the target has only one solving step, use a conceptual question or different example rather than revealing that step.",
+      "evidence_type": "text_contradiction",
+      "evidence": [
+        "skills/teach-skill/references/roles.md:3: \"Apply the selected role's rules in addition to `SKILL.md`'s shared conversation, permission, and verification rules.\" 따라서 역할 절의 제한도 함께 적용된다.",
+        "skills/teach-skill/SKILL.md:61: \"If the learner explicitly requests a full solution while staying in learning mode, you may show it.\"",
+        "skills/teach-skill/SKILL.md:14는 설명만 요청한 경우 다른 과제를 강요하지 않도록 규정한다.",
+        "evals/rubric.md:28의 B6 실패 조건에는 \"withholds an explicitly requested allowed demonstration indefinitely\"가 있다. [추정] 한 단계 문제의 전체 풀이를 요청했을 때 역할 절을 문자 그대로 적용하면 이 예외를 막을 수 있다. 해당 실패를 관찰한 실행 근거는 없다."
+      ],
+      "impact_scope": "Explainer에서 한 단계짜리 계산·정의·분류 문제의 전체 풀이 또는 설명을 명시적으로 요청하는 경우. B4와 B6에 영향을 준다.",
+      "benefit_of_change": "지금 범위를 명확히 할 것을 권고한다. 제한을 힌트 요청에만 적용하여, 학습자가 허용된 전체 설명을 요청했는데 다른 문제나 질문으로 돌리는 해석을 없앤다.",
+      "drawback_or_regression_risk": "요청되지 않은 전체 답까지 허용하면 기존 단일 단계 힌트 보호가 무너진다. 제안은 hint-only 조건만 추가한다.",
+      "comparison_with_leaving_unchanged": "그대로 두면 실행자가 공유 예외와 역할별 금지 사이의 우선순위를 추론해야 한다. 작은 조건 추가로 이 충돌을 없앨 수 있으며 실제 힌트 요청의 행동은 바꾸지 않는다.",
+      "proposed_replacement_text": "For hint-only requests with a one-step target, use a conceptual question or different example rather than revealing that step.",
+      "priority": "should",
+      "confidence": 0.9
+    },
+    {
+      "id": "Q2-2",
+      "question": "Q2",
+      "title": "Clerk의 원문 보존 규칙과 새 카드·답안 생성의 허용 범위를 분리해야 한다",
+      "file": "skills/teach-skill/references/roles.md",
+      "line_numbers": [55],
+      "quote": "Do not fill in concept explanations or facts the learner did not provide. Derive relationships only from explicit content and separate gaps as unverified items.",
+      "evidence_type": "contract_conflict",
+      "evidence": [
+        "skills/teach-skill/references/roles.md:61: \"Make cards within the requested count and scope\" 및 \"Mark a missing source as \"source not supplied.\"\"",
+        "skills/teach-skill/references/roles.md:63: \"If an answer key is explicitly requested, separate questions from answers and distinguish immediately read answers from recall performance.\"",
+        "evals/english-cases.json:21의 허용된 요청은 \"덧셈 복습 카드 2장과 답안지를 만들어 줘\"이며, 풀이할 수치나 원문 노트는 제공하지 않는다. 같은 줄의 기대 결과는 \"Honor preparation/answer-key exception with separated questions/answers; no needless refusal or compulsory live quiz.\"이다.",
+        "evals/claude-code-results.json:1891-1900에는 해당 요청에 대한 실제 카드·답안 생성이 있고, 1904-1908의 B3 판정은 \"It fulfills the requested preparation.\"이다. 이는 생성이 허용된다는 근거이지, 현재 패키지에서 거절이 관찰됐다는 근거는 아니다."
+      ],
+      "impact_scope": "Clerk의 노트 정리와 주제 기반 카드·답안지 생성 경계. B3·B6·B8에 영향을 준다.",
+      "benefit_of_change": "지금 문구를 분리할 것을 권고한다. 원문에 없는 사실을 노트에 섞지 않는 보호는 유지하면서, 명시적으로 요청한 새 연습 카드와 답안을 만들기 위해 원문 제공을 추가로 요구하지 않게 한다.",
+      "drawback_or_regression_risk": "생성 허용을 넓게 쓰면 노트만 정리해 달라는 요청에도 모델 지식을 덧붙일 수 있다. 제안은 원문 정리·원문 기반 카드의 보존 규칙과 별도로 요청된 생성을 구분한다.",
+      "comparison_with_leaving_unchanged": "관찰된 실행은 허용 예외를 적절히 적용했다. 다만 문구를 엄격히 읽으면 원문에 없는 산술 답이나 설명도 금지할 수 있다. 예외를 명시하면 현재 성공 행동을 유지하면서 해석 차이를 줄일 수 있다.",
+      "proposed_replacement_text": "When organizing supplied notes or deriving cards from them, do not add concept explanations or facts the learner did not provide. Derive relationships only from explicit content and separate gaps as unverified items. For separately requested generation of new practice cards or an answer key, generate only within the requested scope and distinguish generated content from supplied notes.",
+      "priority": "should",
+      "confidence": 0.89
+    },
+    {
+      "id": "Q3-1",
+      "question": "Q3",
+      "title": "일반 확인 과제의 통과 조건과 독립적인 채점 근거를 더 구체화할 여지가 있다",
+      "file": "skills/teach-skill/SKILL.md",
+      "line_numbers": [70, 77],
+      "quote": "When practice continues after a correction or explanation, check with one short task under changed conditions. The learner supplies the answer and reasoning first. A correct repeat of the same helped problem does not establish mastery.",
+      "evidence_type": "depth_gap",
+      "evidence": [
+        "skills/teach-skill/SKILL.md:70은 \"Feedback from model knowledge\"를 명시적으로 허용한다. 출처 확인과 혼동하지 않는 장점이 있지만, 외부 근거가 없는 상황의 개념 정확성 판단은 실행 모델의 판단으로 남는다.",
+        "skills/teach-skill/SKILL.md:77은 조건을 바꾼 재확인을 요구하지만, 출제 전에 어떤 관찰 가능한 답변이 충분한지 정하도록 요구하지 않는다.",
+        "skills/teach-skill/references/roles.md:47은 Sparring partner에 한해서 \"Before the first task, briefly state what will be assessed\"라고 구체화한다.",
+        "skills/teach-skill/references/roles.md:33의 독립적인 확인 경로는 \"You may compare supplied sources/problem conditions or use actual execution results\"이다. 따라서 외부 확인 경로가 전혀 없다는 지적은 부정확하다. 다만 다른 일반 개념 확인에서 이를 실제 채점에 사용하는 조건은 재량으로 남는다."
+      ],
+      "impact_scope": "Socratic questioner, Examiner, Listener, Checker의 확인·채점. B2의 정확성과 B5의 수행 근거를 더 분명히 하는 자문이며, 현재 패키지의 필수 실패 판정은 아니다.",
+      "benefit_of_change": "같은 학습 대화 안에서 통과 조건을 먼저 정하고, 이미 제공된 독립 근거가 있을 때 채점을 대조할 수 있다. [추정] 유창한 설명을 충분한 답으로 받아들이거나 모델의 오개념으로 채점하는 위험을 줄일 수 있다.",
+      "drawback_or_regression_risk": "매 확인 과제의 내부 준비·대조 작업이 늘어난다. 독립 근거가 없는 대화까지 중단하거나 새 도구·자료를 필수로 요구해서는 안 된다. 준비 노력 증가에 대한 소유자 확인이 필요하므로 즉시 필수 변경으로 채택하지 않는다.",
+      "comparison_with_leaving_unchanged": "그대로 두어도 도구 없는 학습 대화, 실제 시도 우선, 출처 비교·모델 지식·외부 검증의 구분은 성립한다. 변경은 그 능력을 더 엄밀하게 수행하는 선택지이지 새 결과물이나 학습 효과 검증을 추가하는 제안이 아니다.",
+      "proposed_replacement_text": "When practice continues after a correction or explanation, check with one short task under changed conditions. Before asking, define the minimum observable reasoning or application that would count as sufficient, using supplied task conditions or assessment criteria when available. The learner supplies the answer and reasoning first. If an independent reference answer or authorized execution result is already available, use it to check the grading; otherwise identify the judgment as model-knowledge feedback. A correct repeat of the same helped problem does not establish mastery.",
+      "priority": "could",
+      "confidence": 0.87,
+      "owner_confirmation_required": true
+    }
+  ],
+  "interactions": [
+    "Q1-2는 독립적인 하위 질문을 분리하되 답과 그 근거는 한 과제로 남긴다. Q1-4를 함께 적용해야 질문 개수만 줄이고 직전 피드백으로 정답을 알려 주는 실패를 피할 수 있다.",
+    "Q1-4는 반례나 교정 설명 자체를 금지하지 않는다. 이미 답을 알려 준 경우 도움받은 응답으로 기록하고, 다음 확인에서 새로운 판단을 요구한다. Q2-1의 명시적 전체 풀이 예외를 함께 보존해야 한다.",
+    "Q1-3의 description은 기존 489자에서 제안 645자로 늘어나지만 확인한 1024자 한도 안이다. 새 적용 상황은 설명 앞부분에 두었다. Codex의 긴 스킬 목록에서는 description이 축약될 수 있으므로 한도 충족이 발견 성공을 보장하지는 않는다.",
+    "Q1-3을 적용해 종료 요청에서 스킬이 선택되더라도 SKILL.md:14-15의 중단·일반 응답 규칙이 우선해야 한다. 호출 증가를 이유로 종료 후 문제나 필수 체크포인트를 붙여서는 안 된다.",
+    "Q2-2의 생성 허용은 별도로 요청한 새 카드·답안에만 적용한다. 노트 정리와 원문 기반 카드에서는 원문 보존, 정답 비노출, 실제 출처 구분을 유지한다.",
+    "Q1-1은 파일 저장 능력을 새로 부여하지 않는다. SKILL.md:16의 도구·허가 조건과 함께 적용하며, 복사 가능한 텍스트 제공을 저장 완료로 표현해서는 안 된다.",
+    "Q3-1은 Q1·Q2의 좁은 문구 수정과 별개인 자문이다. 추가 준비 노력에 대한 소유자 확인 전에는 패키지의 필수 절차로 넣지 않는다."
+  ],
+  "aligned_points": [
+    "Q3의 원자료 측면에서 패키지의 교육 원칙은 이미 요약된 입력에서 출발한다. skills/teach-skill/references/sources.md:5: \"The video title, creator, original URL, and bibliographic details of cited research were not supplied.\" 같은 줄은 타임스탬프가 사용자 요약의 위치이며 독립 검증되지 않았다고 명시한다. 이 빈틈은 이미 정직하게 공개되어 있으므로 추가 필수 입력을 도입하는 변경은 권고하지 않는다.",
+    "실제 학습 대화까지 요약에만 의존하는 것은 아니다. skills/teach-skill/SKILL.md:51의 \"Use the learner's attempt and stuck point first\"와 references/roles.md:41의 \"Compare actual wrong answers and solution records\"는 원래 시도·오답 기록을 사용하도록 한다. 이를 새로운 원자료 제출 의무로 바꿀 이유는 찾지 못했다.",
+    "Q3의 경험적 주장 측면에서 sources.md:22는 40%·61%의 연구와 측정 조건이 미검증이라고 하고, :23은 신경회로 주장도 미검증이라고 한다. :24의 \"There are no measured learning outcomes, long-term retention improvements, or exam-pass rates for this package\"도 적절하다. 해당 수치나 설명을 검증된 학습 효과로 승격하는 변경은 기각한다.",
+    "sources.md:26의 \"If the original study or video is provided, compare its title, authors, conditions, measurement time, and claim scope\"는 원자료가 주어졌을 때의 확인 방법을 이미 제공한다. 원문 확보·검색·전문가 검토를 새 필수 조건으로 만들려면 입력·접근·노력·비용에 대한 소유자 확인이 필요하며, 이번 패키지 수정에 자동으로 포함하지 않는다.",
+    "도구 없는 대화와 모델 지식 기반의 제한된 피드백은 의도된 지원 범위다. SKILL.md:16의 \"Conversation can proceed without tools\"와 :69-71의 검증 유형 구분을 유지해야 한다. 모든 답변에 웹 검색이나 코드 실행을 강제하는 제안은 하지 않는다.",
+    "정답지와 준비 목록의 예외는 유지해야 한다. SKILL.md:43은 준비용 목록을 허용하고 references/roles.md:63은 명시적으로 요청한 답안지를 허용한다. 이를 실시간 한 문제 원칙이나 정답 비노출 규칙으로 금지해서는 안 된다.",
+    "불필요한 문장을 삭제했다는 이유만으로 개선을 주장할 근거는 없다. docs/refine-2026-10-06.md:41은 단일 입력에서 원본도 장부 줄을 출력하지 않았다고 기록한다. 이번 검토에서는 추가적인 무효 문장 삭제를 필수 결함으로 만들지 않았다."
+  ],
+  "verified_limits": [
+    "Anthropic 공식 문서 https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices 의 Skill structure에서 확인: name은 최대 64자, 소문자·숫자·하이픈만 허용, XML 태그 금지, 예약어 anthropic·claude 금지. description은 비어 있으면 안 되며 최대 1024자이고 XML 태그를 포함할 수 없다.",
+    "skills/teach-skill/SKILL.md:2-3의 실제 문자열을 읽고 Python 문자열 계산으로 확인: name은 teach-skill, 11자이며 소문자·하이픈 형식에 맞고 예약어가 없다. 현재 description 값은 YAML 바깥 따옴표를 제외하면 489자이며 비어 있지 않고 꺾쇠괄호가 없다. 확인한 Anthropic 필수 제한 위반은 없다.",
+    "Q1-3의 제안 description은 같은 방식으로 645자로 계산했으며 꺾쇠괄호가 없다. 확인한 1024자 제한 안이다. 이 계산은 YAML 파서 실행이나 호스트의 실제 로딩 검증이 아니다.",
+    "공통 Agent Skills 명세 https://agentskills.io/specification 에서 추가 확인: name은 1~64자, 처음·끝 하이픈과 연속 하이픈 금지, 상위 디렉터리 이름과 일치해야 하며 description은 1~1024자다. 현재 teach-skill은 skills/teach-skill/의 이름과 일치하고 이 형식 제한을 충족한다. 공통 명세를 모든 호스트 구현의 실행 증거로 보지는 않았다.",
+    "OpenAI 공식 안내 https://developers.openai.com/codex/skills 는 현재 https://learn.chatgpt.com/docs/build-skills 로 연결되며 name·description 필수, description 기반 암시적 선택, 명시적 선택 방법을 설명한다. 초기 스킬 목록은 기본적으로 문맥의 최대 2% 또는 문맥 크기를 모르면 8000자를 사용하고, 스킬이 많으면 description을 줄이거나 일부 스킬을 생략할 수 있다고 명시한다. 8000자는 개별 description의 길이 제한이 아니다.",
+    "[미검증] 읽은 OpenAI 공식 안내에는 Codex 구현의 개별 name·description 숫자 상한과 Anthropic 예약어·XML 규칙의 동일 적용이 명시되지 않았다. 따라서 Anthropic의 세부 제한을 Codex의 검증된 구현 제한으로 일반화하지 않는다. 현재 설치된 호스트 버전들의 파서 수용 여부와 제안 문구의 실제 자동 호출은 실행하지 않았다."
+  ],
+  "notes": "설치 대상 세 파일과 허용된 평가·설명 자료를 읽은 정적 검토다. Q1의 네 항목 모두 변경 후보로 판단하되, 정답 누출을 가장 우선하고 description 보완은 낮은 우선순위로 구분했다. Q2의 두 항목은 문구·계약 충돌이며 실제 거절 실패를 관찰했다고 주장하지 않는다. Q3는 자문으로 분리했고 원자료·학습 효과의 이미 공개된 한계를 새 결함으로 중복 판정하지 않았다. 파일 수정, 설치, git 상태 변경, 빌드·테스트·린터·새 학습 대화 실행은 하지 않았다. 수행한 계산은 frontmatter 문자열의 문자 수와 형식 확인뿐이다. 제안 문구의 행동 효과는 미검증이다."
+}

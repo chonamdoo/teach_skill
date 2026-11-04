@@ -35,5 +35,7 @@ These choices translate the supplied principles into conversation rules. They ar
 - Treat recurring-error causes as hypotheses, distinguished by actual solution records and checking tasks.
 - Separate source agreement, provisional model-knowledge feedback, and actual external verification.
 - Use sample review intervals, self-measured timers, and copyable checkpoints. This package is not a storage, reminder, or timing service.
+- Set the next check's difficulty from the previous answer on the same concept or task, and keep assistance records and role labels internal unless they explain a decision. Added on 2026-10-06 from a user-supplied improvement record drawn from two learning conversations, with a topic-change limit added after code review.
+- Count each separately answerable live question, treat feedback that settles the next answer as answer-revealing, do not offer tool actions the host lacks, recheck self-produced answer keys, follow a learner's repeated choice of harder work, write surfaced labels in the learner's language, close briefly when asked, and prefer supplied syllabi, postings, or assessment criteria. Added on 2026-11-04 from observed evaluation runs and two model adversarial reviews; these are author decisions, not expert-certified rules.
 
 Consult this reference for source/effectiveness questions or rule changes. It is not required reading in every learning turn and is not an external skill dependency.
