@@ -1,0 +1,552 @@
+{
+  "revision": "review-2026-11-04-cases-v1",
+  "criteria": "rubric-v1.1 (evals/rubric.md); A/B criteria unchanged",
+  "chosen_before_outputs": true,
+  "classification": "Development/regression evidence for this revision, not held-out evidence. Reused cases were used to find the defects being repaired.",
+  "variants": {
+    "prev": "package at commit 7544c37",
+    "new": "working tree after the 2026-11-04 revision"
+  },
+  "single_turn": [
+    {
+      "id": "socratic-generic",
+      "source": "evals/refine-cases.json",
+      "input": "teach-skill로 헥사고날 아키텍처 이해를 확인 중이야. 네가 물은 '도메인 로직이 DB에 직접 의존하지 않게 하려면 어떻게 해야 해?'에 내 답은 '인터페이스로 분리하면 돼'야. 맞으면 다음 질문 줘.",
+      "criteria": [
+        "B1",
+        "B2",
+        "B3",
+        "B5"
+      ],
+      "expected": "Treats the short answer as unexplained rather than mastery; one question at the same level that asks for the reasoning (for example, who owns the interface or which direction the dependency points), not a harder transfer scenario.",
+      "runs": 3,
+      "targets": [
+        "Q1-4"
+      ]
+    },
+    {
+      "id": "topic-switch",
+      "source": "evals/refine-cases.json",
+      "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 이제 수학은 그만하고 프랑스어 인사말로 바꿀게. bonjour랑 merci는 공부했어. 첫 문제 줘.",
+      "criteria": [
+        "B1",
+        "B3",
+        "B5"
+      ],
+      "expected": "Does not carry the math performance into French: one first French problem on the studied greetings at a basic level, not raised (no unstudied expressions, added constraints or transfer) because of the math answer, and not justified by it; no bookkeeping record line.",
+      "runs": 2,
+      "targets": [
+        "Q1-2"
+      ]
+    },
+    {
+      "id": "answer-key-allowed",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill로 덧셈 복습 카드 2장과 답안지를 만들어 줘. 질문과 답안을 별도 구역에 써 줘. 지금 시험을 진행하는 건 아니야.",
+      "criteria": [
+        "B3",
+        "B6",
+        "B8"
+      ],
+      "expected": "Honor preparation/answer-key exception with separated questions/answers; no needless refusal or compulsory live quiz.",
+      "runs": 2,
+      "targets": [
+        "Q1-1"
+      ]
+    },
+    {
+      "id": "demo-continue",
+      "source": "evals/refine-cases.json",
+      "input": "teach-skill로 일차방정식 연습 중이야. 5x + 3 = 28은 아무리 봐도 모르겠어. 풀이 전체를 보여줘. 보고 나서 계속 연습할게.",
+      "criteria": [
+        "B2",
+        "B4",
+        "B5",
+        "B6"
+      ],
+      "expected": "Correct full demonstration; no bookkeeping record line; a changed-conditions problem at the same level without its answer, or a single question about continuing; does not treat the demonstration as unaided.",
+      "runs": 2,
+      "targets": [
+        "Q1-3"
+      ]
+    },
+    {
+      "id": "explanation-only",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill로 공부하지만 오늘은 설명만 볼게. 3w + 6 = 21 푸는 과정을 보여 줘. 확인 질문이나 새 연습 문제는 붙이지 마.",
+      "criteria": [
+        "B2",
+        "B5",
+        "B6"
+      ],
+      "expected": "Correct requested full explanation, no attached question/exercise, no unaided mastery claim.",
+      "runs": 2,
+      "targets": [
+        "Q1-3"
+      ]
+    },
+    {
+      "id": "minimal-stop",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill 연습은 여기서 멈출게. 마지막 문제는 힌트로 풀었어. 긴 정리 말고 짧게 마쳐 줘.",
+      "criteria": [
+        "B5",
+        "B6"
+      ],
+      "expected": "Stop briefly, preserve assisted status if summarized, no additional compulsory question.",
+      "runs": 2,
+      "targets": [
+        "Q2-3 (Opus)"
+      ],
+      "note": "Skill load also observed; shorter ending expected either way."
+    },
+    {
+      "id": "explicit-exit",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill 학습 모드는 이제 종료할게. 퀴즈나 힌트 대신 서울이 어느 나라 수도인지 직접 답해 줘.",
+      "criteria": [
+        "B3",
+        "B6"
+      ],
+      "expected": "Direct accurate normal answer without learning interview or forced quiz.",
+      "runs": 2,
+      "targets": [
+        "Q1-3 over-trigger"
+      ]
+    },
+    {
+      "id": "ordinary-work",
+      "source": "evals/english-cases.json",
+      "input": "납기 지연 안내 이메일을 두 문장으로 써 줘. 학습이나 연습 요청은 아니야. 지연은 이틀이고 고객에게 사과할 거야.",
+      "criteria": [
+        "B3",
+        "B6"
+      ],
+      "expected": "Produce requested email, not a lesson or interrogation; don't expand scope.",
+      "runs": 2,
+      "targets": [
+        "Q1-3 over-trigger"
+      ]
+    },
+    {
+      "id": "copied-harder",
+      "source": "evals/refine-cases.json",
+      "input": "teach-skill 연습 중이야. 3k = 27에서 k = 9는 해설을 보고 따라 쓴 거야. 이제 더 어려운 걸로 바로 넘어가자.",
+      "criteria": [
+        "B3",
+        "B5",
+        "B6"
+      ],
+      "expected": "Explains why the copied answer is not yet counted as unaided before keeping the level; one same-level check, or respects the learner's choice if they insist; no bookkeeping record line.",
+      "runs": 2,
+      "targets": [
+        "Q2-1 (Opus) first turn"
+      ]
+    },
+    {
+      "id": "examiner-unaided",
+      "source": "evals/refine-cases.json",
+      "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 다음 문제 줘.",
+      "criteria": [
+        "B1",
+        "B2",
+        "B5"
+      ],
+      "expected": "Accepts the unaided reasoned answer; one next problem that may raise one element (conditions, transfer or constraints), not several at once; does not certify general mastery.",
+      "runs": 2,
+      "targets": [
+        "Q1-2/Q1-4 regression; one-element raise preserved"
+      ]
+    },
+    {
+      "id": "recurring-error",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill로 오류를 진단해 줘. 서로 다른 날에 1/4 + 2/4 = 3/8, 2/7 + 3/7 = 5/14라고 썼어. 어떤 생각 때문에 그런 건지 확인하고 싶어.",
+      "criteria": [
+        "B2",
+        "B5"
+      ],
+      "expected": "Ground recurring-feature hypothesis in both supplied records, avoid trait diagnosis, use one discriminating new task or reasoning check.",
+      "runs": 2,
+      "targets": [
+        "Q3-1 (Opus) self-check of predicted values"
+      ]
+    },
+    {
+      "id": "single-step-binary",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill로 수학 연습 중이야. 0도 짝수인지 판단하려는데 모르겠어. 답이나 답과 같은 설명은 말하지 말고 생각할 기초만 줘.",
+      "criteria": [
+        "B1",
+        "B2",
+        "B4"
+      ],
+      "expected": "Teach or probe a prerequisite/different example without stating zero's classification or a complete target-equivalent divisibility result.",
+      "runs": 2,
+      "targets": [
+        "Q2-1 (Sol) regression: hint-only one-step still protected"
+      ]
+    },
+    {
+      "id": "metadata-leak",
+      "source": "evals/english-cases.json",
+      "input": "teach-skill로 복습 카드 2장 만들어 줘. 노트 1: 광합성이 주로 일어나는 세포소기관은 엽록체다. 노트 2: 세포호흡이 주로 일어나는 세포소기관은 미토콘드리아다. 정답은 아직 보이지 않게 해 줘.",
+      "criteria": [
+        "B1",
+        "B8"
+      ],
+      "expected": "Question-only cards with safe neutral metadata/source locators; no chloroplast/mitochondria target answer in concept, source quote or heading.",
+      "runs": 2,
+      "targets": [
+        "Q1-1 regression: no save offer; no answer leak"
+      ]
+    },
+    {
+      "id": "onestep-full-solution",
+      "source": "new",
+      "input": "teach-skill로 수학 연습 중이야. 0이 짝수인지 헷갈려. 힌트 말고 판단 과정 전체를 바로 보여 줘. 그다음에 계속 연습할게.",
+      "criteria": [
+        "B4",
+        "B5",
+        "B6"
+      ],
+      "expected": "Shows the full reasoning for 0 being even (explicitly requested demonstration); does not withhold it or substitute a conceptual question; treats it as demonstration seen; may offer one changed-conditions problem without its answer.",
+      "runs": 2,
+      "targets": [
+        "Q2-1 (Sol)"
+      ]
+    },
+    {
+      "id": "plain-explain",
+      "source": "new",
+      "input": "파이썬 리스트 컴프리헨션이 뭔지 예시 하나로 짧게 설명해 줘.",
+      "criteria": [
+        "B3"
+      ],
+      "expected": "Ordinary explanation request without a learning/practice goal: answers directly; no quiz, withheld answer, or forced practice. Skill loading is recorded but not itself a failure.",
+      "runs": 2,
+      "targets": [
+        "Q1-3 over-trigger"
+      ]
+    },
+    {
+      "id": "syllabus-map",
+      "source": "new",
+      "input": "teach-skill로 다음 주 운영체제 중간고사 준비할게. 시험 범위 공지: (1) 프로세스와 스레드 차이 서술형 1문항, (2) 스케줄링 알고리즘 FCFS·SJF·RR 평균 대기시간 계산 2문항, (3) 교착상태 4조건 서술형 1문항. 스레드는 대충 알고 스케줄링 계산은 처음이야. 하루 40분, 5일 가능해. 학습 지도만 만들어 줘. 퀴즈는 아직 하지 마.",
+      "criteria": [
+        "B3",
+        "B8"
+      ],
+      "expected": "Map follows the supplied exam scope and formats (descriptive vs calculation), prioritizes scheduling calculation, fits 5 x 40 min, each stage has a learner task and completion criterion; no live quiz; does not invent extra exam topics as if supplied.",
+      "runs": 1,
+      "targets": [
+        "Q3-2 (Opus)"
+      ]
+    },
+    {
+      "id": "onestep-full-solution-r",
+      "source": "new (replacement)",
+      "input": "teach-skill로 수학 연습 중이야. 0은 짝수일까? 힌트 대신 판단 과정을 처음부터 끝까지 보여 줘. 보고 나서 연습을 이어 갈게.",
+      "criteria": [
+        "B4",
+        "B5",
+        "B6"
+      ],
+      "expected": "Shows the full reasoning for 0 being even (explicitly requested demonstration); does not withhold it or substitute a conceptual question; treats it as demonstration seen; may offer one changed-conditions problem without its answer.",
+      "runs": 2,
+      "targets": [
+        "Q2-1 (Sol)"
+      ],
+      "note": "Added after 5 of 6 executions of onestep-full-solution returned a host safeguard API error (no tutor response). Same expectation; wording changed only. Added before any output of this replacement."
+    }
+  ],
+  "multi_turn": [
+    {
+      "id": "english-transitions",
+      "source": "evals/english-transitions.json",
+      "turns": [
+        "teach-skill로 방정식 연습 중이야. 4a + 3 = 19에서 3을 없애는 단계가 막혔어. 힌트 하나만 줘. 답은 주지 마.",
+        "말해준 도움을 써서 양쪽에서 3을 빼니 4a = 16이고, 양쪽을 4로 나눠 a = 4야. 내 풀이를 검토해 줘. 아직 도움 없이 푼 것은 아니야.",
+        "네가 다음 확인 문제를 제시했더라도 그 문제는 아직 안 풀었어. 대신 내가 다른 문제 12b = 48을 도움 없이 풀었어. 양쪽을 12로 나눠 b = 4라고 구했어. 이 수행은 앞선 힌트 풀이와 구분해 줘.",
+        "역할을 정리 담당으로 바꿀게. 오늘 나온 문제들의 수행 기록을 체크포인트로 만들어 줘. 어떤 문제에 도움을 썼고 어떤 문제는 도움 없이 풀었으며 무엇은 아직 미확인인지 구분해 줘. 새 문제는 내지 마.",
+        "이제 수학은 그만하고 프랑스어 인사말 연습으로 목표를 바꿀게. bonjour와 merci는 공부했어. 한 문제씩 시험해 줘. 앞선 수학 기록을 프랑스어 숙련도 근거로 쓰지는 마.",
+        "오늘은 여기서 끝낼게. 더 묻지 말고 짧게 마쳐 줘."
+      ],
+      "expected": {
+        "turn1": "One limited hint; no solved a.",
+        "turn2": "Accurate feedback on valid correction, status assisted; may offer one different unaided task while practice continues.",
+        "turn3": "Accept valid fresh unaided result as this task's evidence; do not contaminate it with prior-task assistance or certify all mastery.",
+        "turn4": "Requested checkpoint preserves assisted 4a task, unaided 12b task and any unattempted tutor task; no forced quiz.",
+        "turn5": "Current goal becomes French; no repeated goal onboarding, no use of algebra mastery as French evidence, one unanswered appropriate question.",
+        "turn6": "Stop with no further compulsory question."
+      },
+      "criteria": [
+        "B1",
+        "B2",
+        "B3",
+        "B5",
+        "B6",
+        "B7",
+        "B8"
+      ],
+      "runs": 2,
+      "targets": [
+        "Q1-1",
+        "Q1-2",
+        "Q2-3 (Opus)",
+        "Q2-2 (Opus) labels in learner language"
+      ]
+    },
+    {
+      "id": "harder-insist",
+      "source": "new",
+      "turns": [
+        "teach-skill 연습 중이야. 3k = 27에서 k = 9는 해설을 보고 따라 쓴 거야. 이제 더 어려운 걸로 바로 넘어가자.",
+        "이유는 알겠어. 그래도 내가 원해서 그러는 거니까 더 어려운 문제로 내 줘."
+      ],
+      "expected": {
+        "turn1": "Explains why the copied answer is not counted as unaided and keeps the level (one same-level check, or asks the learner's choice).",
+        "turn2": "Follows the learner's repeated choice: one harder problem without its answer; keeps 3k = 27 recorded as assisted/copied, does not certify mastery."
+      },
+      "criteria": [
+        "B3",
+        "B5",
+        "B6"
+      ],
+      "runs": 2,
+      "targets": [
+        "Q2-1 (Opus)"
+      ]
+    }
+  ],
+  "observations": {
+    "skill_loaded": "Skill tool call with teach-skill",
+    "references_read": "Read calls on references/*",
+    "save_offer": "Offers to save/export to a file, register a reminder, or similar tool action the executor lacks (tools: Skill, Read)",
+    "sub_questions": "Count of independently answerable live questions in the response",
+    "english_labels": "English field names or status labels (e.g. Goal:, hint used, source not supplied) inside a Korean response"
+  },
+  "round2": {
+    "reason": "Round-1 blind judging found B1 failures in the 'new' variant: topic-switch 2/2 (two utterances bundled in one task), socratic-generic 3/3 (multi-part repair question; 1/3 still ruled out an option), single-step-binary 1/2. SKILL.md step 2 and the leak paragraph were revised (variant new2). Cases fixed before new2 outputs; development evidence.",
+    "variants": {
+      "new2": "working tree after the round-1 repair",
+      "prev": "rerun only for cases not run in round 1 (code-hint, bounded-map)"
+    },
+    "cases": [
+      {
+        "id": "socratic-generic",
+        "source": "evals/refine-cases.json",
+        "input": "teach-skill로 헥사고날 아키텍처 이해를 확인 중이야. 네가 물은 '도메인 로직이 DB에 직접 의존하지 않게 하려면 어떻게 해야 해?'에 내 답은 '인터페이스로 분리하면 돼'야. 맞으면 다음 질문 줘.",
+        "criteria": [
+          "B1",
+          "B2",
+          "B3",
+          "B5"
+        ],
+        "expected": "Treats the short answer as unexplained rather than mastery; one question at the same level that asks for the reasoning (for example, who owns the interface or which direction the dependency points), not a harder transfer scenario.",
+        "runs": 3,
+        "targets": [
+          "round2"
+        ]
+      },
+      {
+        "id": "topic-switch",
+        "source": "evals/refine-cases.json",
+        "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 이제 수학은 그만하고 프랑스어 인사말로 바꿀게. bonjour랑 merci는 공부했어. 첫 문제 줘.",
+        "criteria": [
+          "B1",
+          "B3",
+          "B5"
+        ],
+        "expected": "Does not carry the math performance into French: one first French problem on the studied greetings at a basic level, not raised (no unstudied expressions, added constraints or transfer) because of the math answer, and not justified by it; no bookkeeping record line.",
+        "runs": 3,
+        "targets": [
+          "round2"
+        ]
+      },
+      {
+        "id": "single-step-binary",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill로 수학 연습 중이야. 0도 짝수인지 판단하려는데 모르겠어. 답이나 답과 같은 설명은 말하지 말고 생각할 기초만 줘.",
+        "criteria": [
+          "B1",
+          "B2",
+          "B4"
+        ],
+        "expected": "Teach or probe a prerequisite/different example without stating zero's classification or a complete target-equivalent divisibility result.",
+        "runs": 2,
+        "targets": [
+          "round2"
+        ]
+      },
+      {
+        "id": "examiner-unaided",
+        "source": "evals/refine-cases.json",
+        "input": "teach-skill 시험 중이야. 네가 낸 6y = 42를 도움 없이 풀었어. 양변을 6으로 나눠 y = 7이고, 등식 양변에 같은 연산을 해야 등식이 유지되기 때문이야. 다음 문제 줘.",
+        "criteria": [
+          "B1",
+          "B2",
+          "B5"
+        ],
+        "expected": "Accepts the unaided reasoned answer; one next problem that may raise one element (conditions, transfer or constraints), not several at once; does not certify general mastery.",
+        "runs": 2,
+        "targets": [
+          "round2"
+        ]
+      },
+      {
+        "id": "recurring-error",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill로 오류를 진단해 줘. 서로 다른 날에 1/4 + 2/4 = 3/8, 2/7 + 3/7 = 5/14라고 썼어. 어떤 생각 때문에 그런 건지 확인하고 싶어.",
+        "criteria": [
+          "B2",
+          "B5"
+        ],
+        "expected": "Ground recurring-feature hypothesis in both supplied records, avoid trait diagnosis, use one discriminating new task or reasoning check.",
+        "runs": 2,
+        "targets": [
+          "round2"
+        ]
+      },
+      {
+        "id": "code-hint",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill로 파이썬 연습 중이야. numbers에서 홀수만 모으는 리스트 컴프리헨션을 쓰고 싶어. 반복문은 알고 조건 위치에서 막혔어. 완성 코드나 조건식을 주지 말고 힌트 하나만 줘.",
+        "criteria": [
+          "B1",
+          "B3"
+        ],
+        "expected": "Leave target condition and finished comprehension to learner; one limited actionable hint.",
+        "runs": 2,
+        "targets": [
+          "round2"
+        ]
+      },
+      {
+        "id": "bounded-map",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill로 백엔드 면접 준비할게. SELECT와 WHERE는 써봤고 JOIN은 아직 몰라. 이번 주 3일, 하루 20분만 가능해. SQL 학습 지도를 만들어 줘. 지금 퀴즈는 시작하지 마.",
+        "criteria": [
+          "B3",
+          "B6",
+          "B8"
+        ],
+        "expected": "Make a scoped three-day map with learner tasks/completion evidence; no redundant onboarding or compulsory current quiz.",
+        "runs": 1,
+        "targets": [
+          "round2"
+        ]
+      }
+    ]
+  },
+  "variant_sha256": {
+    "prev": {
+      "SKILL.md": "7280d983b70f1b1837c81163f80b54f87235c555848174c00262e7187c0950aa",
+      "references/roles.md": "da6f169e4567f54ac256f68f6d45ba25ac16792c670306574945d7e6988ebd64",
+      "references/sources.md": "7eedf2d4d394b52d60be258427908aef595abacf7cbebd9a3cf3e02045fa79e8"
+    },
+    "new": {
+      "SKILL.md": "4dc7982c907d78cc3e9d5804b84c7b907ec97c11ca6c8007e482a45b6bd1f71d",
+      "references/roles.md": "7b13b0393e47db93f36f7346e8e78730102630b04a88dcba43e26b9388c0cbc8",
+      "references/sources.md": "3dbc4c752270d312332c8da07bbc97814d77236a2f9e81199e49d6e62c73cd2e"
+    },
+    "new2": {
+      "SKILL.md": "040b06b80628bd8430ad67d4c5976b48debb80a2fc28792514769310b4170df6",
+      "references/roles.md": "7b13b0393e47db93f36f7346e8e78730102630b04a88dcba43e26b9388c0cbc8",
+      "references/sources.md": "3dbc4c752270d312332c8da07bbc97814d77236a2f9e81199e49d6e62c73cd2e"
+    },
+    "new3": {
+      "SKILL.md": "33111f41562c93e0a76f4878c0f3816b9eaa89d26b9b9c91a0a2d898496986fd",
+      "references/roles.md": "eb42fda04bd745fbaca1867e363a1b8de29a0ebd8a88f57c04919f13f0a4d87d",
+      "references/sources.md": "3dbc4c752270d312332c8da07bbc97814d77236a2f9e81199e49d6e62c73cd2e"
+    }
+  },
+  "round3": {
+    "reason": "Round-1 observations: English labels in Korean responses were not reduced by the SKILL.md scope-line rule (new 9 vs prev 5 observations), and the 6-turn stop turn stayed long in every run. The label rule was moved next to the quoted labels (SKILL.md step 5, roles.md cards and checkpoint) and the short-ending rule was made concrete (variant new3). socratic-generic is rerun for stability on the final text. Cases fixed before new3 outputs; development evidence.",
+    "variants": {
+      "new3": "working tree after the round-2 repair"
+    },
+    "cases": [
+      {
+        "id": "answer-key-allowed",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill로 덧셈 복습 카드 2장과 답안지를 만들어 줘. 질문과 답안을 별도 구역에 써 줘. 지금 시험을 진행하는 건 아니야.",
+        "criteria": [
+          "B3",
+          "B6",
+          "B8"
+        ],
+        "expected": "Honor preparation/answer-key exception with separated questions/answers; no needless refusal or compulsory live quiz.",
+        "runs": 2,
+        "targets": [
+          "round3"
+        ]
+      },
+      {
+        "id": "metadata-leak",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill로 복습 카드 2장 만들어 줘. 노트 1: 광합성이 주로 일어나는 세포소기관은 엽록체다. 노트 2: 세포호흡이 주로 일어나는 세포소기관은 미토콘드리아다. 정답은 아직 보이지 않게 해 줘.",
+        "criteria": [
+          "B1",
+          "B8"
+        ],
+        "expected": "Question-only cards with safe neutral metadata/source locators; no chloroplast/mitochondria target answer in concept, source quote or heading.",
+        "runs": 2,
+        "targets": [
+          "round3"
+        ]
+      },
+      {
+        "id": "demo-continue",
+        "source": "evals/refine-cases.json",
+        "input": "teach-skill로 일차방정식 연습 중이야. 5x + 3 = 28은 아무리 봐도 모르겠어. 풀이 전체를 보여줘. 보고 나서 계속 연습할게.",
+        "criteria": [
+          "B2",
+          "B4",
+          "B5",
+          "B6"
+        ],
+        "expected": "Correct full demonstration; no bookkeeping record line; a changed-conditions problem at the same level without its answer, or a single question about continuing; does not treat the demonstration as unaided.",
+        "runs": 2,
+        "targets": [
+          "round3"
+        ]
+      },
+      {
+        "id": "socratic-generic",
+        "source": "evals/refine-cases.json",
+        "input": "teach-skill로 헥사고날 아키텍처 이해를 확인 중이야. 네가 물은 '도메인 로직이 DB에 직접 의존하지 않게 하려면 어떻게 해야 해?'에 내 답은 '인터페이스로 분리하면 돼'야. 맞으면 다음 질문 줘.",
+        "criteria": [
+          "B1",
+          "B2",
+          "B3",
+          "B5"
+        ],
+        "expected": "Treats the short answer as unexplained rather than mastery; one question at the same level that asks for the reasoning (for example, who owns the interface or which direction the dependency points), not a harder transfer scenario.",
+        "runs": 3,
+        "targets": [
+          "round3"
+        ]
+      },
+      {
+        "id": "minimal-stop",
+        "source": "evals/english-cases.json",
+        "input": "teach-skill 연습은 여기서 멈출게. 마지막 문제는 힌트로 풀었어. 긴 정리 말고 짧게 마쳐 줘.",
+        "criteria": [
+          "B5",
+          "B6"
+        ],
+        "expected": "Stop briefly, preserve assisted status if summarized, no additional compulsory question.",
+        "runs": 1,
+        "targets": [
+          "round3"
+        ]
+      },
+      {
+        "id": "english-transitions",
+        "runs": 2,
+        "source": "evals/english-transitions.json"
+      }
+    ]
+  }
+}

@@ -140,6 +140,7 @@ Include the goal, what was actually checked, whether I used help, what is still 
 | [docs/refine-2026-10-06.md](docs/refine-2026-10-06.md) | 2026-10-06 revision: assistance record kept internal and a shared difficulty rule, compared across three package versions (in Korean). |
 | [docs/claude-code-review.md](docs/claude-code-review.md) | Rubric evaluation in Claude Code: 24 single inputs run twice per condition and a six-turn conversation (twice with the skill, once without), a paired no-skill baseline without the source material (learning-principles explanation and 20 slides), and blinded sub-agent judging (in Korean). |
 | [docs/review-2026-11-03.md](docs/review-2026-11-03.md) | Applying `work-to-skill` v0.1.2: narrowed baseline and improvement claims, with two rounds of adversarial review by Codex Astra, Claude Opus 5.5, and GPT-6.1-sol and how each finding was handled (in Korean). |
+| [docs/review-2026-11-04.md](docs/review-2026-11-04.md) | Package revision: Claude Opus 5.5 and GPT-6.1-sol adversarial reviews compared by impact, benefit, and cost; adopted changes run against the previous version in Claude Code with blinded judging, two further repairs, and what remains unresolved (in Korean). |
 | [docs/design-review.md](docs/design-review.md) | History of the first Korean version: review findings, fixes, evidence, and unverified scope (in Korean). |
 
 Only `skills/teach-skill/` is installed. `evals/` and `docs/` are evaluation records.
