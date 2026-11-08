@@ -46,45 +46,31 @@ class BudgetExceeded(RuntimeError):
 
 
 class Runner:
-    """Runs `claude -p` calls under a hard spending cap.
+    """Runs `claude -p` under a spending cap shared by all worker threads.
 
-    Every attempt (including retries) reserves the largest per-call cost seen so far before it
-    starts, so concurrent calls and retries cannot overrun max_usd. Until a first cost is known,
-    only one call is in flight at a time.
-    """
+    The cost of a call is known only after it returns, so each attempt (retries included) reserves the
+    largest cost seen so far before it starts. A new attempt starts only if spent + in-flight reservations
+    + its own reservation stay within max_usd."""
 
-    def __init__(self, max_usd, dry_run=False):
+    def __init__(self, max_usd, dry_run=False, initial_reserve=0.25):
         self.max_usd, self.spent, self.dry_run = max_usd, 0.0, dry_run
-        self.reserved, self.in_flight, self.est = 0.0, 0, None
-        self.cond = threading.Condition()
+        self.reserved, self.largest = 0.0, initial_reserve
+        self.lock = threading.Lock()
 
     def _reserve(self):
-        with self.cond:
-            while True:
-                if self.spent >= self.max_usd:
-                    raise BudgetExceeded(f"spent ${self.spent:.2f} >= max_usd ${self.max_usd:.2f}")
-                if self.est is None:
-                    if self.in_flight == 0:
-                        break
-                elif self.spent + self.reserved + self.est <= self.max_usd:
-                    break
-                elif self.in_flight == 0:
-                    raise BudgetExceeded(f"spent ${self.spent:.2f}; next call (~${self.est:.2f}) "
-                                         f"would exceed max_usd ${self.max_usd:.2f}")
-                self.cond.wait()
-            held = self.est or 0.0
-            self.in_flight += 1
-            self.reserved += held
-            return held
+        with self.lock:
+            need = self.largest
+            if self.spent + self.reserved + need > self.max_usd:
+                raise BudgetExceeded(f"spent ${self.spent:.2f} + in flight ${self.reserved:.2f} + next "
+                                     f"${need:.2f} > max_usd ${self.max_usd:.2f}")
+            self.reserved += need
+            return need
 
-    def _settle(self, held, cost):
-        with self.cond:
-            self.in_flight -= 1
-            self.reserved -= held
+    def _settle(self, reserved, cost):
+        with self.lock:
+            self.reserved -= reserved
             self.spent += cost
-            if cost > 0:
-                self.est = max(self.est or 0.0, cost)
-            self.cond.notify_all()
+            self.largest = max(self.largest, cost)
 
     def claude(self, prompt, system, model, schema=None):
         if self.dry_run:
@@ -95,7 +81,8 @@ class Runner:
             cmd += ["--json-schema", json.dumps(schema)]
         last = None
         for _ in range(3):
-            held, cost = self._reserve(), 0.0
+            reserved = self._reserve()
+            cost = 0.0
             try:
                 proc = subprocess.run(cmd, input=prompt, capture_output=True, text=True, timeout=900)
                 try:
@@ -105,28 +92,24 @@ class Runner:
                     continue
                 cost = float(data.get("total_cost_usd") or 0)
             finally:
-                self._settle(held, cost)
+                self._settle(reserved, cost)
             if data.get("is_error"):
                 last = str(data.get("result"))[-500:]
                 continue
-            return {"text": data.get("result") or "", "structured": data.get("structured_output"),
-                    "cost": cost}
+            return {"text": data.get("result") or "", "structured": data.get("structured_output"), "cost": cost}
         raise RuntimeError(f"claude call failed 3 times: {last}")
 
 
 def skill_files_at_ref(skill_dir, ref):
-    """{relative path: text} of the skill at a git ref, or None when the ref lacks the skill.
+    """{relative path: text} of the skill at a git ref, or None when the ref exists but lacks the skill.
 
-    An unknown or unfetched ref raises ValueError so the base comparison is never skipped silently.
-    """
-    verify = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
-                            capture_output=True, text=True)
-    if verify.returncode != 0:
-        raise ValueError(f"--base-ref {ref!r} is not a commit in this repo (misspelled or not fetched?)")
+    An unresolvable ref raises: silently dropping the base arm would turn a regression check into head-only."""
+    resolved = subprocess.run(["git", "rev-parse", "--verify", "--quiet", f"{ref}^{{commit}}"],
+                              capture_output=True, text=True)
+    if resolved.returncode != 0:
+        raise ValueError(f"--base-ref {ref!r} does not resolve to a commit (run `git fetch`?)")
     listing = subprocess.run(["git", "ls-tree", "-r", "--name-only", ref, "--", skill_dir],
-                             capture_output=True, text=True)
-    if listing.returncode != 0:
-        raise ValueError(f"git ls-tree {ref} failed: {listing.stderr.strip()}")
+                             capture_output=True, text=True, check=True)
     if not listing.stdout.strip():
         return None
     files = {}
@@ -290,15 +273,9 @@ def main(argv=None):
 
     systems = {"head": skill_system_prompt(skill_files_worktree(suite["skill_dir"]))}
     if args.base_ref:
-        try:
-            base_files = skill_files_at_ref(suite["skill_dir"], args.base_ref)
-        except ValueError as error:
-            print(f"error: {error}", file=sys.stderr)
-            return 2
+        base_files = skill_files_at_ref(suite["skill_dir"], args.base_ref)
         if base_files is not None:
             systems["base"] = skill_system_prompt(base_files)
-        else:
-            print(f"note: {suite['skill_dir']} does not exist at {args.base_ref}; running head only", flush=True)
     jobs = [(arm, case, rep) for arm in systems for case in cases for rep in range(suite["reps"])]
     print(f"{suite['name']}: {len(cases)} cases x {suite['reps']} reps x arms {list(systems)} = "
           f"{len(jobs)} runs ({2 * len(jobs)} claude calls), max_usd {suite['max_usd']}", flush=True)
