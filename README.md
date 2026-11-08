@@ -148,3 +148,15 @@ Only `skills/teach-skill/` is installed. `evals/` and `docs/` are evaluation rec
 The first Korean version's records of 26 inputs and a three-turn conversation are kept as history. The English version was run separately on 24 single inputs and a six-turn conversation built from its actual responses. In an isolated project, copied installs for Codex and Claude Code were checked together with their reference files, and the installed skill was invoked explicitly in Codex. A later Claude Code evaluation ran each of the 24 single inputs twice with and without the skill, and the six-turn conversation twice with the skill and once without, using one pinned model and blinded sub-agent judges; see [docs/claude-code-review.md](docs/claude-code-review.md). Its baseline received neither the skill nor the source material the skill was built from (a learning-principles explanation and 20 slides), and it passed 20 of the 24 single inputs in both runs. That comparison therefore is not evidence of improvement, and it does not show whether the skill does better than supplying the same source material directly; such a baseline has not been run. Stability across models and human learning outcomes were not tested. The English-version evaluation record has the detailed conditions and actual responses.
 
 You do not need the authoring tools `work-to-skill` or `write-for-work` to use this package.
+
+## Skill eval on every change
+
+Run this locally before merging any change to the skill or its eval cases (it is not wired to GitHub Actions):
+
+```bash
+python3 evals/skill-eval/skill_eval.py evals/skill-eval/suite.json --base-ref origin/main
+```
+
+`skill_eval.py` gives each case in `evals/skill-eval/suite.json` to `claude -p` twice, once with the working-tree skill and once with the skill at `--base-ref`, each without tools. A separate judge call marks every required criterion. The run exits 1 when the working-tree required pass rate drops more than `max_drop` below base, or falls below `min_pass_rate`. Results go to `skill-eval-results.json`. Spend is capped by `max_usd`. `--dry-run` prints the call count; `--select ID,ID` and `--reps N` narrow the run. Requires a logged-in `claude` CLI.
+
+Limits: one fixed case set, an LLM judge, and few repetitions. It catches regressions against the previous version, not held-out improvement.

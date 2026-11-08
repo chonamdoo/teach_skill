@@ -7,3 +7,5 @@
 AGENTS/
 CLAUDE/
 agent-flow/
+skill-eval-results.json
+__pycache__/
