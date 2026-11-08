@@ -1,0 +1,15 @@
+{
+ "name": "teach-skill",
+ "skill_dir": "skills/teach-skill",
+ "cases_from": {
+  "path": "evals/cases.json",
+  "format": "input-expected"
+ },
+ "max_usd": 10,
+ "model": "sonnet",
+ "judge_model": "sonnet",
+ "reps": 1,
+ "jobs": 4,
+ "min_pass_rate": 0.0,
+ "max_drop": 0.1
+}
